@@ -1,0 +1,25 @@
+Dear User,
+
+To add new rows to the "GameFormat" CSV, please follow the steps below:
+
+1. Start by unzipping the provided ZIP file, which contains the necessary CSV files.
+
+2. After unzipping, refer to the existing "TeamID.csv" and "LocationID.csv" files for ID reference.
+
+   - The "TeamID.csv" file contains information about teams.
+   - The "LocationID.csv" file contains information about locations.
+
+3. Once you have reviewed the "TeamID" and "LocationID" CSVs, you can add new rows to the "GameFormat" CSV by following the provided format in the "GameFormat.csv" file.
+
+   - The "GameFormat.csv" file serves as a template for adding new rows to the "GameFormat" CSV.
+   - Ensure that you adhere to the specified format for each column.
+
+4. After preparing the new rows in the desired format, save the changes to the "GameFormat" CSV file.
+
+5. Finally, upload the updated "GameFormat" CSV file to complete the process.
+
+Thank you for your cooperation. If you have any questions or encounter issues during this process, feel free to reach out for assistance.
+
+Warm regards,
+Umpire Central Support
+
