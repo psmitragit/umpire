@@ -775,7 +775,7 @@ class UmpireController extends Controller
             if ($league->email_settings->join_game == 1) {
                 foreach ($league->users as $league_admin) {
                     $league_admin_email = $league_admin->email;
-                    Mail::to($league_admin_email)->send(new ScheduleGame($league, $umpire, $game, 'league'));
+                    Mail::to($league_admin_email)->send(new ScheduleGame($league, $umpire, $game, 'league', $league_admin_email));
                 }
             }
             if ($returnType == 1) {

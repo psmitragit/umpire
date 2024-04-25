@@ -106,6 +106,31 @@ class GeneralController extends Controller
             }
         }
     }
+    public function unsubMail($encMail)
+    {
+        $email = Crypt::decryptString($encMail);
+        $user = UserModel::where('email', $email)->firstOrFail();
+        if ($user->usertype == 2) { //league
+            $league_data = LeagueModel::find($user->uid);
+            $data = [
+                'join_game' => 0,
+                'leave_game' => 0,
+                'apply' => 0,
+            ];
+            $league_data->email_settings()->update($data);
+        } elseif ($user->usertype == 3) { //umpire
+            $umpire_data = UmpireModel::find($user->uid);
+            $data = [
+                'schedule_game' => 0,
+                'payment' => 0,
+                'message' => 0,
+                'application' => 0,
+                'cancel_game' => 0,
+            ];
+            $umpire_data->email_settings()->update($data);
+        }
+        echo "<script>window.close()</script>";
+    }
     public function verifyOTP($id)
     {
         $row = UserModel::find($id);
@@ -494,12 +519,12 @@ class GeneralController extends Controller
                         //notification mail
                         if ($assigned_umpire_row->email_settings->schedule_game == 1) {
                             $umpire_email = $assigned_umpire_row->user->email;
-                            Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'ump'));
+                            Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'ump', $umpire_email));
                         }
                         if ($league->email_settings->join_game == 1) {
                             foreach ($league->users as $league_admin) {
                                 $league_admin_email = $league_admin->email;
-                                Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'league'));
+                                Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'league', $league_admin_email));
                             }
                         }
                         //notification mail end

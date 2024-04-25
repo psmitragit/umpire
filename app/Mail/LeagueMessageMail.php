@@ -14,16 +14,18 @@ class LeagueMessageMail extends Mailable
     use Queueable, SerializesModels;
 
     public $ump;
+    public $unsubMail;
     public $league;
     public $leaguemsg;
     /**
      * Create a new leaguemsg instance.
      */
-    public function __construct($leaguemsg, $ump, $league)
+    public function __construct($leaguemsg, $ump, $league, $unsubMail)
     {
         $this->ump = $ump;
         $this->league = $league;
         $this->leaguemsg = $leaguemsg;
+        $this->unsubMail = $unsubMail;
     }
 
     /**

@@ -35,6 +35,7 @@ Route::post('/change-password/{id}', [LoginController::class, 'change_password']
 Route::get('/delete/notification/{id}', [GeneralController::class, 'delete_notification']);
 Route::get('/privacy-policy', [GeneralController::class, 'privacy_policy']);
 Route::get('/terms-of-use', [GeneralController::class, 'terms_of_use']);
+Route::get('/unsubscribe/{encMail}', [GeneralController::class, 'unsubMail']);
 //league
 Route::get('/league-login', [LoginController::class, 'league_login']);
 Route::post('/league-login', [LoginController::class, 'verifyLeagueLogin']);

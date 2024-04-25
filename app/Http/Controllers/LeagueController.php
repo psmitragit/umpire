@@ -499,7 +499,7 @@ class LeagueController extends Controller
                     $ump_row = $umpire->umpire;
                     if ($ump_row->email_settings->message == 1) {
                         $umpire_email = $ump_row->user->email;
-                        Mail::to($umpire_email)->send(new LeagueMessageMail($data['leaguemsg'], $ump_row, $league_data));
+                        Mail::to($umpire_email)->send(new LeagueMessageMail($data['leaguemsg'], $ump_row, $league_data, $umpire_email));
                     }
                 }
             }
@@ -2236,7 +2236,7 @@ class LeagueController extends Controller
             if ($league->email_settings->join_game == 1) {
                 foreach ($league->users as $league_admin) {
                     $league_admin_email = $league_admin->email;
-                    Mail::to($league_admin_email)->send(new ScheduleGame($league, $umpire, $game, 'league'));
+                    Mail::to($league_admin_email)->send(new ScheduleGame($league, $umpire, $game, 'league', $league_admin_email));
                 }
             }
             if ($returnType == 1) {

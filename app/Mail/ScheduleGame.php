@@ -17,16 +17,18 @@ class ScheduleGame extends Mailable
     public $umpire;
     public $gamedata;
     public $type;
+    public $unsubMail;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($league, $umpire, $gamedata, $type)
+    public function __construct($league, $umpire, $gamedata, $type, $unsubMail)
     {
         $this->league = $league;
         $this->umpire = $umpire;
         $this->gamedata = $gamedata;
         $this->type = $type;
+        $this->unsubMail = $unsubMail;
     }
 
     /**

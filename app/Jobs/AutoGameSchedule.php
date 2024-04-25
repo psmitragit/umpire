@@ -339,12 +339,12 @@ class AutoGameSchedule implements ShouldQueue
                         //notification mail
                         if ($assigned_umpire_row->email_settings->schedule_game == 1) {
                             $umpire_email = $assigned_umpire_row->user->email;
-                            Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'ump'));
+                            Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'ump', $umpire_email));
                         }
                         if ($league->email_settings->join_game == 1) {
                             foreach ($league->users as $league_admin) {
                                 $league_admin_email = $league_admin->email;
-                                Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'league'));
+                                Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'league', $league_admin_email));
                             }
                         }
                         //notification mail end
