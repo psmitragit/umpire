@@ -12,7 +12,7 @@ class UserModel extends Model
     use SoftDeletes;
     protected $table = 'users';
     protected $primaryKey = "uid";
-    protected $fillable = ['leagueid', 'email', 'password', 'otp', 'usertype', 'status'];
+    protected $fillable = ['leagueid', 'email', 'password', 'otp', 'usertype', 'status', 'isLeagueOwner'];
     public function league()
     {
         return $this->belongsTo(LeagueModel::class, 'leagueid', 'leagueid');

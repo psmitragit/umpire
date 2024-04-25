@@ -167,6 +167,7 @@ Route::middleware(['adminLoginCheck'])->group(function () {
     Route::get('/admin/change-password/{id}', [GeneralController::class, 'view_admin_change_password']);
     //league
     Route::get('/admin/league', [LeagueController::class, 'view_league']);
+    Route::get('/admin/delete-league-admin/{id}', [LeagueController::class, 'delete_league_admin']);
     Route::get('/admin/admin-list', [LeagueController::class, 'view_league_admin']);
     Route::get('/admin/add_league', [LeagueController::class, 'addEditLeague']);
     Route::post('/admin/add_league', [LeagueController::class, 'saveLeagueAsadmin']);

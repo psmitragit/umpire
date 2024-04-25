@@ -1,1 +1,2 @@
-deleted_at  added to the uses table
+deleted_at added to the some tables
+isLeagueOwner added to users set this column value to 1 for bxberry04@gmail.com

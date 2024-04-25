@@ -146,6 +146,7 @@ class LeagueController extends Controller
         $user_data = [
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'isLeagueOwner' => 1,
             'usertype' => 2
         ];
         if ($user = UserModel::create($user_data)) {
@@ -2275,6 +2276,32 @@ class LeagueController extends Controller
             }
         } catch (\Throwable $th) {
             Session::flash('error_message', 'Something went wrong..!!');
+        }
+        return redirect()->back();
+    }
+    public function delete_league_admin($id)
+    {
+        try {
+            $row = UserModel::where('usertype', 2)->where('uid', $id)->firstOrFail();
+            if ($row->isLeagueOwner == 1) {
+                $league = $row->league;
+                $upcoming_games_check = $league->games()->whereDate('gamedate', '>', today())
+                    ->count();
+                if ($upcoming_games_check > 0) {
+                    Session::flash('error_message', 'League can not be deleted due to having upcoming games.');
+                    return redirect()->back();
+                }
+                $league->umpires()->delete();
+                $league->delete();
+                $row->delete();
+                Session::flash('message', 'Success');
+            } else {
+                $row->delete();
+                Session::flash('message', 'Success');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            Session::flash('error_message', 'Something went wrong.');
         }
         return redirect()->back();
     }

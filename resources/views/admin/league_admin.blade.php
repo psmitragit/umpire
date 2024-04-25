@@ -14,8 +14,8 @@
                                     action="{{ url('admin/sent_invite_league_admin') }}" method="post">
                                     @csrf
                                     <div class="">
-                                        <input  required type="text" name="email"
-                                            class="form-control widths" placeholder="invite@league.com">
+                                        <input required type="text" name="email" class="form-control widths"
+                                            placeholder="invite@league.com">
                                     </div>
                                     <select class="form-control widths" name="leagueid" id="" required>
                                         <option value="">Select</option>
@@ -53,13 +53,16 @@
                                                     @if ($data->status == 0)
                                                         <a href="{{ url('admin/league_admin_status/' . $data->uid . '/1') }}"
                                                             class="btn btn-success"
-                                                            onclick="return confirm('Are you sure you want to activate this league admin?')">Activate </a>
+                                                            onclick="return confirm('Are you sure you want to activate this league admin?')">Activate
+                                                        </a>
                                                     @elseif ($data->status == 1)
                                                         <a href="{{ url('admin/league_admin_status/' . $data->uid . '/0') }}"
                                                             class="btn btn-danger"
                                                             onclick="return confirm('Are you sure you want to deactivate this league admin?')">Deactivate</a>
                                                     @endif
-
+                                                    <a href="{{ url('admin/delete-league-admin/' . $data->uid) }}"
+                                                        class="btn btn-danger"
+                                                        onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach
