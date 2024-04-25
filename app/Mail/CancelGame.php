@@ -15,14 +15,16 @@ class CancelGame extends Mailable
 
     public $game;
     public $umpire;
+    public $unsubMail;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($game, $umpire)
+    public function __construct($game, $umpire, $unsubMail)
     {
         $this->game = $game;
         $this->umpire = $umpire;
+        $this->unsubMail = $unsubMail;
     }
 
     /**

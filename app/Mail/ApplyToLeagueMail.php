@@ -17,9 +17,11 @@ class ApplyToLeagueMail extends Mailable
      * Create a new message instance.
      */
     public $data;
-    public function __construct($data)
+    public $unsubMail;
+    public function __construct($data, $unsubMail)
     {
         $this->data = $data;
+        $this->unsubMail = $unsubMail;
     }
 
     /**

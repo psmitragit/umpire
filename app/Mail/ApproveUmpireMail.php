@@ -15,14 +15,16 @@ class ApproveUmpireMail extends Mailable
 
     public $league;
     public $umpire;
+    public $unsubMail;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($league, $umpire)
+    public function __construct($league, $umpire, $unsubMail)
     {
         $this->league = $league;
         $this->umpire = $umpire;
+        $this->unsubMail = $unsubMail;
     }
 
     /**

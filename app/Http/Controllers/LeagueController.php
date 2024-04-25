@@ -1359,7 +1359,7 @@ class LeagueController extends Controller
                         //notification mail
                         if ($umpire->email_settings->cancel_game == 1) {
                             $umpire_email = $umpire->user->email;
-                            Mail::to($umpire_email)->send(new CancelGame($game, $umpire));
+                            Mail::to($umpire_email)->send(new CancelGame($game, $umpire, $umpire_email));
                         }
                         //notification mail end
                         $msg = 'The scheduled game on ' . date('D m/d/y', strtotime($game->gamedate)) . ' has been canceled.';
@@ -1633,7 +1633,7 @@ class LeagueController extends Controller
             //notification mail
             if ($umpire->email_settings->application == 1) {
                 $umpire_email = $umpire->user->email;
-                Mail::to($umpire_email)->send(new ApproveUmpireMail($league_data, $umpire));
+                Mail::to($umpire_email)->send(new ApproveUmpireMail($league_data, $umpire, $umpire_email));
             }
             //notification mail end
             $msg = 'You joined ' . $league_data->leaguename;
@@ -1658,7 +1658,7 @@ class LeagueController extends Controller
             //notification mail
             if ($umpire->email_settings->application == 1) {
                 $umpire_email = $umpire->user->email;
-                Mail::to($umpire_email)->send(new DeclineUmpireMail($league_data, $umpire));
+                Mail::to($umpire_email)->send(new DeclineUmpireMail($league_data, $umpire, $umpire_email));
             }
             //notification mail end
             $msg = 'League application declined for ' . $league_data->leaguename;
@@ -1682,7 +1682,7 @@ class LeagueController extends Controller
             //notification mail
             if ($umpire->email_settings->application == 1) {
                 $umpire_email = $umpire->user->email;
-                Mail::to($umpire_email)->send(new InterviewUmpireMail($league_data, $umpire));
+                Mail::to($umpire_email)->send(new InterviewUmpireMail($league_data, $umpire, $umpire_email));
             }
             //notification mail end
             $msg = $league_data->leaguename . ' invited you for an interview.';

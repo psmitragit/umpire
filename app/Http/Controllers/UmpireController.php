@@ -282,7 +282,7 @@ class UmpireController extends Controller
                 $mail_data = compact('league', 'umpire_data');
                 foreach ($league->users as $league_admin) {
                     $league_admin_email = $league_admin->email;
-                    Mail::to($league_admin_email)->send(new ApplyToLeagueMail($mail_data));
+                    Mail::to($league_admin_email)->send(new ApplyToLeagueMail($mail_data, $league_admin_email));
                 }
             }
             Session::flash('message', 'Success');
@@ -323,7 +323,7 @@ class UmpireController extends Controller
                 $mail_data = compact('league', 'umpire_data');
                 foreach ($league->users as $league_admin) {
                     $league_admin_email = $league_admin->email;
-                    Mail::to($league_admin_email)->send(new ApplyToLeagueMail($mail_data));
+                    Mail::to($league_admin_email)->send(new ApplyToLeagueMail($mail_data, $league_admin_email));
                 }
             }
             Session::flash('message', 'Success');
@@ -834,7 +834,7 @@ class UmpireController extends Controller
                     $mail_data = compact('league', 'umpire', 'game');
                     foreach ($league->users as $league_admin) {
                         $league_admin_email = $league_admin->email;
-                        Mail::to($league_admin_email)->send(new UmpireLeaveGame($mail_data));
+                        Mail::to($league_admin_email)->send(new UmpireLeaveGame($mail_data, $league_admin_email));
                     }
                 }
                 reArrangeUmpiresInGames([$gameid]);
