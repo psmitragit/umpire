@@ -29,19 +29,19 @@ class GameModel extends Model
     }
     public function umpire1()
     {
-        return $this->belongsTo(UmpireModel::class, 'ump1');
+        return $this->belongsTo(UmpireModel::class, 'ump1')->withTrashed();
     }
     public function umpire2()
     {
-        return $this->belongsTo(UmpireModel::class, 'ump2');
+        return $this->belongsTo(UmpireModel::class, 'ump2')->withTrashed();
     }
     public function umpire3()
     {
-        return $this->belongsTo(UmpireModel::class, 'ump3');
+        return $this->belongsTo(UmpireModel::class, 'ump3')->withTrashed();
     }
     public function umpire4()
     {
-        return $this->belongsTo(UmpireModel::class, 'ump4');
+        return $this->belongsTo(UmpireModel::class, 'ump4')->withTrashed();
     }
     public function refundpoints(){
         return $this->hasMany(RefundPointsModel::class, 'game_id');

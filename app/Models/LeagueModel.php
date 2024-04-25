@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LeagueModel extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'leagues';
     protected $primaryKey = "leagueid";
     protected $fillable = ['name', 'phone', 'leaguename', 'report', 'joiningpoint', 'assignbefore', 'leavebefore', 'defaultpay', 'mainumpage', 'otherumpage', 'status', 'umpire_joining_status', 'cc'];

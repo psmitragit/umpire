@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LeagueUmpireModel extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'leagueumpires';
     protected $primaryKey = "id";
     protected $fillable = ['umpid', 'leagueid', 'points', 'payout', 'owed', 'received', 'bonus', 'due', 'status', 'notes'];

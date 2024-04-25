@@ -43,7 +43,9 @@
                                                             class="btn btn-danger"
                                                             onclick="return confirm('Are you sure you want to deactivate this umpire?')">Deactivate</a>
                                                     @endif
-
+                                                    <a href="{{ url('admin/delete-umpire/' . $data->umpid) }}"
+                                                        class="btn btn-danger"
+                                                        onclick="return confirm('Are you sure you want to delete this umpire?')">Delete</a>
                                                 </td>
                                             </tr>
                                         @endforeach

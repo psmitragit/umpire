@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ApplyToLeague as MailApplyToLeague;
 use App\Mail\ApplyToLeagueMail;
 use Exception;
 use App\Mail\OTPMail;
@@ -20,8 +19,6 @@ use App\Models\GameReportModel;
 use App\Models\UmpirePrefModel;
 use App\Models\BlockGroundModel;
 use App\Models\LeagueUmpireModel;
-use App\Models\NotificationModel;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Models\UmpireBlockedDatesModel;
@@ -38,6 +35,32 @@ class UmpireController extends Controller
         $page_data = UmpireModel::get();
         $data = compact('title', 'page_data', 'admin_data');
         return view('admin.umpire')->with($data);
+    }
+    public function delete_umpire($id)
+    {
+        try {
+            $umpireRow = UmpireModel::find($id);
+            $upcoming_games_check = GameModel::whereDate('gamedate', '>', today())
+                ->where(function ($query) use ($id) {
+                    $query->where('ump1', $id)
+                        ->orWhere('ump2', $id)
+                        ->orWhere('ump3', $id)
+                        ->orWhere('ump4', $id);
+                })->count();
+            if ($upcoming_games_check > 0) {
+                Session::flash('error_message', 'Umpire can not be deleted due to having upcoming games.');
+                return redirect()->back();
+            }
+            $umpireRow->user()->delete();
+            $umpireRow->leagues()->delete();
+            $umpireRow->applied_leagues()->delete();
+            $umpireRow->delete();
+            Session::flash('message', 'Success');
+        } catch (\Throwable $th) {
+            // dd($th);
+            Session::flash('error_message', 'Something went wrong.');
+        }
+        return redirect()->back();
     }
     public function login_as_umpire($id)
     {
