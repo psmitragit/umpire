@@ -16,15 +16,17 @@ class Payment extends Mailable
     public $league;
     public $umpire;
     public $paydata;
+    public $unsubMail;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($league, $umpire, $paydata)
+    public function __construct($league, $umpire, $paydata, $unsubMail)
     {
         $this->league = $league;
         $this->umpire = $umpire;
         $this->paydata = $paydata;
+        $this->unsubMail = $unsubMail;
     }
 
     /**

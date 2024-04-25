@@ -373,7 +373,7 @@ function add_payRecord($leagueid, $umpid, $paydate, $payamt, $pmttype, $gameid =
                 //notification mail
                 if ($umpire->email_settings->payment == 1) {
                     $umpire_email = $umpire->user->email;
-                    Mail::to($umpire_email)->send(new Payment($league, $umpire, $payout_data));
+                    Mail::to($umpire_email)->send(new Payment($league, $umpire, $payout_data, $umpire_email));
                 }
                 //notification mail end
             }
