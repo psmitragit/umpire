@@ -50,6 +50,12 @@
             </div>
             <div class="col-md-2">
                 <div class="blockbrn">
+                    <a href="{{ url('league/remove-umpire-from-league/' . $page_data->umpid) }}"
+                        class="submit redbtn w-100 text-center addbtnsa confirmCancel"
+                        data-text="Are you sure you want to remove this umpire?">Remove</a>
+
+                </div>
+                <div class="approves">
                     @php
                         if ($blocked) {
                             $text = 'Unblock';
@@ -271,7 +277,8 @@
                         </div>
 
                         <div class="buttons-flex hyscs sc">
-                            <div class="button1div"><button class="redbtn submit" type="submit" id="bonusUpdate">Update</button></div>
+                            <div class="button1div"><button class="redbtn submit" type="submit"
+                                    id="bonusUpdate">Update</button></div>
                             <div class="buttondiv-trans"><button type="button" class="cnclbtn buycnm"
                                     data-bs-dismiss="modal">Cancel</button></div>
                         </div>

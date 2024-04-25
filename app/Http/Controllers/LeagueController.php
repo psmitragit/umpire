@@ -1721,6 +1721,17 @@ class LeagueController extends Controller
         $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_umpire', 'locations', 'teams', 'blocked', 'blocked_teams', 'blocked_grounds');
         return view('league.manage_umpire')->with($data);
     }
+    public function remove_umpire_from_league($id)
+    {
+        $league_data = logged_in_league_data();
+        $res = removeUmpireFromLeague($id, $league_data->leagueid);
+        if ($res['status']) {
+            Session::flash('message', 'Success');
+        } else {
+            Session::flash('error_message', $res['error']);
+        }
+        return redirect('league/umpires');
+    }
     public function pay_bonus(Request $request, $umpid)
     {
         $league_data = logged_in_league_data();

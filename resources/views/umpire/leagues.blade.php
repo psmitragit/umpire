@@ -28,6 +28,7 @@
 
                         <th>My games</th>
                         <th>view games</th>
+                        <th>Action</th>
 
                     </tr>
                 </thead>
@@ -43,7 +44,8 @@
                                 </td>
                                 <td><a href="{{ url('umpire/league-games/' . $joined_leagues->leagueid) }}"
                                         class="view-btn">View</a></td>
-
+                                <td><a onclick="return confirm('Are you sure you want to leave the league ?')" href="{{ url('umpire/leave-league/' . $joined_leagues->leagueid) }}"
+                                        class="view-btn">Leave</a></td>
                             </tr>
                         @endforeach
                     @else
@@ -111,7 +113,8 @@
                                             <a href="javascript:void(0)" class="view-btn redbtn"
                                                 onclick="applyLeague({{ $league->leagueid }})">Apply</a>
                                         @else
-                                            <button data-text="There are currently no questions when applying for this league. Are you sure you want to apply?"
+                                            <button
+                                                data-text="There are currently no questions when applying for this league. Are you sure you want to apply?"
                                                 href="{{ url('umpire/apply-league/' . $league->leagueid) }}"
                                                 class="view-btn redbtn " onclick="opnemodals(this)">Apply</button>
                                         @endif

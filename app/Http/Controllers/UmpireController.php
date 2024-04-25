@@ -275,6 +275,17 @@ class UmpireController extends Controller
         $data = compact('title', 'page_data', 'umpire_data', 'right_bar', 'nav', 'leagues');
         return view('umpire.leagues')->with($data);
     }
+    public function leave_league($id)
+    {
+        $umpire_data = logged_in_umpire_data();
+        $res = removeUmpireFromLeague($umpire_data->umpid, $id);
+        if ($res['status']) {
+            Session::flash('message', 'Success');
+        } else {
+            Session::flash('error_message', $res['error']);
+        }
+        return redirect()->back();
+    }
     public function apply_league($league_id)
     {
         $league = LeagueModel::find($league_id);

@@ -113,6 +113,7 @@ Route::middleware(['leagueLoginCheck'])->group(function () {
     Route::get('/league/decline-umpire/{id}', [LeagueController::class, 'decline_umpire']);
     Route::get('/league/interview-umpire/{id}', [LeagueController::class, 'interview_umpire']);
     Route::get('/league/manage-umpire/{id}', [LeagueController::class, 'manage_umpire_details']);
+    Route::get('/league/remove-umpire-from-league/{id}', [LeagueController::class, 'remove_umpire_from_league']);
     Route::post('/league/pay-bonus/{id}', [LeagueController::class, 'pay_bonus']);
     Route::post('/league/save-point/{id}', [LeagueController::class, 'save_point']);
     Route::post('/league/save-leagueumpire/{id}', [LeagueController::class, 'save_leagueumpire']);
@@ -135,6 +136,7 @@ Route::middleware(['umpireLoginCheck'])->group(function () {
     Route::get('/umpire/logout', [LoginController::class, 'umpireLogout']);
     Route::get('/umpire/change-password', [UmpireController::class, 'view_change_password']);
     Route::get('/umpire/leagues', [UmpireController::class, 'view_leagues']);
+    Route::get('/umpire/leave-league/{id}', [UmpireController::class, 'leave_league']);
     Route::get('/umpire/apply-league/{id}', [UmpireController::class, 'apply_league']);
     Route::post('/umpire/apply-league', [UmpireController::class, 'save_league_apply']);
     Route::get('/umpire/avail/{id?}', [UmpireController::class, 'view_avail']);

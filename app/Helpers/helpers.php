@@ -1,6 +1,7 @@
 <?php
 
 use App\Mail\Payment;
+use App\Models\ApplyToLeague;
 use App\Models\GameModel;
 use App\Models\UserModel;
 use App\Models\LeagueModel;
@@ -800,5 +801,30 @@ function reArrangeUmpiresInGames(array $game_ids)
                 $j++;
             }
         }
+    }
+}
+
+function removeUmpireFromLeague($umpId, $leagueId)
+{
+    try {
+        $leagueUmpire = LeagueUmpireModel::where('umpid', $umpId)
+            ->where('leagueid', $leagueId)->firstOrFail();
+        $upcoming_games_check = GameModel::whereDate('gamedate', '>', today())
+            ->where('leagueid', $leagueId)
+            ->where(function ($query) use ($umpId) {
+                $query->where('ump1', $umpId)
+                    ->orWhere('ump2', $umpId)
+                    ->orWhere('ump3', $umpId)
+                    ->orWhere('ump4', $umpId);
+            })->count();
+        if ($upcoming_games_check > 0) {
+            return ['status' => false, 'error' => 'Umpire can not be removed from the league due to having upcoming games.'];
+        }
+        ApplyToLeague::where('umpid', $umpId)
+            ->where('leagueid', $leagueId)->delete();
+        $leagueUmpire->delete();
+        return ['status' => true];
+    } catch (\Throwable $th) {
+        return ['status' => false, 'error' => 'Something went wrong.'];
     }
 }
