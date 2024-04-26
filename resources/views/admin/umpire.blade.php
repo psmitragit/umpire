@@ -29,6 +29,8 @@
                                                 <td>{{ $data->user->email }}</td>
                                                 <td>{{ $data->phone }}</td>
                                                 <td class="text-end">
+                                                    <a href="{{ url('admin/edit-umpire/' . $data->umpid) }}"
+                                                        class="btn btn-warning">Edit</a>
                                                     <a href="{{ url('admin/login-as-umpire/' . $data->user->uid) }}"
                                                         class="btn btn-dark openInNewWindow">Login</a>
                                                     <a data-id="{{ $data->umpid }}"

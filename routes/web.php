@@ -183,6 +183,8 @@ Route::middleware(['adminLoginCheck'])->group(function () {
     //umpire
     Route::get('/admin/members', [UmpireController::class, 'view_umpires']);
     Route::get('/admin/delete-umpire/{id}', [UmpireController::class, 'delete_umpire']);
+    Route::get('/admin/edit-umpire/{id}', [UmpireController::class, 'edit_umpire']);
+    Route::post('/admin/edit-umpire/{id}', [UmpireController::class, 'save_umpire']);
     Route::get('/admin/login-as-umpire/{id}', [UmpireController::class, 'login_as_umpire']);
     Route::get('/admin/umpire_status/{id}/{status}', [UmpireController::class, 'umpire_status']);
     Route::post('/admin/assign_league/{id}', [UmpireController::class, 'assign_league']);

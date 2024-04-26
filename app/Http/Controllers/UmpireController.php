@@ -1011,4 +1011,36 @@ class UmpireController extends Controller
         }
         return response()->json($data);
     }
+    public function edit_umpire($id)
+    {
+        $title = 'Edit Umpire';
+        $admin_data = logged_in_admin_data();
+        $page_data = UmpireModel::find($id);
+        $data = compact('title', 'admin_data', 'page_data');
+        return view('admin.edit_umpire')->with($data);
+    }
+    public function save_umpire(Request $request, $umpid)
+    {
+        $request->validate([
+            'name' => 'required',
+            'phone' => ['nullable', 'regex:/^[+\d\s()-]+$/'],
+            'dob' => 'required|date|before:' . now()->subYears(13)->format('Y-m-d'),
+            'zip' => 'required',
+        ], [
+            'dob.before' => 'Umpires age must be greater than 13.',
+        ]);
+        $data = [
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'dob' => $request->dob,
+            'zip' => $request->zip,
+            'bio' => $request->bio,
+        ];
+        $row = UmpireModel::find($umpid);
+        if ($row) {
+            $row->update($data);
+            Session::flash('message', 'Success');
+        }
+        return redirect()->back();
+    }
 }
