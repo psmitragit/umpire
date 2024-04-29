@@ -51,6 +51,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Models\LeagueEmailSettingsModel;
 use App\Models\Age_of_PlayersLeagueModel;
+use App\Models\TeamDivisionModel;
 use App\Models\UmpireDurationLeagueModel;
 use App\Models\UmpirePositionLeagueModel;
 use Illuminate\Support\Facades\Validator;
@@ -368,6 +369,17 @@ class LeagueController extends Controller
         $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'active_sub_nav_bar');
         return view('league.teams')->with($data);
     }
+    public function view_division()
+    {
+        $title = 'League Division';
+        $nav = 'settings';
+        $active_sub_nav_bar = 'divisions';
+        $league_data = logged_in_league_data();
+        $page_data = $league_data->divisions;
+        $right_bar = 1;
+        $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'active_sub_nav_bar');
+        return view('league.divisions')->with($data);
+    }
     public function view_location()
     {
         $title = 'League Location';
@@ -598,6 +610,29 @@ class LeagueController extends Controller
             return response()->json(array('status' => 0));
         }
     }
+    public function save_division(Request $request)
+    {
+        $league_data = logged_in_league_data();
+        $validator = Validator::make($request->all(), [
+            'question' => 'required',
+        ]);
+        if ($validator->fails()) {
+            Session::flash('error_message', 'Something went wrong');
+            return response()->json(array('status' => 0));
+        }
+        try {
+            $data = [
+                'leagueid' => $league_data->leagueid,
+                'name' => $request->question,
+            ];
+            TeamDivisionModel::create($data);
+            Session::flash('message', 'Success');
+            return response()->json(array('status' => 1));
+        } catch (Exception $e) {
+            Session::flash('error_message', 'Something went wrong');
+            return response()->json(array('status' => 0));
+        }
+    }
     public function update_team(Request $request, $id)
     {
         $league_data = logged_in_league_data();
@@ -621,9 +656,38 @@ class LeagueController extends Controller
             return response()->json(array('status' => 0));
         }
     }
+    public function update_division(Request $request, $id)
+    {
+        $league_data = logged_in_league_data();
+        $validator = Validator::make($request->all(), [
+            'question' => 'required',
+        ]);
+        if ($validator->fails()) {
+            Session::flash('error_message', 'Something went wrong');
+            return response()->json(array('status' => 0));
+        }
+        try {
+            $data = [
+                'leagueid' => $league_data->leagueid,
+                'name' => $request->question,
+            ];
+            TeamDivisionModel::find($id)->update($data);
+            Session::flash('message', 'Success');
+            return response()->json(array('status' => 1));
+        } catch (Exception $e) {
+            Session::flash('error_message', 'Something went wrong');
+            return response()->json(array('status' => 0));
+        }
+    }
     public function delete_team($id)
     {
         TeamModel::find($id)->delete();
+        Session::flash('message', 'Success');
+        return redirect()->back();
+    }
+    public function delete_division($id)
+    {
+        TeamDivisionModel::find($id)->delete();
         Session::flash('message', 'Success');
         return redirect()->back();
     }

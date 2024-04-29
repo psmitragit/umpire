@@ -2923,3 +2923,42 @@
 #48 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('D:\\\\wamp64\\\\www\\\\u...')
 #49 {main}
 "} 
+[2024-04-29 08:15:12] local.ERROR: syntax error, unexpected token "}" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\" at D:\\wamp64\\www\\umpire\\app\\Models\\TeamDivisionModel.php:18)
+[stacktrace]
+#0 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(243): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''syntax error, ...', code: '0', error: '['type' => 4, '...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(230): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 4, '...', traceOffset: '0')
+#2 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(254): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:253-255}()
+#4 {main}
+"} 
+[2024-04-29 08:29:30] local.ERROR: Cannot redeclare App\Models\LeagueModel::teams() {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare App\\Models\\LeagueModel::teams() at D:\\wamp64\\www\\umpire\\app\\Models\\LeagueModel.php:36)
+[stacktrace]
+#0 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(243): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(230): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(254): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:253-255}()
+#4 Command line code(0): {main}()
+#5 {main}
+"} 
+[2024-04-29 08:30:02] local.ERROR: syntax error, unexpected token "::" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"::\" at D:\\wamp64\\www\\umpire\\app\\Models\\LeagueModel.php:38)
+[stacktrace]
+#0 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(243): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''syntax error, ...', code: '0', error: '['type' => 4, '...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(230): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 4, '...', traceOffset: '0')
+#2 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(254): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:253-255}()
+#4 {main}
+"} 
+[2024-04-29 08:59:05] local.ERROR: Cannot redeclare App\Models\TeamModel::league() {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare App\\Models\\TeamModel::league() at D:\\wamp64\\www\\umpire\\app\\Models\\TeamModel.php:17)
+[stacktrace]
+#0 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(243): Symfony\\Component\\ErrorHandler\\Error\\FatalError->__construct(message: ''Cannot redecla...', code: '0', error: '['type' => 64, ...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(230): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->fatalErrorFromPhpError(error: '['type' => 64, ...', traceOffset: '0')
+#2 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(254): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleShutdown()
+#3 D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(0): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure:D:\\wamp64\\www\\umpire\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php:253-255}()
+#4 D:\\wamp64\\www\\umpire\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure:D:\\wamp64\\www\\umpire\\vendor\\composer\\ClassLoader.php:575-577}(file: ''D:\\\\\\\\wamp64\\\\\\\\ww...')
+#5 Command line code(1): Composer\\Autoload\\ClassLoader->loadClass(class: ''App\\\\\\\\Models\\\\\\\\T...')
+#6 Command line code(1): class_exists(class: ''App\\\\\\\\Models\\\\\\\\T...')
+#7 Command line code(1): {closure:Command line code:1-1}(class: ''App\\\\\\\\Models\\\\\\\\T...')
+#8 Command line code(1): array_filter(array: '[0 => 'App\\\\\\\\Con...', callback: 'class Closure {...')
+#9 Command line code(0): {main}()
+#10 {main}
+"} 

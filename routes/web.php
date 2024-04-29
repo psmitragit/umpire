@@ -69,6 +69,11 @@ Route::middleware(['leagueLoginCheck'])->group(function () {
     Route::post('/league/update_league_application_question/{id}', [LeagueController::class, 'update_league_application_question']);
     Route::post('/league/update_league_application_order', [LeagueController::class, 'update_league_application_order']);
     Route::get('/league/delete_application/{id}', [LeagueController::class, 'delete_application']);
+    //division
+    Route::get('/league/settings/divisions', [LeagueController::class, 'view_division']);
+    Route::get('/league/delete_division/{id}', [LeagueController::class, 'delete_division']);
+    Route::post('/league/save_division', [LeagueController::class, 'save_division']);
+    Route::post('/league/update_division/{id}', [LeagueController::class, 'update_division']);
     //team
     Route::get('/league/settings/teams', [LeagueController::class, 'view_team']);
     Route::get('/league/delete_team/{id}', [LeagueController::class, 'delete_team']);

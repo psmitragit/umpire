@@ -33,6 +33,10 @@ class LeagueModel extends Model
     {
         return $this->hasMany(TeamModel::class, 'leagueid');
     }
+    public function divisions()
+    {
+        return $this->hasMany(TeamDivisionModel::class, 'leagueid');
+    }
     public function location()
     {
         return $this->hasMany(LocationModel::class, 'leagueid');
