@@ -601,6 +601,7 @@ class LeagueController extends Controller
             $data = [
                 'leagueid' => $league_data->leagueid,
                 'teamname' => $request->question,
+                'divid' => $request->divid,
             ];
             TeamModel::create($data);
             Session::flash('message', 'Success');
@@ -647,6 +648,7 @@ class LeagueController extends Controller
             $data = [
                 'leagueid' => $league_data->leagueid,
                 'teamname' => $request->question,
+                'divid' => $request->divid,
             ];
             TeamModel::find($id)->update($data);
             Session::flash('message', 'Success');

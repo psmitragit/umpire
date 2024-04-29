@@ -37,10 +37,12 @@
                     <div class="col-lg-10 col-md-10 col-7">
                         <div class="tetx-foredit" id="qstn{{ $data->teamid }}">{{ $data->teamname }}</div>
                     </div>
-                    <div class="col-lg-1  col-2 col-md-1"><button data-id="{{ $data->teamid }}" class="delete-notifixctasc blue-bgs ac edit_question"><i
+                    <div class="col-lg-1  col-2 col-md-1"><button data-divid="{{ $data->divid }}" data-id="{{ $data->teamid }}"
+                            class="delete-notifixctasc blue-bgs ac edit_question"><i
                                 class="fa-solid fa-pencil"></i></button></div>
-                    <div class="col-lg-1 col-2 col-md-1"><a href="{{ url('league/delete_team/' . $data->teamid) }}" onclick="return confirm('Are you sure you want to delete this team?')" class="delete-notifixctasc addbgs asd"><i
-                                class="fa-regular fa-trash-can"></i></a></div>
+                    <div class="col-lg-1 col-2 col-md-1"><a href="{{ url('league/delete_team/' . $data->teamid) }}"
+                            onclick="return confirm('Are you sure you want to delete this team?')"
+                            class="delete-notifixctasc addbgs asd"><i class="fa-regular fa-trash-can"></i></a></div>
                 </div>
             @endforeach
         @endif
@@ -65,6 +67,12 @@
                         <div class="modalqstnbalbe">
                             <textarea name="question" id="" placeholder="Write your team name here..." required></textarea>
                         </div>
+                        <select name="divid" id="">
+                            <option value="">Select</option>
+                            @foreach ($league_data->divisions as $division)
+                                <option value="{{ $division->id }}">{{ $division->name }}</option>
+                            @endforeach
+                        </select>
                         <div class="text-center submit-bten-modal">
                             <button class="submitbtns">Submit</button>
                         </div>
@@ -78,13 +86,16 @@
         function add_team() {
             $('#report_form').attr('action', '{{ url('league/save_team') }}');
             $('[name="question"]').val('');
+            $('[name="divid"]').val('');
             $('#exampleModal').modal('show');
         }
         $('.edit_question').click(function() {
             var id = $(this).data('id');
+            var divid = $(this).data('divid');
             var qstn = $('#qstn' + id).text();
             $('#report_form').attr('action', '{{ url('league/update_team') }}/' + id);
             $('[name="question"]').val(qstn);
+            $('[name="divid"]').val(divid);
             $('#exampleModal').modal('show');
 
         });

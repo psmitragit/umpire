@@ -1,3 +1,4 @@
 deleted_at added to the some tables
 isLeagueOwner added to users, set this column value to 1 for bxberry04@gmail.com
 team_division added
+divid added to teams table
