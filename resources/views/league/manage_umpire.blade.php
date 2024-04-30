@@ -112,10 +112,15 @@
                             <span class="acctives" id="color-text1">By team</span>
                         </div>
                         <div class="bylocatons-tetx">
+                            <span class="inpoysascolor nessc" id="colors2"> </span>
                             <input type="radio" name="as" class="d-none" id="radio2s">
-                            <span class="inpoysascolor nessc" id="colors3"> </span>
                             <span class="acctives" id="color-text2">By Location</span>
 
+                        </div>
+                        <div class="by-temas-texts">
+                            <span class="inpoysascolor nessc" id="colors3"> </span>
+                            <input type="radio" name="as" class="d-none" id="radio3s">
+                            <span class="acctives" id="color-text3">By division</span>
                         </div>
                     </div>
                     <form class="select-teams teamselect"
@@ -146,7 +151,19 @@
                         </select>
                         <button class="addnew redbtn submit nsaecz" type="submit">+ Add</button>
                     </form>
-
+                    <form class="select-teams divisionselect"
+                        action="{{ url('league/block-unblock-division/' . $page_data->umpid) }}" method="post">
+                        @csrf
+                        <span class="select_team-text">Select division:</span>
+                        <select name="divid" id="divisionselect" class="teamsf" required>
+                            @if ($league_data->divisions->count() > 0)
+                                @foreach ($league_data->divisions as $division)
+                                    <option value="{{ $division->id }}">{{ $division->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                        <button class="addnew redbtn submit ters" type="submit">+ Add</button>
+                    </form>
 
                 </div>
                 <div class="col-md-6">
@@ -325,26 +342,49 @@
             $('#radio1s').click();
             $('#color-text1').addClass("active-class");
             $('#color-text2').removeClass("active-class");
+            $('#color-text3').removeClass("active-class");
 
 
-            $('#colors3').removeClass("active-class");
             $('#colors1').addClass("active-class");
+            $('#colors2').removeClass("active-class");
+            $('#colors3').removeClass("active-class");
 
             $('.teamselect').show();
             $('.groundselect').hide();
+            $('.divisionselect').hide();
         });
 
 
-        $('#colors3').click(function(e) {
+        $('#colors2').click(function(e) {
             $('#radio2s').click();
             $('#color-text1').removeClass("active-class");
             $('#color-text2').addClass("active-class");
-            $('#colors3').addClass("active-class");
+            $('#color-text3').removeClass("active-class");
+
+
             $('#colors1').removeClass("active-class");
+            $('#colors2').addClass("active-class");
+            $('#colors3').removeClass("active-class");
 
             $('.teamselect').hide();
             $('.groundselect').show();
+            $('.divisionselect').hide();
+        });
 
+        $('#colors3').click(function(e) {
+            $('#radio3s').click();
+            $('#color-text1').removeClass("active-class");
+            $('#color-text2').removeClass("active-class");
+            $('#color-text3').addClass("active-class");
+
+
+            $('#colors1').removeClass("active-class");
+            $('#colors2').removeClass("active-class");
+            $('#colors3').addClass("active-class");
+
+            $('.teamselect').hide();
+            $('.groundselect').hide();
+            $('.divisionselect').show();
         });
 
         $(document).ready(function() {

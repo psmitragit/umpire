@@ -606,6 +606,5 @@ class GeneralController extends Controller
     //code is running in cronjob============================>>>>this is the duplicate code for testing manually##END
     public function test()
     {
-        
     }
 }

@@ -51,6 +51,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Models\LeagueEmailSettingsModel;
 use App\Models\Age_of_PlayersLeagueModel;
+use App\Models\BlockDivisionModel;
 use App\Models\TeamDivisionModel;
 use App\Models\UmpireDurationLeagueModel;
 use App\Models\UmpirePositionLeagueModel;
@@ -1775,6 +1776,9 @@ class LeagueController extends Controller
         $blocked_teams = $page_data->blocked_team()
             ->where('leagueid', $league_data->leagueid)
             ->get();
+        $blocked_divisions = $page_data->blocked_division()
+            ->where('leagueid', $league_data->leagueid)
+            ->get();
         $blocked_grounds = $page_data->blocked_ground()
             ->where(function ($query) use ($league_data) {
                 $query->where('leagueid', $league_data->leagueid)
@@ -1784,7 +1788,7 @@ class LeagueController extends Controller
         $right_bar = 1;
         $teams = $league_data->teams;
         $locations = $league_data->location;
-        $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_umpire', 'locations', 'teams', 'blocked', 'blocked_teams', 'blocked_grounds');
+        $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_umpire', 'locations', 'teams', 'blocked', 'blocked_teams', 'blocked_grounds', 'blocked_divisions');
         return view('league.manage_umpire')->with($data);
     }
     public function remove_umpire_from_league($id)
@@ -1931,6 +1935,41 @@ class LeagueController extends Controller
                 'teamid' => $request->team_id,
             ];
             BlockTeamModel::create($data);
+            $flag = false;
+        }
+        Session::flash('message', 'Success');
+        if ($flag) {
+            return redirect()->back();
+        } else {
+            return response()->json(['status' => 1], 200);
+        }
+    }
+    public function block_unblock_division(Request $request, $umpid)
+    {
+        $league_data = logged_in_league_data();
+        $umpire_data = UmpireModel::find($umpid);
+
+        $validator = Validator::make($request->all(), [
+            'divid' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 0], 200);
+        }
+        $row = $umpire_data->blocked_division()
+            ->where('leagueid', $league_data->leagueid)
+            ->where('divid', $request->divid)
+            ->first();
+        if ($row) {
+            $row->delete();
+            $flag = true;
+        } else {
+            $data = [
+                'leagueid' => $league_data->leagueid,
+                'umpid' => $umpid,
+                'divid' => $request->divid,
+            ];
+            BlockDivisionModel::create($data);
             $flag = false;
         }
         Session::flash('message', 'Success');

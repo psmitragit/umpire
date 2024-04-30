@@ -123,6 +123,7 @@ Route::middleware(['leagueLoginCheck'])->group(function () {
     Route::post('/league/save-point/{id}', [LeagueController::class, 'save_point']);
     Route::post('/league/save-leagueumpire/{id}', [LeagueController::class, 'save_leagueumpire']);
     Route::post('/league/block-unblock-team/{id}', [LeagueController::class, 'block_unblock_team']);
+    Route::post('/league/block-unblock-division/{id}', [LeagueController::class, 'block_unblock_division']);
     Route::post('/league/block-unblock-ground/{id}', [LeagueController::class, 'block_unblock_ground']);
     Route::get('/league/block-unblock-umpire/{id}', [LeagueController::class, 'blockUnblock_umpire']);
     //payout

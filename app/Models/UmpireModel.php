@@ -40,6 +40,9 @@ class UmpireModel extends Model
     public function blocked_team(){
         return $this->hasMany(BlockTeamModel::class, 'umpid');
     }
+    public function blocked_division(){
+        return $this->hasMany(BlockDivisionModel::class, 'umpid');
+    }
     public function blocked_ground(){
         return $this->hasMany(BlockGroundModel::class, 'umpid');
     }
