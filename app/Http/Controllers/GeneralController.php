@@ -341,6 +341,11 @@ class GeneralController extends Controller
                                     }
                                 }
 
+                                 // If a condition was met, continue with the next umpire
+                                 if ($condition_met) {
+                                    continue;
+                                }
+
                                 //checking umpire age
                                 $game_player_age = (int)$game->playersage;
                                 $age_diff = $umpire_age - $game_player_age;
