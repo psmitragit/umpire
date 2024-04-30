@@ -203,6 +203,7 @@
                         @php
                             $blockedteamIDs = [];
                             $blockedgroundIDs = [];
+                            $blockeddivisionIDs = [];
                         @endphp
                         @if ($blocked_teams->count() > 0)
                             @foreach ($blocked_teams as $blocked_team)
@@ -257,9 +258,40 @@
                         @endif
                     </tbody>
                 </table>
+                <table class="oevs-fles">
+                    <thead>
+                        <tr>
+                            <th>Division</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ($blocked_divisions->count() > 0)
+                            @foreach ($blocked_divisions as $blocked_division)
+                                @php
+                                    $blockeddivisionIDs[] = $blocked_division->divid;
+                                @endphp
+                                <tr>
+                                    <td class="name-blu widthe-fsac">{{ $blocked_division->division->name }}</td>
+                                    <td class="widvb-2s minase">
+                                        <form action="{{ url('league/block-unblock-division/' . $page_data->umpid) }}"
+                                            method="post">
+                                            @csrf
+                                            <input type="hidden" name="divid" value="{{ $blocked_division->divid }}">
+                                            <button class="deletebrns" type="submit"><i
+                                                    class="fa-regular fa-trash-can"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
                 @php
                     $blockedteamIDsjson = json_encode($blockedteamIDs);
                     $blockedgroundIDsjson = json_encode($blockedgroundIDs);
+                    $blockeddivisionIDsjson = json_encode($blockeddivisionIDs);
                 @endphp
             </div>
         </div>
@@ -424,8 +456,10 @@
     <script>
         let blockedTeams = {{ $blockedteamIDsjson }};
         let blockedGrounds = {{ $blockedgroundIDsjson }};
+        let blockeddivisions = {{ $blockeddivisionIDsjson }};
         removeOptions("teamSelect", blockedTeams);
         removeOptions("groundSelect", blockedGrounds);
+        removeOptions("divisionselect", blockeddivisions);
 
         function removeOptions(selectId, blockedValues) {
             const select = document.getElementById(selectId);
