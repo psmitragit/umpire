@@ -2223,6 +2223,7 @@ class LeagueController extends Controller
                 $game_date = explode(' ', $game->gamedate)[0];
                 $game_time = substr(explode(' ', $game->gamedate)[1], 0, 5);
                 $game_teams = array($game->hometeamid, $game->awayteamid);
+                $game_divisionsRows = array($game->hometeam->division, $game->awayteam->division);
 
                 // Checking umpire blocked dates and time
                 //due to new changes consider *blocked_dates* as *available_dates*
@@ -2263,6 +2264,25 @@ class LeagueController extends Controller
                         break; // Exit this loop
                     }
                 }
+
+                // Checking umpire's blocked divisions
+                $blocked_divisions = $umpire->blocked_division;
+                if (!empty($game_divisionsRows)) {
+                    $game_divisions = [];
+                    foreach ($game_divisionsRows as $game_divisionsRow) {
+                        if ($game_divisionsRow) {
+                            $game_divisions[] = $game_divisionsRow->id;
+                        }
+                    }
+                    foreach ($blocked_divisions as $blocked_division) {
+                        if (in_array($blocked_division->divid, $game_divisions)) {
+                            $condition_met = true; // Set the flag to true if team is blocked
+                            Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' blocked from games which includes Division: ' . htmlspecialchars($blocked_division->division->name));
+                            break; // Exit this loop
+                        }
+                    }
+                }
+
                 // Checking umpire's blocked teams
                 $blocked_teams = $umpire->blocked_team;
                 foreach ($blocked_teams as $blocked_team) {

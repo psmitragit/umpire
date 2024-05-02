@@ -19,7 +19,7 @@ use App\Http\Controllers\SettingsController;
 */
 
 //test
-Route::get('/game-auto-schedule', [GeneralController::class, 'game_auto_schedule']);
+// Route::get('/game-auto-schedule', [GeneralController::class, 'game_auto_schedule']);
 // Route::get('/after-game', [GeneralController::class, 'afterGame']);
 // Route::get('/test', [GeneralController::class, 'test']);
 
