@@ -64,7 +64,6 @@ class AutoGameSchedule implements ShouldQueue
                 }
             }
         }
-
         //after storing all the game ids from all the leagues on that day
         if (count($game_ids) > 0) {
             $i = 1;
@@ -85,6 +84,8 @@ class AutoGameSchedule implements ShouldQueue
                             $game_date = explode(' ', $game->gamedate)[0];
                             $game_time = substr(explode(' ', $game->gamedate)[1], 0, 5);
                             $game_teams = array($game->hometeamid, $game->awayteamid);
+                            $game_divisionsRows = array($game->hometeam->division, $game->awayteam->division);
+
                             //getting active umpires order by their points
                             $umpires = $league->umpires()
                                 ->where('status', 0)
@@ -151,6 +152,28 @@ class AutoGameSchedule implements ShouldQueue
                                     continue;
                                 }
 
+                                // Checking umpire's blocked divisions
+                                $blocked_divisions = $umpire_row->blocked_division;
+                                if (!empty($game_divisionsRows)) {
+                                    $game_divisions = [];
+                                    foreach ($game_divisionsRows as $game_divisionsRow) {
+                                        if ($game_divisionsRow) {
+                                            $game_divisions[] = $game_divisionsRow->id;
+                                        }
+                                    }
+                                    foreach ($blocked_divisions as $blocked_division) {
+                                        if (in_array($blocked_division->divid, $game_divisions)) {
+                                            $condition_met = true; // Set the flag to true if team is blocked
+                                            break; // Exit this loop
+                                        }
+                                    }
+                                }
+
+                                // If a condition was met, continue with the next umpire
+                                if ($condition_met) {
+                                    continue;
+                                }
+
                                 // Checking umpire's blocked teams
                                 $blocked_teams = $umpire_row->blocked_team;
 
@@ -159,6 +182,11 @@ class AutoGameSchedule implements ShouldQueue
                                         $condition_met = true; // Set the flag to true if team is blocked
                                         break; // Exit this loop
                                     }
+                                }
+
+                                // If a condition was met, continue with the next umpire
+                                if ($condition_met) {
+                                    continue;
                                 }
 
                                 //checking umpire age

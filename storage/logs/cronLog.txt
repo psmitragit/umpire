@@ -1,1 +1,15 @@
 [2024-04-25 06:06:49] This cron(afterGame) runs at 2024-04-25 06:06:49
+[2024-05-02 02:42:39] This cron(game_auto_schedule) runs at 2024-05-02 02:42:39
+[2024-05-02 02:43:27] This cron(game_auto_schedule) runs at 2024-05-02 02:43:27
+[2024-05-02 02:43:56] This cron(game_auto_schedule) runs at 2024-05-02 02:43:56
+[2024-05-02 02:44:32] This cron(game_auto_schedule) runs at 2024-05-02 02:44:32
+[2024-05-02 02:44:47] This cron(game_auto_schedule) runs at 2024-05-02 02:44:47
+[2024-05-02 02:47:01] This cron(game_auto_schedule) runs at 2024-05-02 02:47:01
+[2024-05-02 03:02:41] This cron(game_auto_schedule) runs at 2024-05-02 03:02:41
+[2024-05-02 03:04:53] This cron(game_auto_schedule) runs at 2024-05-02 03:04:53
+[2024-05-02 03:06:17] This cron(game_auto_schedule) runs at 2024-05-02 03:06:17
+[2024-05-02 03:21:14] This cron(game_auto_schedule) runs at 2024-05-02 03:21:14
+[2024-05-02 03:21:38] This cron(game_auto_schedule) runs at 2024-05-02 03:21:38
+[2024-05-02 03:22:44] This cron(game_auto_schedule) runs at 2024-05-02 03:22:44
+[2024-05-02 03:23:45] This cron(game_auto_schedule) runs at 2024-05-02 03:23:45
+[2024-05-02 03:26:48] This cron(game_auto_schedule) runs at 2024-05-02 03:26:48
