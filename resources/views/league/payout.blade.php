@@ -4,6 +4,8 @@
         <div class="list-viw-contet mt-30px" id="list-conssst2">
             <div class="namphomediv">
                 <h1 class="pageTitle">PAYOUT</h1>
+                <a class="confirmCancel redbtn" style="padding: 5px 26px;" data-text="Are you sure that you want to mark everyone as paid fully?"
+                    href="{{ url('league/pay-all') }}" role="button">Pay All</a>
                 <div class="mapbtns-div moasbflexs">
                     <div class="Admins">
                         <div class="inputs-srch">

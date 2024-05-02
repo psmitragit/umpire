@@ -20,7 +20,7 @@ use App\Http\Controllers\SettingsController;
 
 //test
 // Route::get('/game-auto-schedule', [GeneralController::class, 'game_auto_schedule']);
-// Route::get('/after-game', [GeneralController::class, 'afterGame']);
+Route::get('/after-game', [GeneralController::class, 'afterGame']);
 // Route::get('/test', [GeneralController::class, 'test']);
 
 //general
@@ -128,6 +128,7 @@ Route::middleware(['leagueLoginCheck'])->group(function () {
     Route::get('/league/block-unblock-umpire/{id}', [LeagueController::class, 'blockUnblock_umpire']);
     //payout
     Route::get('/league/payout', [LeagueController::class, 'view_payout']);
+    Route::get('/league/pay-all', [LeagueController::class, 'pay_all']);
     Route::get('/league/view-payout-history/{leagueid}/{umpid}', [LeagueController::class, 'view_payout_history']);
     Route::post('/league/payout', [LeagueController::class, 'payout']);
     Route::get('/league/delete-payout/{id}', [LeagueController::class, 'delete_payout']);

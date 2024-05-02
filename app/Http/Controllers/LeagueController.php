@@ -2024,6 +2024,34 @@ class LeagueController extends Controller
         $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav');
         return view('league.payout')->with($data);
     }
+    public function pay_all()
+    {
+        $league_data = logged_in_league_data();
+        $umpires = $league_data->umpires()->where('owed', '>', 0)->get();
+        if ($umpires->count() > 0) {
+            foreach ($umpires as $umpire) {
+                $owe = $umpire->owed;
+                $received = $umpire->received ?? 0;
+
+                $amount = (float)$owe;
+                $paydate = date('Y-m-d');
+
+                $new_owe = $owe - $amount;
+                $received += $amount;
+
+                $umpire->owed = $new_owe;
+                $umpire->received = $received;
+
+                if ($umpire->save()) {
+                    if ($amount > 0) {
+                        add_payRecord($umpire->leagueid, $umpire->umpid, $paydate, $amount, 'payout');
+                    }
+                }
+            }
+        }
+        Session::flash('message', 'Success');
+        return redirect()->back();
+    }
     public function view_payout_history($leagueid, $umpid)
     {
         $payouts = PayoutModel::where('leagueid', $leagueid)
