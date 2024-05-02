@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\FeedbackMail;
 use Exception;
 use App\Mail\OTPMail;
 use App\Models\GameModel;
@@ -216,6 +217,19 @@ class GeneralController extends Controller
         $admin_data = session('admin_data');
         $data = compact('title', 'admin_data');
         return view('admin.change_password')->with($data);
+    }
+
+    public function send_feedback(Request $request)
+    {
+        $request->validate([
+            'feedbackSenderName' => 'required',
+            'feedbackSenderEmail' => 'required|email',
+            'feedback_message' => 'required',
+        ]);
+
+        Mail::to(env('ADMIN_EMAIL'))->send(new FeedbackMail($request->input()));
+        Session::flash('message', 'Success');
+        return redirect()->back();
     }
 
 

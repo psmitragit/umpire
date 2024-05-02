@@ -1,4 +1,5 @@
 <footer>
+    @include('feedback')
     <div class="footer-bg">
         <div class="container">
             <div class="row justify-content-between">

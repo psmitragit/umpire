@@ -26,6 +26,7 @@ use App\Http\Controllers\SettingsController;
 //general
 Route::get('/', [GeneralController::class, 'index']);
 Route::post('/forget-password', [GeneralController::class, 'forget_password']);
+Route::post('/send-feedback', [GeneralController::class, 'send_feedback']);
 Route::get('/reset-password/{encid}', [GeneralController::class, 'reset_password']);
 Route::post('/reset-password/{id}', [GeneralController::class, 'change_password']);
 Route::get('/verify-otp/{id}', [GeneralController::class, 'verifyOTP']);

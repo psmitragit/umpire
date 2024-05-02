@@ -3,3 +3,4 @@ isLeagueOwner added to users, set this column value to 1 for bxberry04@gmail.com
 team_division added
 divid added to teams table
 site_meta_data table added
+ADMIN_EMAIL added to the .env file

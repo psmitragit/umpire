@@ -13,6 +13,7 @@
         </div>
     </div>
 </div>
+@include('feedback')
 <script>
     $('.normalLinkLoader').click(function() {
         $(this).text('Loading...');
