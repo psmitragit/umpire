@@ -12,6 +12,7 @@ use Illuminate\Support\Carbon;
 use App\Models\LeagueUmpireModel;
 use App\Models\NotificationModel;
 use App\Models\RefundPointsModel;
+use App\Models\SiteMetaData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -713,7 +714,14 @@ function get_notifications($userid, $usertype, $limit = false)
         return false;
     }
 }
-
+function getMetaValue($meta_key, $row = false)
+{
+    if ($row) {
+        return SiteMetaData::where('meta_key', $meta_key)->first();
+    } else {
+        return SiteMetaData::where('meta_key', $meta_key)->first()->meta_value;
+    }
+}
 function put_log_msg($logMessage)
 {
     $logPath = storage_path('logs/cronLog.txt');

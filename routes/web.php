@@ -20,7 +20,7 @@ use App\Http\Controllers\SettingsController;
 
 //test
 // Route::get('/game-auto-schedule', [GeneralController::class, 'game_auto_schedule']);
-Route::get('/after-game', [GeneralController::class, 'afterGame']);
+// Route::get('/after-game', [GeneralController::class, 'afterGame']);
 // Route::get('/test', [GeneralController::class, 'test']);
 
 //general
@@ -208,6 +208,7 @@ Route::middleware(['adminLoginCheck'])->group(function () {
     Route::post('/admin/save_age_of_players/{id}', [SettingsController::class, 'save_age_of_players']);
     Route::post('/admin/save_location_preset/{id}', [SettingsController::class, 'save_location_preset']);
     Route::post('/admin/save_pay/{id}', [SettingsController::class, 'save_pay']);
+    Route::get('/admin/toggle-feedback-option', [SettingsController::class, 'toggleFeedBackOption']);
     Route::post('/admin/save_time/{id}', [SettingsController::class, 'save_time']);
     Route::post('/admin/save_umpire_duration/{id}', [SettingsController::class, 'save_umpire_duration']);
     Route::post('/admin/save_total_game/{id}', [SettingsController::class, 'save_total_game']);

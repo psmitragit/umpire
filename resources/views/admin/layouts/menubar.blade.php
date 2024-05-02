@@ -19,6 +19,15 @@
 			<li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
 				<h1 class="welcome-text">Welcome, <span class="text-black fw-bold">Super Admin</span></h1>
 			</li>
+            <li style="font-size: 20px;margin-left:50px;" class="nav-item font-weight-semibold d-none d-lg-block">
+				<div class="form-check form-switch" style="margin-left: 50px!important">
+                    @php
+                        $feedBackStatus = (int)getMetaValue('SHOW_FEEDBACK_OPTION');
+                    @endphp
+                    <input onchange="window.location.replace('{{ url('admin/toggle-feedback-option') }}')" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $feedBackStatus == 1 ? 'checked' : '' }}>
+                    <label style="font-size: 20px; margin-left: 10px;" class="form-check-label" for="flexSwitchCheckChecked">Feedback option</label>
+                  </div>
+			</li>
 		</ul>
 		<ul class="navbar-nav ms-auto">
 

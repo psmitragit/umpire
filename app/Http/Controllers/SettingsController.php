@@ -383,4 +383,14 @@ class SettingsController extends Controller
             return response()->json(array('status' => 0));
         }
     }
+    public function toggleFeedBackOption()
+    {
+        $row = getMetaValue('SHOW_FEEDBACK_OPTION', true);
+        $currentValue = (int)$row->meta_value;
+        $newVal = $currentValue == 1 ? 0 : 1;
+        $row->meta_value = $newVal;
+        $row->save();
+        Session::flash('message', 'Success');
+        return redirect()->back();
+    }
 }
