@@ -49,7 +49,11 @@
                                     $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
                                     $gamedate = $carbonDate->format('D m/d/y h:ia');
                                     $systemAssignedUmpires = $assignedGameUmpires[$data->gameid];
-                                    
+                                    if(!empty($systemAssignedUmpires)){
+                                        foreach($systemAssignedUmpires as $sysUmp){
+                                            $data->{$sysUmp['pos']} = $sysUmp['id'];
+                                        }
+                                    }
                                     $umpires = [$data->ump1, $data->ump2, $data->ump3, $data->ump4];
                                 @endphp
                                 <tr data-umpreqd="{{ $data->umpreqd }}"

@@ -54,3 +54,5 @@
 [2024-05-03 09:33:57] This cron(game_auto_schedule) runs at 2024-05-03 09:33:57
 [2024-05-03 09:34:10] This cron(game_auto_schedule) runs at 2024-05-03 09:34:10
 [2024-05-03 09:34:13] This cron(game_auto_schedule) runs at 2024-05-03 09:34:13
+[2024-05-03 09:38:32] This cron(game_auto_schedule) runs at 2024-05-03 09:38:32
+[2024-05-03 09:43:00] This cron(game_auto_schedule) runs at 2024-05-03 09:43:00
