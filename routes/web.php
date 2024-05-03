@@ -133,6 +133,8 @@ Route::middleware(['leagueLoginCheck'])->group(function () {
     Route::get('/league/view-payout-history/{leagueid}/{umpid}', [LeagueController::class, 'view_payout_history']);
     Route::post('/league/payout', [LeagueController::class, 'payout']);
     Route::get('/league/delete-payout/{id}', [LeagueController::class, 'delete_payout']);
+    //manual auto-assign
+    Route::get('/league/game-manual-schedule', [LeagueController::class, 'leagueRunningSchedulerManually']);
 });
 //umpire
 Route::get('/umpire-signup', [LoginController::class, 'umpire_signup']);

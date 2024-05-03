@@ -232,24 +232,29 @@ class GeneralController extends Controller
         return redirect()->back();
     }
 
-
     //code is running in cronjob============================>>>>this is the duplicate code for testing manually##START
 
     //auto game assign function
-    public function game_auto_schedule()
+    public function game_auto_schedule($leagueId = false, $targetDate = false, $sendNotification = true)
     {
-
         // Log the output with a timestamp
         $logMessage = 'This cron(game_auto_schedule) runs at ' . now();
         put_log_msg($logMessage);
         // Log the output with a timestamp
-        $leagues = LeagueModel::where('status', 1)->get();
+        $leaguesQuery = LeagueModel::where('status', 1);
+        if ($leagueId) {
+            $leaguesQuery->where('leagueid', $leagueId);
+        }
+        $leagues = $leaguesQuery->get();
+
         $games = array();
         $game_ids = array();
         if ($leagues->count() > 0) {
             foreach ($leagues as $league_row) {
-                //getting games from today + {n} days from today based on league settings
-                $targetDate = Carbon::now()->addDays($league_row->assignbefore);
+                if (!$targetDate) {
+                    //getting games from today + {n} days from today based on league settings
+                    $targetDate = Carbon::now()->addDays($league_row->assignbefore);
+                }
                 $games = $league_row->games()->whereDate('gamedate', $targetDate)->get();
                 if ($games->count() > 0) {
                     foreach ($games as $game_row) {
@@ -451,12 +456,14 @@ class GeneralController extends Controller
                 $i++;
             }
             //checking if umpire has multiple games on same datetime if any take actions here
-            $this->checksamegames($assigned_umpires);
+            $this->checksamegames($assigned_umpires, $sendNotification);
             //readjusting umpire positions
             reArrangeUmpiresInGames($game_ids);
+
+            return $game_ids;
         }
     }
-    public function checksamegames($assigned_umpires)
+    public function checksamegames($assigned_umpires, $sendNotification)
     {
         $uniqueumpireids = array_unique($assigned_umpires);
         if (count($uniqueumpireids) > 0) {
@@ -555,26 +562,28 @@ class GeneralController extends Controller
                         }
                         $assigned_game = $samedategame[0];
                     }
-                    try {
-                        $league = LeagueModel::find($assigned_game['leagueid']);
-                        $assigned_game_row = GameModel::find($assigned_game['id']);
-                        //notification mail
-                        if ($assigned_umpire_row->email_settings->schedule_game == 1) {
-                            $umpire_email = $assigned_umpire_row->user->email;
-                            Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'ump', $umpire_email));
-                        }
-                        if ($league->email_settings->join_game == 1) {
-                            foreach ($league->users as $league_admin) {
-                                $league_admin_email = $league_admin->email;
-                                Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'league', $league_admin_email));
+                    if ($sendNotification) {
+                        try {
+                            $league = LeagueModel::find($assigned_game['leagueid']);
+                            $assigned_game_row = GameModel::find($assigned_game['id']);
+                            //notification mail
+                            if ($assigned_umpire_row->email_settings->schedule_game == 1) {
+                                $umpire_email = $assigned_umpire_row->user->email;
+                                Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'ump', $umpire_email));
                             }
+                            if ($league->email_settings->join_game == 1) {
+                                foreach ($league->users as $league_admin) {
+                                    $league_admin_email = $league_admin->email;
+                                    Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'league', $league_admin_email));
+                                }
+                            }
+                            //notification mail end
+                            $msg = 'New game assigned on ' . date('D m/d/y', strtotime($assigned_game_row->gamedate));
+                            $msg2 = $assigned_umpire_row->name . ' assigned to a game on ' . date('D m/d/y', strtotime($assigned_game_row->gamedate));
+                            add_notification($assigned_umpire_row->umpid, $msg, 4, 'ump');
+                            add_notification($assigned_game['leagueid'], $msg2, 4, 'league');
+                        } catch (\Throwable $th) {
                         }
-                        //notification mail end
-                        $msg = 'New game assigned on ' . date('D m/d/y', strtotime($assigned_game_row->gamedate));
-                        $msg2 = $assigned_umpire_row->name . ' assigned to a game on ' . date('D m/d/y', strtotime($assigned_game_row->gamedate));
-                        add_notification($assigned_umpire_row->umpid, $msg, 4, 'ump');
-                        add_notification($assigned_game['leagueid'], $msg2, 4, 'league');
-                    } catch (\Throwable $th) {
                     }
                 }
             }
