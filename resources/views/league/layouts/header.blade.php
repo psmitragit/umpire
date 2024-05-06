@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="{{ asset('storage/league') }}/css/slick.css">
     <link rel="stylesheet" href="{{ asset('storage/league') }}/css/style.css">
     <link rel="stylesheet" href="{{ asset('storage/css/toastr.min.css') }}">
-
-
+    @livewireStyles
+    @livewireScripts
     <script src="{{ asset('storage/league') }}/js/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('storage/js/jquery.inputmask.min.js') }}"></script>
     <script src="{{ asset('storage/league') }}/js/bootstrap.bundle.min.js"></script>

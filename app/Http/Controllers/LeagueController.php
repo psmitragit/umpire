@@ -2469,49 +2469,13 @@ class LeagueController extends Controller
         }
         return redirect()->back();
     }
-    public function leagueRunningSchedulerManually(Request $request)
+    public function leagueRunningSchedulerManually()
     {
         $league_data = logged_in_league_data();
-        if ($request->post()) {
-        } else {
-            $title = 'Auto schedule';
-            $nav = 'auto_algo';
-            $genController = new GeneralController();
-            $assignedGameIds =  $genController->game_auto_schedule($league_data->leagueid, false, false);
-            $assignedGameUmpires = array();
-            if (!empty($assignedGameIds)) {
-                foreach ($assignedGameIds as $gameId) {
-                    $gameRow = GameModel::find($gameId);
-                    for ($i = 1; $i <= 4; $i++) {
-                        $col = "ump$i";
-                        if ($gameRow->{$col} !== null) {
-                            $assignedGameUmpires[$gameRow->gameid][] = [
-                                'pos' => $col,
-                                'id' => $gameRow->{$col},
-                            ];
-                            //removeing umpire
-
-                            $remove_game_updated_data = [
-                                $col => null
-                            ];
-
-                            if ($gameRow->update($remove_game_updated_data)) {
-                                $leagueUmpireRow = LeagueUmpireModel::where('umpid', $gameRow->{$col})
-                                    ->where('leagueid', $league_data->leagueid)->first();
-                                //refunding the points that were cut during the auto assigning
-                                refund_point_to_Aumpire($leagueUmpireRow, $gameId);
-                            }
-
-                            //removeing umpire
-                        }
-                    }
-                    $gameRows[] = $gameRow;
-                }
-            }
-            $page_data = $gameRows;
-            $right_bar = 0;
-            $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'assignedGameUmpires');
-            return view('league.manual_schedual')->with($data);
-        }
+        $title = 'Auto schedule';
+        $nav = 'auto_algo';
+        $right_bar = 0;
+        $data = compact('title', 'league_data', 'right_bar', 'nav');
+        return view('league.manual_schedual')->with($data);
     }
 }
