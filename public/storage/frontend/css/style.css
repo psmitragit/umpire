@@ -610,6 +610,59 @@ button[disabled]{
 .hen-text a:hover , .sec-2-inner.hsab a:hover , .footerlink:hover{
   color: #04b3b1;
 }
+.modalicons-title {
+  font-size: 30px;
+  color: #33373f;
+  font-weight: bold;
+}
+.modal-hesn {
+  padding: 30px;
+    padding-bottom: 30px;
+  padding-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+}
+.btn-closes {
+  padding: 3px;
+  width: 42px;
+  height: 40px;
+  background: #f1f2f3;
+  font-weight: bold;
+  font-size: 18px;
+}
+.modal-body {
+  padding: 30px;
+}
+.modal-body {
+  padding-top: 10px;
+}
+.modalqstnbalbe {
+  margin-top: 25px;
+}
+.modalqstnbalbe input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #c8c8c8;
+  font-size: 18px;
+  color: #555;
+}
+.submitbtns {
+  background: #bf1414;
+  color: #fff;
+  padding: 15px 50px;
+  margin-top: 35px;
+}
+.modalqstnbalbe textarea {
+  display: block;
+  width: 100%;
+  background: #f1f2f3;
+  border: none;
+  padding: 11px;
+}
+
 @media screen and (max-width: 1600px) {
   .matginsyp {
     margin-right: 43px;
