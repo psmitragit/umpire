@@ -290,7 +290,7 @@ class GameManualScheduleAlgo extends Component
             Session::flash('message', 'Success');
             return redirect('league/game-manual-schedule');
         } catch (\Throwable $th) {
-            dd($th);
+            // dd($th);
             $this->dispatch('error', msg: 'Something went wrong.!!');
         }
     }
