@@ -17,16 +17,16 @@ class Kernel extends ConsoleKernel
 
         //actual
 
-        // $schedule->job(new AutoGameSchedule)->dailyAt('00:05');
-        // $schedule->job(new AutoGameSchedule)->dailyAt('23:45');
-        // $schedule->job(new AfterGame)->hourly();
+        $schedule->job(new AutoGameSchedule)->dailyAt('00:05');
+        $schedule->job(new AutoGameSchedule)->dailyAt('23:45');
+        $schedule->job(new AfterGame)->hourly();
 
         //actual
 
         //for test
 
-        $schedule->job(new AutoGameSchedule)->everyFiveSeconds();
-        $schedule->job(new AfterGame)->everyFiveSeconds();
+        // $schedule->job(new AutoGameSchedule)->everyFiveSeconds();
+        // $schedule->job(new AfterGame)->everyFiveSeconds();
 
         //for test
     }

@@ -4,10 +4,13 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\GameModel;
+use App\Mail\ScheduleGame;
+use App\Models\LeagueModel;
 use App\Models\UmpireModel;
 use Illuminate\Support\Carbon;
 use App\Models\LeagueUmpireModel;
 use App\Models\RefundPointsModel;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\GeneralController;
 
@@ -232,9 +235,9 @@ class GameManualScheduleAlgo extends Component
                     if (!empty($umpPos)) {
                         foreach ($umpPos as $pos => $umpId) {
                             $game->{$pos} = $umpId;
-                        }
-                        $game->manualAssignAlgoRunStatus = 1;
-                        if ($game->save()) {
+
+                            //after umpassigned
+
                             $leagueUmpire = LeagueUmpireModel::where('leagueid', $game->leagueid)->where('umpid', $umpId)->first();
                             $addLessPointData = addSubPoint($gameId, $umpId, $pos);
                             $addLess = $addLessPointData[0];
@@ -255,7 +258,32 @@ class GameManualScheduleAlgo extends Component
                                 ];
                                 RefundPointsModel::create($refund_point_data);
                             }
+                            try {
+                                $league = $game->league;
+                                $assigned_umpire_row = UmpireModel::find($umpId);
+                                //notification mail
+                                if ($assigned_umpire_row->email_settings->schedule_game == 1) {
+                                    $umpire_email = $assigned_umpire_row->user->email;
+                                    Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $game, 'ump', $umpire_email));
+                                }
+                                if ($league->email_settings->join_game == 1) {
+                                    foreach ($league->users as $league_admin) {
+                                        $league_admin_email = $league_admin->email;
+                                        Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $game, 'league', $league_admin_email));
+                                    }
+                                }
+                                //notification mail end
+                                $msg = 'New game assigned on ' . date('D m/d/y', strtotime($game->gamedate));
+                                $msg2 = $assigned_umpire_row->name . ' assigned to a game on ' . date('D m/d/y', strtotime($game->gamedate));
+                                add_notification($assigned_umpire_row->umpid, $msg, 4, 'ump');
+                                add_notification($game->leagueid, $msg2, 4, 'league');
+                            } catch (\Throwable $th) {
+                            }
+
+                            //after umpassigned
                         }
+                        $game->manualAssignAlgoRunStatus = 1;
+                        $game->save();
                     }
                 }
             }
