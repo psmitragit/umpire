@@ -31,43 +31,46 @@ class GameManualScheduleAlgo extends Component
     {
         $league_data = $this->league_data;
         $targetDate = $this->algoGameDate;
+        if ($targetDate) {
+            $genController = new GeneralController();
+            $assignedGameIds =  $genController->game_auto_schedule($league_data->leagueid, $targetDate, false);
+            $assignedGameUmpires = array();
+            if (!empty($assignedGameIds)) {
+                foreach ($assignedGameIds as $gameId) {
+                    $gameRow = GameModel::where('gameid', $gameId)->where('manualAssignAlgoRunStatus', 0)->first();
+                    if ($gameRow) {
+                        for ($i = 1; $i <= 4; $i++) {
+                            $col = "ump$i";
+                            if ($gameRow->{$col} !== null) {
+                                $umpid = $gameRow->{$col};
+                                $assignedGameUmpires[$gameRow->gameid][$col] = $umpid;
+                                //removeing umpire
 
-        $genController = new GeneralController();
-        $assignedGameIds =  $genController->game_auto_schedule($league_data->leagueid, $targetDate, false);
-        $assignedGameUmpires = array();
-        if (!empty($assignedGameIds)) {
-            foreach ($assignedGameIds as $gameId) {
-                $gameRow = GameModel::where('gameid', $gameId)->where('manualAssignAlgoRunStatus', 0)->first();
-                if ($gameRow) {
-                    for ($i = 1; $i <= 4; $i++) {
-                        $col = "ump$i";
-                        if ($gameRow->{$col} !== null) {
-                            $umpid = $gameRow->{$col};
-                            $assignedGameUmpires[$gameRow->gameid][$col] = $umpid;
-                            //removeing umpire
+                                $remove_game_updated_data = [
+                                    $col => null
+                                ];
 
-                            $remove_game_updated_data = [
-                                $col => null
-                            ];
+                                if ($gameRow->update($remove_game_updated_data)) {
+                                    $leagueUmpireRow = LeagueUmpireModel::where('umpid', $umpid)
+                                        ->where('leagueid', $league_data->leagueid)->first();
 
-                            if ($gameRow->update($remove_game_updated_data)) {
-                                $leagueUmpireRow = LeagueUmpireModel::where('umpid', $umpid)
-                                    ->where('leagueid', $league_data->leagueid)->first();
+                                    //refunding the points that were cut during the auto assigning
+                                    refund_point_to_Aumpire($leagueUmpireRow, $gameId);
+                                }
 
-                                //refunding the points that were cut during the auto assigning
-                                refund_point_to_Aumpire($leagueUmpireRow, $gameId);
+                                //removeing umpire
                             }
-
-                            //removeing umpire
                         }
+                        $gameRows[] = $gameRow;
                     }
-                    $gameRows[] = $gameRow;
                 }
             }
+            $page_data = $gameRows;
+            $this->page_data = $page_data;
+            $this->assignedGameUmpires = $assignedGameUmpires;
+        } else {
+            $this->dispatch('error', msg: "Please select a date.");
         }
-        $page_data = $gameRows;
-        $this->page_data = $page_data;
-        $this->assignedGameUmpires = $assignedGameUmpires;
     }
     public function assignRemoveUmpire($gameId, $pos)
     {
