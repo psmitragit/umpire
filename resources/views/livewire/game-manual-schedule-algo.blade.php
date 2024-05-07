@@ -5,7 +5,9 @@
 <div class="main-shedule-div">
 <label for="" class="ensdt">Select Date </label>
             <input min='{{ date('Y-m-d', strtotime($minGameDate)) }}' type="date" wire:model='algoGameDate'
-                class="mayeb">
+                class="mayeb" >
+
+                
                 <div class="text-center">
             <button wire:click='searchGames' type="button" class="submitbtns mt-2">Search</button>
         </div>
@@ -16,9 +18,9 @@
             <div class="list-viw-contet mt-30px" id="list-conssst2">
                 <div class="namphomediv">
                     <h1 class="pageTitle pagesmall">SCHEDULED GAMES</h1>
-                    <div>
-                        <a class="btn btn-primary" href="{{ url('league/game-manual-schedule') }}">Reset</a>
-                        <button wire:click='saveSchedule' type="button" class="btn btn-success">Save schedule</button>
+                    <div class="d-flex">
+                        <a class="blutns" href="{{ url('league/game-manual-schedule') }}">Reset</a>
+                        <button wire:click='saveSchedule' type="button" class="upcomne active">Save schedule</button>
                     </div>
                     <div class="mapbtns-div moasbflexs">
                         <div class="Admins">
@@ -186,6 +188,15 @@
             </div>
             <!-- modal -->
         </div>
+        <script>
+            // Assuming you have included the necessary JavaScript library for the datepicker
+            document.addEventListener('DOMContentLoaded', function () {
+                // Initialize the datepicker
+                $('#algoGameDate').datepicker({
+                    // Add any options you need for the datepicker
+                });
+            });
+        </script>
     @endif
     @include('livewire.includes.loader')
 </div>
