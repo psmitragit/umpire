@@ -16,7 +16,7 @@
         </div>
         <div class="buttons-disd">
             <a href="{{ url('league/game-manual-schedule') }}" class="navlogos {{ $nav == 'auto_algo' ? 'active' : '' }}">
-                <span><i class="fas fa-code-branch"></i></span> Run Algo</a>
+                <span><i class="fas fa-code-branch"></i></span> Run Schedule</a>
         </div>
         <div class="buttons-disd">
             <a href="{{ url('league/settings') }}" class="navlogos {{ $nav == 'settings' ? 'active' : '' }}"> <span><i
