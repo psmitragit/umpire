@@ -1,6 +1,7 @@
 <div class="body-content me-customs">
     @if (!$page_data)
-        <input min='{{ date('Y-m-d', strtotime($minGameDate)) }}' type="date" wire:model='algoGameDate' class="form-control">
+        <input min='{{ date('Y-m-d', strtotime($minGameDate)) }}' type="date" wire:model='algoGameDate'
+            class="form-control">
         <button wire:click='searchGames' type="button" class="btn btn-secondary">Search</button>
     @else
         <div>
@@ -144,25 +145,30 @@
                             @if (!$league_data->umpires->isempty())
                                 <div class="mina-users">
                                     @foreach ($league_data->umpires as $leagueumpires)
-                                        @php
-                                            if ($leagueumpires->umpire->profilepic == null) {
-                                                $src = asset('storage/umpire') . '/img/jone.jpg';
-                                            } else {
-                                                $src =
-                                                    asset('storage/images') . '/' . $leagueumpires->umpire->profilepic;
-                                            }
-                                        @endphp
-                                        <div class="input-green-check-wrap nes-clas">
+                                        @if ($leagueumpires->umpire->status == 1)
+                                            @php
+                                                if ($leagueumpires->umpire->profilepic == null) {
+                                                    $src = asset('storage/umpire') . '/img/jone.jpg';
+                                                } else {
+                                                    $src =
+                                                        asset('storage/images') .
+                                                        '/' .
+                                                        $leagueumpires->umpire->profilepic;
+                                                }
+                                            @endphp
+                                            <div class="input-green-check-wrap nes-clas">
 
-                                            <label class="lebelfor-ta-c" for="{{ $leagueumpires->umpire->umpid }}">
-                                                <input id="{{ $leagueumpires->umpire->umpid }}"
-                                                    class="hour_checkbox custombasc" type="radio" name="umpid"
-                                                    wire:key='newumpid-{{ $leagueumpires->umpire->umpid }}'
-                                                    wire:click='setUmpire({{ $leagueumpires->umpire->umpid }})'
-                                                    value="{{ $leagueumpires->umpire->umpid }}">
-                                                <img src="{{ $src }}" class="league-propic">
-                                                <span class="check-span-box">{{ $leagueumpires->umpire->name }}</span>
-                                        </div>
+                                                <label class="lebelfor-ta-c" for="{{ $leagueumpires->umpire->umpid }}">
+                                                    <input id="{{ $leagueumpires->umpire->umpid }}"
+                                                        class="hour_checkbox custombasc" type="radio" name="umpid"
+                                                        wire:key='newumpid-{{ $leagueumpires->umpire->umpid }}'
+                                                        wire:click='setUmpire({{ $leagueumpires->umpire->umpid }})'
+                                                        value="{{ $leagueumpires->umpire->umpid }}">
+                                                    <img src="{{ $src }}" class="league-propic">
+                                                    <span
+                                                        class="check-span-box">{{ $leagueumpires->umpire->name }}</span>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             @endif

@@ -232,7 +232,7 @@ class GeneralController extends Controller
         return redirect()->back();
     }
 
-    //code is running in cronjob============================>>>>this is the duplicate code for testing manually##START
+    //code is running in cronjob============================>>>>##START
 
     //auto game assign function
     public function game_auto_schedule($leagueId = false, $targetDate = false, $sendNotification = true)
@@ -654,7 +654,7 @@ class GeneralController extends Controller
             }
         }
     }
-    //code is running in cronjob============================>>>>this is the duplicate code for testing manually##END
+    //code is running in cronjob============================>>>>##END
     public function test()
     {
     }

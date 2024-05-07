@@ -7,6 +7,8 @@ use App\Models\GameModel;
 use App\Models\UmpireModel;
 use Illuminate\Support\Carbon;
 use App\Models\LeagueUmpireModel;
+use App\Models\RefundPointsModel;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\GeneralController;
 
 class GameManualScheduleAlgo extends Component
@@ -35,30 +37,32 @@ class GameManualScheduleAlgo extends Component
         $assignedGameUmpires = array();
         if (!empty($assignedGameIds)) {
             foreach ($assignedGameIds as $gameId) {
-                $gameRow = GameModel::find($gameId);
-                for ($i = 1; $i <= 4; $i++) {
-                    $col = "ump$i";
-                    if ($gameRow->{$col} !== null) {
-                        $umpid = $gameRow->{$col};
-                        $assignedGameUmpires[$gameRow->gameid][$col] = $umpid;
-                        //removeing umpire
+                $gameRow = GameModel::where('gameid', $gameId)->where('manualAssignAlgoRunStatus', 0)->first();
+                if ($gameRow) {
+                    for ($i = 1; $i <= 4; $i++) {
+                        $col = "ump$i";
+                        if ($gameRow->{$col} !== null) {
+                            $umpid = $gameRow->{$col};
+                            $assignedGameUmpires[$gameRow->gameid][$col] = $umpid;
+                            //removeing umpire
 
-                        $remove_game_updated_data = [
-                            $col => null
-                        ];
+                            $remove_game_updated_data = [
+                                $col => null
+                            ];
 
-                        if ($gameRow->update($remove_game_updated_data)) {
-                            $leagueUmpireRow = LeagueUmpireModel::where('umpid', $umpid)
-                                ->where('leagueid', $league_data->leagueid)->first();
+                            if ($gameRow->update($remove_game_updated_data)) {
+                                $leagueUmpireRow = LeagueUmpireModel::where('umpid', $umpid)
+                                    ->where('leagueid', $league_data->leagueid)->first();
 
-                            //refunding the points that were cut during the auto assigning
-                            refund_point_to_Aumpire($leagueUmpireRow, $gameId);
+                                //refunding the points that were cut during the auto assigning
+                                refund_point_to_Aumpire($leagueUmpireRow, $gameId);
+                            }
+
+                            //removeing umpire
                         }
-
-                        //removeing umpire
                     }
+                    $gameRows[] = $gameRow;
                 }
-                $gameRows[] = $gameRow;
             }
         }
         $page_data = $gameRows;
@@ -217,6 +221,47 @@ class GameManualScheduleAlgo extends Component
     }
     public function saveSchedule()
     {
+        try {
+            $finalAssign = $this->assignedGameUmpires;
+            if (!empty($finalAssign)) {
+                foreach ($finalAssign as $gameId => $umpPos) {
+                    $game = GameModel::findOrFail($gameId);
+                    if (!empty($umpPos)) {
+                        foreach ($umpPos as $pos => $umpId) {
+                            $game->{$pos} = $umpId;
+                        }
+                        $game->manualAssignAlgoRunStatus = 1;
+                        if ($game->save()) {
+                            $leagueUmpire = LeagueUmpireModel::where('leagueid', $game->leagueid)->where('umpid', $umpId)->first();
+                            $addLessPointData = addSubPoint($gameId, $umpId, $pos);
+                            $addLess = $addLessPointData[0];
+                            $point = $addLessPointData[1];
+                            $current_umpire_point = $leagueUmpire->points;
+                            $updated_umpire_point_after_game_assigned = $current_umpire_point + ($addLess . $point);
+                            //updating leagueumpire point
+                            $updated_league_umpire_row_data = [
+                                'points' => $updated_umpire_point_after_game_assigned
+                            ];
+                            if ($leagueUmpire->update($updated_league_umpire_row_data)) {
+                                //storing points to a table to refund it after the game completion
+                                $refund_point_data = [
+                                    'leagueumpires_id' => $leagueUmpire->id,
+                                    'game_id' => $gameId,
+                                    'addless' => $addLess,
+                                    'point' => $point,
+                                ];
+                                RefundPointsModel::create($refund_point_data);
+                            }
+                        }
+                    }
+                }
+            }
+            Session::flash('message', 'Success');
+            return redirect('league/game-manual-schedule');
+        } catch (\Throwable $th) {
+            dd($th);
+            $this->dispatch('error', msg: 'Something went wrong.!!');
+        }
     }
     public function render()
     {

@@ -176,37 +176,41 @@
                         <input type="hidden" name="pos" required>
                         <input type="hidden" name="gameid" required>
                         @if (!$league_data->umpires->isempty())
-                        <div class="mina-users">
-                            @foreach ($league_data->umpires as $leagueumpires)
-                                @php
-                                    if ($leagueumpires->umpire->profilepic == null) {
-                                        $src = asset('storage/umpire') . '/img/jone.jpg';
-                                    } else {
-                                        $src = asset('storage/images') . '/' . $leagueumpires->umpire->profilepic;
-                                    }
-                                @endphp
-                                <div class="input-green-check-wrap nes-clas">
+                            <div class="mina-users">
+                                @foreach ($league_data->umpires as $leagueumpires)
+                                    @if ($leagueumpires->umpire->status == 1)
+                                        @php
+                                            if ($leagueumpires->umpire->profilepic == null) {
+                                                $src = asset('storage/umpire') . '/img/jone.jpg';
+                                            } else {
+                                                $src =
+                                                    asset('storage/images') . '/' . $leagueumpires->umpire->profilepic;
+                                            }
+                                        @endphp
+                                        <div class="input-green-check-wrap nes-clas">
 
-                                    <label class="lebelfor-ta-c" for="{{ $leagueumpires->umpire->umpid }}">
-                                        <input id="{{ $leagueumpires->umpire->umpid }}" class="hour_checkbox custombasc"
-                                            type="radio" name="umpid" value="{{ $leagueumpires->umpire->umpid }}">
-                                        <img src="{{ $src }}" class="league-propic">
-                                        <span class="check-span-box">{{ $leagueumpires->umpire->name }}</span>
-                                </div>
-                            @endforeach
-                        </div>
+                                            <label class="lebelfor-ta-c" for="{{ $leagueumpires->umpire->umpid }}">
+                                                <input id="{{ $leagueumpires->umpire->umpid }}"
+                                                    class="hour_checkbox custombasc" type="radio" name="umpid"
+                                                    value="{{ $leagueumpires->umpire->umpid }}">
+                                                <img src="{{ $src }}" class="league-propic">
+                                                <span class="check-span-box">{{ $leagueumpires->umpire->name }}</span>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
                         @endif
                         <div class="buttons-flex hyscs">
-                                @if (!$league_data->umpires->isempty())
+                            @if (!$league_data->umpires->isempty())
                                 <div class="button1div">
                                     <button class="redbtn submit" type="submit" id="savebtn">Save</button>
                                 </div>
-                                @endif
-                                <div class="buttondiv-trans">
-                                    <button class="cnclbtn buycnm" type="button" data-bs-dismiss="modal"
-                                        id="">Cancel</button>
-                                </div>
+                            @endif
+                            <div class="buttondiv-trans">
+                                <button class="cnclbtn buycnm" type="button" data-bs-dismiss="modal"
+                                    id="">Cancel</button>
                             </div>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -4,3 +4,4 @@ team_division added
 divid added to teams table
 site_meta_data table added
 ADMIN_EMAIL added to the .env file
+`manualAssignAlgoRunStatus` column added to games table
