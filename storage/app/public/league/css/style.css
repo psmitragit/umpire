@@ -173,7 +173,51 @@ a {
     font-family: "Poppins-Medium";
     src: url(../font/Poppins/Poppins-Medium.ttf);
 }
+  
+.fix-buttons {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 50;
+  }
+  .bate-font {
+    background: #04b3b1;
+    color: #fff;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    font-size: 30px;
+  }
+  .mayeb {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    font-size: 18px;
+    color: #555;
+  }
 
+  .main-shedule-div {
+    max-width: 592px;
+    background: #fff;
+    padding: 44px;
+    box-shadow: 0px 0px 5px #acacac;
+    border-radius: 10px;
+    width: 100%;
+  }
+  .maine-divs {
+    height: calc(100vh - 91px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ensdt {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #555;
+  }
 body {
     font-family: "Poppins-Regular";
 }

@@ -27,7 +27,31 @@ h6 {
     font-weight: unset;
     line-height: inherit;
 }
-
+  
+.fix-buttons {
+    position: fixed;
+    left:  20px;
+    bottom: 20px;
+    z-index: 50;
+  }
+  .bate-font {
+    background: #04b3b1;
+    color: #fff;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    font-size: 30px;
+  }
+  .modalqstnbalbe input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #c8c8c8;
+    font-size: 18px;
+    color: #555;
+  }
 button {
     outline: none;
     background: none;

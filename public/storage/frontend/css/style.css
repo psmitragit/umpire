@@ -216,6 +216,21 @@
     transform: translate(-50%,-50%);
     top: 50%;
   }
+  
+  .fix-buttons {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 50;
+  }
+  .bate-font {
+    background: #04b3b1;
+    color: #fff;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    font-size: 30px;
+  }
   .overkaycolor {
     width: 51%;
     height: 276px;

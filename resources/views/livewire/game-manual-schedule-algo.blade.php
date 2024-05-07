@@ -1,8 +1,16 @@
 <div class="body-content me-customs">
     @if (!$page_data)
-        <input min='{{ date('Y-m-d', strtotime($minGameDate)) }}' type="date" wire:model='algoGameDate'
-            class="form-control">
-        <button wire:click='searchGames' type="button" class="btn btn-secondary">Search</button>
+
+        <div class="maine-divs">
+<div class="main-shedule-div">
+<label for="" class="ensdt">Select Date </label>
+            <input min='{{ date('Y-m-d', strtotime($minGameDate)) }}' type="date" wire:model='algoGameDate'
+                class="mayeb">
+                <div class="text-center">
+            <button wire:click='searchGames' type="button" class="submitbtns mt-2">Search</button>
+        </div>
+        </div>
+    </div>
     @else
         <div>
             <div class="list-viw-contet mt-30px" id="list-conssst2">
@@ -179,5 +187,6 @@
             <!-- modal -->
         </div>
     @endif
+    @include('livewire.includes.loader')
 </div>
 @include('livewire.includes.event')
