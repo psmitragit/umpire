@@ -78,12 +78,11 @@ class GameManualScheduleAlgo extends Component
         $gameid = $this->tmpGameId;
         $pos = $this->tmpGamePos;
 
-        //running check
+        //running checks
 
         $umpire = UmpireModel::findOrFail($umpid);
         $game = GameModel::findOrFail($gameid);
         $league = $game->league;
-        $res = [];
 
         $league_umpire = $umpire->leagues()->where('leagueid', $game->leagueid)->first();
         if ($league_umpire->status !== 1) {
@@ -110,7 +109,6 @@ class GameManualScheduleAlgo extends Component
                                 break; // Exit this loop
                             } else {
                                 $condition_met = true; // Set the flag to true if time is blocked
-                                $this->dispatch('error', msg: 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on the game time.');
                             }
                         } else {
                             $condition_met = false; // Set the flag to true if date is blocked
@@ -118,13 +116,16 @@ class GameManualScheduleAlgo extends Component
                         }
                     } else {
                         $condition_met = true; // Set the flag to true if time is blocked
-                        $this->dispatch('error', msg: 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on the game time.');
                     }
                 }
             } else {
                 $condition_met = true; // Set the flag to true if time is blocked
+            }
+
+            if ($condition_met) {
                 $this->dispatch('error', msg: 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on the game time.');
             }
+            //stack into a single msg to avoid the multiple errors
 
             // Checking umpire's blocked grounds
             $blocked_grounds = $umpire->blocked_ground;
@@ -178,50 +179,34 @@ class GameManualScheduleAlgo extends Component
                 }
             }
             //check if have other games on the same datetime
-            $gapMorethnTwo = 0;
-            $gamedatetime = $game->gamedate;
-            $samedategames = GameModel::whereDate('gamedate', explode(' ', $gamedatetime)[0])
-                ->where(function ($query) use ($umpid) {
-                    $query->orWhere('ump1', $umpid)
-                        ->orWhere('ump2', $umpid)
-                        ->orWhere('ump3', $umpid)
-                        ->orWhere('ump4', $umpid);
-                })->get();
+            $samedategames = $this->assignedGameUmpires;
 
-            if (!$samedategames->isEmpty()) {
-                $gapMorethnTwo = 1;
+            if (!empty($samedategames)) {
                 foreach ($samedategames as $samedategame) {
-                    $samedategamedatetime = $samedategame->gamedate;
-                    $gameDateTimeObj = Carbon::parse($gamedatetime);
-                    $sameDateGameDateTimeObj = Carbon::parse($samedategamedatetime);
-
-                    if ($gameDateTimeObj->diffInHours($sameDateGameDateTimeObj) < 2) {
-                        $gapMorethnTwo = 2;
-                        break;
+                    foreach ($samedategame as $samedategamepos) {
+                        if ((int)$samedategamepos == (int)$umpid) {
+                            $condition_met = true; // Set the flag to true if found another game on the same datetime
+                            $this->dispatch('error', msg: 'Umpire: ' . htmlspecialchars($umpire->name) . ' already assigned to another game.');
+                            break;
+                        }
                     }
                 }
-
-                $condition_met = true; // Set the flag to true if found another game on the same datetime
             }
+
 
             if (!$condition_met) {
                 $this->assignedGameUmpires[$gameid][$pos] = $umpid;
-            } else {
-                if ($gapMorethnTwo == 1) {
-                    $res = ['status' => 2, 'gameid' => $gameid, 'pos' => $pos, 'umpid' => $umpid]; //for same gamedate
-                } elseif ($gapMorethnTwo == 2) {
-                    $res = ['status' => 0];
-                    $this->dispatch('error', msg: 'Difference between umpire\'s assigned games are less than 2 hours.');
-                }
             }
         } else {
             $this->dispatch('error', msg: 'Umpire: ' . htmlspecialchars($umpire->name) . ' blocked from this league.');
-            $res = ['status' => 0];
         }
 
-        //running check
+        //running checks
 
         $this->dispatch('hide-modal', modal: '#umpireModal');
+    }
+    public function saveSchedule(){
+        
     }
     public function render()
     {

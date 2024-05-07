@@ -4,6 +4,7 @@
             <h1 class="pageTitle pagesmall">SCHEDULED GAMES</h1>
             <div>
                 <a class="btn btn-primary" href="{{ url('league/game-manual-schedule') }}">Reset</a>
+                <button wire:click='saveSchedule' type="button" class="btn btn-success">Save schedule</button>
             </div>
             <div class="mapbtns-div moasbflexs">
                 <div class="Admins">
