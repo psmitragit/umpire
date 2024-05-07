@@ -11,6 +11,8 @@ use App\Http\Controllers\GeneralController;
 
 class GameManualScheduleAlgo extends Component
 {
+    public $algoGameDate;
+    public $minGameDate;
     public $league_data;
     public $page_data;
     public $assignedGameUmpires;
@@ -20,8 +22,16 @@ class GameManualScheduleAlgo extends Component
     {
         $this->league_data = logged_in_league_data();
         $league_data = $this->league_data;
+        $addDates = (int)$league_data->assignbefore + 2;
+        $this->minGameDate = Carbon::now()->addDays($addDates);
+    }
+    public function searchGames()
+    {
+        $league_data = $this->league_data;
+        $targetDate = $this->algoGameDate;
+
         $genController = new GeneralController();
-        $assignedGameIds =  $genController->game_auto_schedule($league_data->leagueid, false, false);
+        $assignedGameIds =  $genController->game_auto_schedule($league_data->leagueid, $targetDate, false);
         $assignedGameUmpires = array();
         if (!empty($assignedGameIds)) {
             foreach ($assignedGameIds as $gameId) {
@@ -205,8 +215,8 @@ class GameManualScheduleAlgo extends Component
 
         $this->dispatch('hide-modal', modal: '#umpireModal');
     }
-    public function saveSchedule(){
-        
+    public function saveSchedule()
+    {
     }
     public function render()
     {
