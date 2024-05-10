@@ -46,7 +46,7 @@
                                             id="amount{{ $data->id }}"> </td>
                                     <td> <input type="text" class="datescs bonus trasbsp"
                                             id="bonus_amount{{ $data->id }}"> </td>
-                                    <td> <input type="date" class="datescs tsbns" id="paydate{{ $data->id }}"></td>
+                                    <td> <input value="{{ date('Y-m-d') }}" type="date" class="datescs tsbns" id="paydate{{ $data->id }}"></td>
                                     <td><button data-id="{{ $data->id }}" class="redbtn  ass submit pay"
                                             class="application butnts" type="button">Update</button></td>
                                     <td><button data-received="{{ $data->received ?? 0 }}"
@@ -144,7 +144,7 @@
                     if (data.hasOwnProperty('message')) {
                         $('#amount' + leagueumpire_id).val('');
                         $('#bonus_amount' + leagueumpire_id).val('');
-                        $('#paydate' + leagueumpire_id).val('');
+                        $('#paydate' + leagueumpire_id).val(new Date().toISOString().slice(0, 10));
                         $('#new_owe' + leagueumpire_id).text('$ ' + data.new_owe);
                         $('#view-his' + leagueumpire_id).data('received', data.new_received);
                         $('#view-his' + leagueumpire_id).data('owed', data.new_owe);
