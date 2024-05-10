@@ -25,7 +25,6 @@
                                 $feedbackSenderEmail = $user->user->email;
                             }
                         @endphp
-
                         <div class="modal-hesn">
                             <h5 class="modalicons-title"> Send Feedback</h5>
                             <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
@@ -49,11 +48,11 @@
                                 <textarea class="" name="feedback_message" rows="3"></textarea>
                             </div>
                             <div class="text-center submit-bten-modal">
-                         
+
                                 <button type="submit" class="submitbtns">Save</button>
                             </div>
                         </div>
-                        
+
                     </form>
                 </div>
             </div>
