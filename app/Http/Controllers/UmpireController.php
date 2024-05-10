@@ -89,13 +89,13 @@ class UmpireController extends Controller
             }
         }
         $output = '';
-        $unassignedleagues = LeagueModel::whereNotIn('leagueid', $leagueids)->get();
-        if ($unassignedleagues->count() > 0) {
-            foreach ($unassignedleagues as $unassigned) {
+        $all_leagues = LeagueModel::where('status', 1)->get();
+        if ($all_leagues->count() > 0) {
+            foreach ($all_leagues as $single_league) {
                 $output .= '<div class="col-md-6">';
                 $output .= '<div class="main-leagues">';
-                $output .= '<input value="' . $unassigned->leagueid . '" id="league' . $unassigned->leagueid . '" name="leagueids[]" type="checkbox">';
-                $output .= '<label for="league' . $unassigned->leagueid . '">' . $unassigned->leaguename . '</label>';
+                $output .= '<input value="' . $single_league->leagueid . '" id="league' . $single_league->leagueid . '" name="leagueids[]" type="checkbox" ' . (in_array($single_league->leagueid, $leagueids) ? "checked" : "") . '>';
+                $output .= '<label for="league' . $single_league->leagueid . '">' . $single_league->leaguename . '</label>';
                 $output .= '</div>';
                 $output .= '</div>';
             }
@@ -104,36 +104,55 @@ class UmpireController extends Controller
     }
     public function assign_league(Request $request, $id)
     {
-        $umpire_data = UmpireModel::findOrFail($id);
-        $leagueids = $request->leagueids;
-        if (!empty($leagueids)) {
-            foreach ($leagueids as $leagueid) {
-                $league = LeagueModel::find($leagueid);
-                $data = [
-                    'umpid' => $id,
-                    'leagueid' => $leagueid,
-                    'points' => $league->joiningpoint
-                ];
-                $checkData = [
-                    'umpid' => $id,
-                    'leagueid' => $leagueid,
-                ];
-                LeagueUmpireModel::updateOrCreate(
-                    $checkData, // Search criteria
-                    $data // Data to update or insert
-                );
-                //adding to umpire pref
-                $umpPref_data = [
-                    'umpid' => $id,
-                    'slno' => ((int)$umpire_data->pref()->orderBy('slno', 'DESC')->first()->slno + 1),
-                    'leagueid' => $leagueid
-                ];
-                UmpirePrefModel::create($umpPref_data);
-                //adding to umpire pref
+        try {
+            $umpire_data = UmpireModel::findOrFail($id);
+            $umpLeagues = $umpire_data->leagues;
+            $assigned_leagueids = [];
+            if (!$umpLeagues->isEmpty()) {
+                foreach ($umpLeagues as $league) {
+                    $assigned_leagueids[] = $league->leagueid;
+                }
+            }
+            $leagueids = $request->leagueids ?? [];
+            $leagueids = array_map(function ($value) {
+                return (int) $value;
+            }, $leagueids);
+            $removedLeagueIds = array_diff($assigned_leagueids, $leagueids);
+            if (!empty($leagueids)) {
+                foreach ($leagueids as $leagueid) {
+                    $league = LeagueModel::find($leagueid);
+                    $data = [
+                        'umpid' => $id,
+                        'leagueid' => $leagueid,
+                        'points' => $league->joiningpoint
+                    ];
+                    $checkData = [
+                        'umpid' => $id,
+                        'leagueid' => $leagueid,
+                    ];
+                    LeagueUmpireModel::updateOrCreate(
+                        $checkData, // Search criteria
+                        $data // Data to update or insert
+                    );
+                    //adding to umpire pref
+                    $umpPref_data = [
+                        'umpid' => $id,
+                        'slno' => ((int)$umpire_data->pref()->orderBy('slno', 'DESC')->first()->slno + 1),
+                        'leagueid' => $leagueid
+                    ];
+                    UmpirePrefModel::create($umpPref_data);
+                    //adding to umpire pref
+                }
+            }
+            if (!empty($removedLeagueIds)) {
+                foreach ($removedLeagueIds as $removedLeagueId) {
+                    removeUmpireFromLeague($id, $removedLeagueId);
+                }
             }
             Session::flash('message', 'Success');
+        } catch (\Throwable $th) {
+            Session::flash('error_message', 'Something went wrong.!!');
         }
-        Session::flash('error_message', 'Something went wrong.!!');
         return redirect()->back();
     }
     public function umpire_view()

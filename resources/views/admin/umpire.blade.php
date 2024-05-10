@@ -35,7 +35,7 @@
                                                         class="btn btn-dark openInNewWindow">Login</a>
                                                     <a data-id="{{ $data->umpid }}"
                                                         href="{{ url('admin/assign_league/' . $data->umpid) }}"
-                                                        class="btn btn-warning assignLeague">Assign League</a>
+                                                        class="btn btn-warning assignLeague">Manage leagues</a>
                                                     @if ($data->status == 0)
                                                         <a href="{{ url('admin/umpire_status/' . $data->umpid . '/1') }}"
                                                             class="btn btn-success"
