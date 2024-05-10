@@ -173,7 +173,7 @@ a {
     font-family: "Poppins-Medium";
     src: url(../font/Poppins/Poppins-Medium.ttf);
 }
-  
+
 .fix-buttons {
     position: fixed;
     left: 20px;
@@ -2538,7 +2538,10 @@ body {
 .addnew.redbtn.submit {
     display: inline-block;
 }
-
+.minas-div-flexs.new-class {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 .teamsf {
     width: 48%;
     height: 55px;
@@ -2989,6 +2992,7 @@ input:checked+.slider:before {
 }
 
 #colors1,
+#colors2,
 #colors3 {
     width: 15px;
     height: 15px;

@@ -102,10 +102,11 @@
         <div class="mt-50px mb-50px">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="minas-div-flexs">
+                    <div class="minas-div-flexs new-class">
                         <div class="headresd-texts">
                             <span class="kabes">Add Blacklist</span>
                         </div>
+                        <div class="d-flex flex-wrap">
                         <div class="by-temas-texts">
                             <span class="inpoysascolor nessc" id="colors1"> </span>
                             <input type="radio" name="as" class="d-none" id="radio1s">
@@ -122,6 +123,7 @@
                             <input type="radio" name="as" class="d-none" id="radio3s">
                             <span class="acctives" id="color-text3">By division</span>
                         </div>
+                    </div>
                     </div>
                     <form class="select-teams teamselect"
                         action="{{ url('league/block-unblock-team/' . $page_data->umpid) }}" method="post">
