@@ -143,13 +143,18 @@ class UmpireController extends Controller
                     UmpirePrefModel::create($umpPref_data);
                     //adding to umpire pref
                 }
+                Session::flash('message', 'Success');
             }
             if (!empty($removedLeagueIds)) {
                 foreach ($removedLeagueIds as $removedLeagueId) {
-                    removeUmpireFromLeague($id, $removedLeagueId);
+                    $res = removeUmpireFromLeague($id, $removedLeagueId);
+                    if ($res['status']) {
+                        Session::flash('message', 'Success');
+                    } else {
+                        Session::flash('error_message', $res['error']);
+                    }
                 }
             }
-            Session::flash('message', 'Success');
         } catch (\Throwable $th) {
             Session::flash('error_message', 'Something went wrong.!!');
         }

@@ -45,7 +45,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">BIO<span class="text-danger"> *</span></label>
+                                    <label for="exampleInputEmail1">BIO</label>
                                     <textarea class="form-control textarea" name="bio" style="height: 120px;">{{ !empty($page_data) ? $page_data->bio : '' }}</textarea>
                                 </div>
                             </div>
