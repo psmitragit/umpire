@@ -16,6 +16,16 @@ use App\Models\SiteMetaData;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
+function stagingMark()
+{
+    if (env('APP_ENV') !== 'production') {
+        echo '
+        <div style="position: absolute; top: 50px; left: -50px; z-index: 99999;">
+        <img src="' . asset('storage/images/staging.png') . '" alt="" style="transform: rotate(-50deg) scale(1.2); width: 200px; height: auto;">
+    </div>
+        ';
+    }
+}
 function generateOTP()
 {
     $otp = '';

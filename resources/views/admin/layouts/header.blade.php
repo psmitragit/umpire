@@ -30,6 +30,7 @@
 </head>
 
 <body>
+    {!! stagingMark() !!}
     <div class="container-scroller">
         @include('admin.layouts.error_alert')
         @if ($title !== 'Login')

@@ -50,6 +50,7 @@
 
 
 <body class="checkbody">
+    {!! stagingMark() !!}
     @include('league.layouts.error_alert')
     <header>
         <div class="topbane-bg">

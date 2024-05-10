@@ -32,6 +32,7 @@
 </head>
 
 <body class="checkbody">
+    {!! stagingMark() !!}
     @include('umpire.layouts.error_alert')
     <header>
         <div class="topbane-bg">

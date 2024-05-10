@@ -21,5 +21,7 @@
         });
     </script>
 </head>
+
 <body>
+    {!! stagingMark() !!}
     @include('general.layouts.error_alert')
