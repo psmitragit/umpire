@@ -283,8 +283,8 @@ class LeagueController extends Controller
 
         $league_upcomming_games_instance = clone $league_games_instance;
         $league_past_games_instance = clone $league_games_instance;
-        $league_upcomming_games = $league_upcomming_games_instance->where('gamedate', '>=', now())->get();
-        $league_past_games = $league_past_games_instance->where('gamedate', '<', now())->get();
+        $league_upcomming_games = $league_upcomming_games_instance->where('gamedate_toDisplay', '>=', now())->get();
+        $league_past_games = $league_past_games_instance->where('gamedate_toDisplay', '<', now())->get();
         $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_upcomming_games', 'league_past_games');
         return view('league.home')->with($data);
     }

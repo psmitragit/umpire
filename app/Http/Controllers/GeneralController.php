@@ -598,7 +598,7 @@ class GeneralController extends Controller
         put_log_msg($logMessage);
         // Log the output with a timestamp
 
-        $past_games = GameModel::where('gamedate', '<', now())
+        $past_games = GameModel::where('gamedate_toDisplay', '<', now())
             ->where('status', 0)
             ->get();
         if (!$past_games->isEmpty()) {
