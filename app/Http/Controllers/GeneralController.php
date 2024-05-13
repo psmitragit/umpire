@@ -641,7 +641,7 @@ class GeneralController extends Controller
                             //saving the owe
                             $leagueumpire->owed = $owed;
                             if ($leagueumpire->save()) {
-                                add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, date('Y-m-d'), $pay, 'game', $past_game->gameid);
+                                add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, date('Y-m-d', strtotime($past_game->gamedate_toDisplay)), $pay, 'game', $past_game->gameid);
                             }
                         }
                     }
