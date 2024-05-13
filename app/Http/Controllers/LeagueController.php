@@ -279,7 +279,7 @@ class LeagueController extends Controller
         $page_data = array();
         $right_bar = 0;
         $league_games_instance = GameModel::where('leagueid', $league_data->leagueid)
-            ->orderBy('gamedate', 'ASC');
+            ->orderBy('gamedate_toDisplay', 'ASC');
 
         $league_upcomming_games_instance = clone $league_games_instance;
         $league_past_games_instance = clone $league_games_instance;
