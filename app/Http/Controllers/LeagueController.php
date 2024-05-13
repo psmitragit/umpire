@@ -1280,6 +1280,16 @@ class LeagueController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
         try {
+
+            if ($request->ampm == 'PM') {
+                if ($request->gametime != 12) {
+                    $request->gametime += 12;
+                }
+            } else if ($request->ampm == 'AM' && $request->gametime == 12) {
+                $request->gametime = 0;
+            }
+
+
             $gamedatetime = Carbon::parse(date('Y-m-d', strtotime($request->gamedate)) . ' ' . $request->gametime . ':00:00');
 
             $displayGameTimeString = $request->gamedate . ' ' . $request->gameHour . ' ' . $request->ampm;
@@ -1371,6 +1381,15 @@ class LeagueController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
         try {
+
+            if ($request->ampm == 'PM') {
+                if ($request->gametime != 12) {
+                    $request->gametime += 12;
+                }
+            } else if ($request->ampm == 'AM' && $request->gametime == 12) {
+                $request->gametime = 0;
+            }
+
             $gamedatetime = Carbon::parse(date('Y-m-d', strtotime($request->gamedate)) . ' ' . $request->gametime . ':00:00');
 
             $displayGameTimeString = $request->gamedate . ' ' . $request->gameHour . ' ' . $request->ampm;
