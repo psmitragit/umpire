@@ -624,24 +624,25 @@ class GeneralController extends Controller
                         }
                         if ($umpFlag) { //if report is given or no report needed thn only proceed to payment
                             $leagueumpire = $umpire->leagues()->where('leagueid', $past_game->leagueid)->first();
-                            refund_point_to_Aumpire($leagueumpire, $past_game->gameid);
-                            $owed = $leagueumpire->owed ?? 0;
-                            if ($col == 'ump1') {
-                                $pay = $past_game->ump1pay + $past_game->ump1bonus;
-                            } else {
-                                $pay = $past_game->ump234pay + $past_game->ump234bonus;
-                            }
-                            $profilePay = $leagueumpire->payout ?? 0;
-                            //if profile pay is higher thn the game payout thn give umpire the  highest pay
-                            if ($profilePay > $pay) {
-                                $pay = $profilePay;
-                            }
-                            $owed += $pay;
+                            if (refund_point_to_Aumpire($leagueumpire, $past_game->gameid)) {
+                                $owed = $leagueumpire->owed ?? 0;
+                                if ($col == 'ump1') {
+                                    $pay = $past_game->ump1pay + $past_game->ump1bonus;
+                                } else {
+                                    $pay = $past_game->ump234pay + $past_game->ump234bonus;
+                                }
+                                $profilePay = $leagueumpire->payout ?? 0;
+                                //if profile pay is higher thn the game payout thn give umpire the  highest pay
+                                if ($profilePay > $pay) {
+                                    $pay = $profilePay;
+                                }
+                                $owed += $pay;
 
-                            //saving the owe
-                            $leagueumpire->owed = $owed;
-                            if ($leagueumpire->save()) {
-                                add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, date('Y-m-d', strtotime($past_game->gamedate_toDisplay)), $pay, 'game', $past_game->gameid);
+                                //saving the owe
+                                $leagueumpire->owed = $owed;
+                                if ($leagueumpire->save()) {
+                                    add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, date('Y-m-d', strtotime($past_game->gamedate_toDisplay)), $pay, 'game', $past_game->gameid);
+                                }
                             }
                         }
                     }

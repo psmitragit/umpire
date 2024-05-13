@@ -443,7 +443,10 @@ function refund_point_to_Aumpire($leagueumpire_row, $game_id)
             ];
             if ($leagueumpire_row->update($update_leagueumpire_data)) {
                 $refund_game_instance->delete();
+                return true;
             }
+        }else{
+            return false;
         }
     } catch (\Throwable $th) {
         return false;
