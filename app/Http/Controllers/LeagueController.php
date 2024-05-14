@@ -710,7 +710,15 @@ class LeagueController extends Controller
     }
     public function delete_location($id)
     {
-        LocationModel::find($id)->delete();
+        $upcoming_games_check = GameModel::whereDate('gamedate', '>=', today())
+            ->where('locid', $id)->count();
+        if ($upcoming_games_check > 0) {
+            Session::flash('error_message', 'Location can not be deleted due to having upcoming games.');
+            return redirect()->back();
+        }
+        $row = LocationModel::find($id);
+        $row->blocked_umpire_grounds()->delete();
+        $row->delete();
         Session::flash('message', 'Success');
         return redirect()->back();
     }

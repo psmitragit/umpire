@@ -25,7 +25,7 @@ class GameModel extends Model
     }
     public function location()
     {
-        return $this->belongsTo(LocationModel::class, 'locid');
+        return $this->belongsTo(LocationModel::class, 'locid')->withTrashed();
     }
     public function umpire1()
     {
