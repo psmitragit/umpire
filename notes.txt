@@ -1,3 +1,0 @@
-
-ALTER TABLE `teams` ADD `deleted_at` DATETIME NULL AFTER `updated_at`;
-ALTER TABLE `locations` ADD `deleted_at` DATETIME NULL AFTER `updated_at`; 
