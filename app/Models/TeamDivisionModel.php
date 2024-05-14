@@ -18,4 +18,7 @@ class TeamDivisionModel extends Model
     public function teams(){
         return $this->hasMany(TeamModel::class, 'divid');
     }
+    public function blockedDivisions(){
+        return $this->hasMany(BlockDivisionModel::class, 'divid');
+    }
 }

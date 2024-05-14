@@ -690,7 +690,10 @@ class LeagueController extends Controller
     }
     public function delete_division($id)
     {
-        TeamDivisionModel::find($id)->delete();
+        $row = TeamDivisionModel::find($id);
+        $row->blockedDivisions()->delete();
+        TeamModel::where('divid', $id)->update(['divid' => null]);
+        $row->delete();
         Session::flash('message', 'Success');
         return redirect()->back();
     }
