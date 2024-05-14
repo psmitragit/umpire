@@ -830,7 +830,7 @@ function removeUmpireFromLeague($umpId, $leagueId)
     try {
         $leagueUmpire = LeagueUmpireModel::where('umpid', $umpId)
             ->where('leagueid', $leagueId)->firstOrFail();
-        $upcoming_games_check = GameModel::whereDate('gamedate', '>', today())
+        $upcoming_games_check = GameModel::whereDate('gamedate', '>=', today())
             ->where('leagueid', $leagueId)
             ->where(function ($query) use ($umpId) {
                 $query->where('ump1', $umpId)

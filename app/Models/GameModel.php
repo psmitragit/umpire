@@ -17,11 +17,11 @@ class GameModel extends Model
     }
     public function hometeam()
     {
-        return $this->belongsTo(TeamModel::class, 'hometeamid');
+        return $this->belongsTo(TeamModel::class, 'hometeamid')->withTrashed();
     }
     public function awayteam()
     {
-        return $this->belongsTo(TeamModel::class, 'awayteamid');
+        return $this->belongsTo(TeamModel::class, 'awayteamid')->withTrashed();
     }
     public function location()
     {

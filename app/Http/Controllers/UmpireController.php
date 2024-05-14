@@ -40,7 +40,7 @@ class UmpireController extends Controller
     {
         try {
             $umpireRow = UmpireModel::find($id);
-            $upcoming_games_check = GameModel::whereDate('gamedate', '>', today())
+            $upcoming_games_check = GameModel::whereDate('gamedate', '>=', today())
                 ->where(function ($query) use ($id) {
                     $query->where('ump1', $id)
                         ->orWhere('ump2', $id)

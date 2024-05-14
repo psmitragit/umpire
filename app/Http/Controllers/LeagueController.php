@@ -684,7 +684,18 @@ class LeagueController extends Controller
     }
     public function delete_team($id)
     {
-        TeamModel::find($id)->delete();
+        $upcoming_games_check = GameModel::whereDate('gamedate', '>=', today())
+            ->where(function ($query) use ($id) {
+                $query->where('hometeamid', $id)
+                    ->orWhere('awayteamid', $id);
+            })->count();
+        if ($upcoming_games_check > 0) {
+            Session::flash('error_message', 'Team can not be deleted due to having upcoming games.');
+            return redirect()->back();
+        }
+        $row = TeamModel::find($id);
+        $row->blocked_umpire_teams()->delete();
+        $row->delete();
         Session::flash('message', 'Success');
         return redirect()->back();
     }
@@ -2471,7 +2482,7 @@ class LeagueController extends Controller
             $row = UserModel::where('usertype', 2)->where('uid', $id)->firstOrFail();
             if ($row->isLeagueOwner == 1) {
                 $league = $row->league;
-                $upcoming_games_check = $league->games()->whereDate('gamedate', '>', today())
+                $upcoming_games_check = $league->games()->whereDate('gamedate', '>=', today())
                     ->count();
                 if ($upcoming_games_check > 0) {
                     Session::flash('error_message', 'League can not be deleted due to having upcoming games.');
