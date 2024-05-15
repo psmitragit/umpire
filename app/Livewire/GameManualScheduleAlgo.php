@@ -33,8 +33,9 @@ class GameManualScheduleAlgo extends Component
     public function searchGames()
     {
         $league_data = $this->league_data;
-        $targetDate = $this->algoGameDate;
-        if ($targetDate) {
+        $targetDate = Carbon::parse($this->algoGameDate);
+        if ($targetDate && $targetDate->startOfDay()->gte($this->minGameDate->startOfDay())) {
+            $gameRows = [];
             $genController = new GeneralController();
             $assignedGameIds =  $genController->game_auto_schedule($league_data->leagueid, $targetDate, false);
             $assignedGameUmpires = array();
@@ -67,12 +68,15 @@ class GameManualScheduleAlgo extends Component
                         $gameRows[] = $gameRow;
                     }
                 }
+                $page_data = $gameRows;
+                $this->page_data = $page_data;
+                $this->assignedGameUmpires = $assignedGameUmpires;
+            } else {
+                $this->dispatch('error', msg: "No games found.");
             }
-            $page_data = $gameRows;
-            $this->page_data = $page_data;
-            $this->assignedGameUmpires = $assignedGameUmpires;
         } else {
-            $this->dispatch('error', msg: "Please select a date.");
+            $errMsg = "Please select a date onwards " . $this->minGameDate->format('m/d/Y');
+            $this->dispatch('error', msg: $errMsg);
         }
     }
     public function assignRemoveUmpire($gameId, $pos)

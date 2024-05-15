@@ -7,7 +7,7 @@
             <input min='{{ date('Y-m-d', strtotime($minGameDate)) }}' type="date" wire:model='algoGameDate'
                 class="mayeb" >
 
-                
+
                 <div class="text-center">
             <button wire:click='searchGames' type="button" class="submitbtns mt-2">Search</button>
         </div>
