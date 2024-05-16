@@ -38,8 +38,8 @@ class GameManualScheduleAlgo extends Component
             $gameRows = [];
             $genController = new GeneralController();
             $result =  $genController->game_auto_schedule($league_data->leagueid, $targetDate, false);
-            $assignedGameIds = $result['game_ids'];
-            $preAssignedGameUmpires = $result['umpireColumnsThatWereAssignedPreviously'];
+            $assignedGameIds = @$result['game_ids'];
+            $preAssignedGameUmpires = @$result['umpireColumnsThatWereAssignedPreviously'];
             $assignedGameUmpires = array();
             if (!empty($assignedGameIds)) {
                 foreach ($assignedGameIds as $gameId) {
@@ -287,9 +287,10 @@ class GameManualScheduleAlgo extends Component
                                 ];
                                 RefundPointsModel::create($refund_point_data);
                             }
+
+                            $league = $game->league;
+                            $assigned_umpire_row = UmpireModel::find($umpId);
                             try {
-                                $league = $game->league;
-                                $assigned_umpire_row = UmpireModel::find($umpId);
                                 //notification mail
                                 if ($assigned_umpire_row->email_settings->schedule_game == 1) {
                                     $umpire_email = $assigned_umpire_row->user->email;
@@ -302,12 +303,14 @@ class GameManualScheduleAlgo extends Component
                                     }
                                 }
                                 //notification mail end
-                                $msg = 'New game assigned on ' . date('D m/d/y', strtotime($game->gamedate));
-                                $msg2 = $assigned_umpire_row->name . ' assigned to a game on ' . date('D m/d/y', strtotime($game->gamedate));
-                                add_notification($assigned_umpire_row->umpid, $msg, 4, 'ump');
-                                add_notification($game->leagueid, $msg2, 4, 'league');
                             } catch (\Throwable $th) {
+                                // dd($th);
                             }
+                            $msg = 'New game assigned on ' . date('D m/d/y', strtotime($game->gamedate));
+                            $msg2 = $assigned_umpire_row->name . ' assigned to a game on ' . date('D m/d/y', strtotime($game->gamedate));
+                            add_notification($assigned_umpire_row->umpid, $msg, 4, 'ump');
+                            add_notification($game->leagueid, $msg2, 4, 'league');
+
 
                             //after umpassigned
                         }
