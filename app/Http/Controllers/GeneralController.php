@@ -235,7 +235,7 @@ class GeneralController extends Controller
     //code is running in cronjob============================>>>>##START
 
     //auto game assign function
-    public function game_auto_schedule($leagueId = false, $targetDate = false, $sendNotification = true)
+    public function game_auto_schedule($leagueId = false, $givenTargetDate = false, $sendNotification = true)
     {
         // Log the output with a timestamp
         $logMessage = 'This cron(game_auto_schedule) runs at ' . now();
@@ -249,12 +249,16 @@ class GeneralController extends Controller
 
         $games = array();
         $game_ids = array();
+
         if ($leagues->count() > 0) {
             foreach ($leagues as $league_row) {
-                if (!$targetDate) {
+                if (!$givenTargetDate) {
                     //getting games from today + {n} days from today based on league settings
                     $targetDate = Carbon::now()->addDays($league_row->assignbefore);
+                } else {
+                    $targetDate = $givenTargetDate;
                 }
+
                 $games = $league_row->games()->whereDate('gamedate', $targetDate)->get();
                 if ($games->count() > 0) {
                     foreach ($games as $game_row) {
