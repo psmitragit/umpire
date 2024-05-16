@@ -237,6 +237,7 @@ class GeneralController extends Controller
     //auto game assign function
     public function game_auto_schedule($leagueId = false, $givenTargetDate = false, $sendNotification = true)
     {
+        $umpireColumnsThatWereAssignedPreviously = [];
         // Log the output with a timestamp
         $logMessage = 'This cron(game_auto_schedule) runs at ' . now();
         put_log_msg($logMessage);
@@ -277,6 +278,15 @@ class GeneralController extends Controller
                 $column_to_assign = 'ump' . $i;
                 foreach ($game_ids as $game_id) {
                     $game = GameModel::find($game_id);
+                    // saveing prev assigned umpires for manual algo
+                    if ($i == 1) {
+                        for ($f = 1; $f <= 4; $f++) {
+                            if ($game->{"ump$f"}) {
+                                $umpireColumnsThatWereAssignedPreviously[$game_id]["ump$f"] = $game->{"ump$f"};
+                            }
+                        }
+                    }
+                    // saveing prev assigned umpires for manual algo
                     //no of umpires needed in the game
                     $no_of_umpire = (int)$game->umpreqd;
                     if ($no_of_umpire >= $i) {
@@ -464,7 +474,9 @@ class GeneralController extends Controller
             //readjusting umpire positions
             reArrangeUmpiresInGames($game_ids);
 
-            return $game_ids;
+            $returnData = compact('umpireColumnsThatWereAssignedPreviously', 'game_ids');
+            // dd($returnData);
+            return $returnData;
         }
     }
     public function checksamegames($assigned_umpires, $sendNotification)

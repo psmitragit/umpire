@@ -21,14 +21,14 @@ class GameManualScheduleAlgo extends Component
     public $league_data;
     public $page_data;
     public $assignedGameUmpires;
+    public $preAssignedGameUmpires;
     public $tmpGameId;
     public $tmpGamePos;
     public function mount()
     {
         $this->league_data = logged_in_league_data();
         $league_data = $this->league_data;
-        $addDates = (int)$league_data->assignbefore + 2;
-        $this->minGameDate = Carbon::now()->addDays($addDates);
+        $this->minGameDate = Carbon::now();
     }
     public function searchGames()
     {
@@ -37,32 +37,38 @@ class GameManualScheduleAlgo extends Component
         if ($targetDate && $targetDate->startOfDay()->gte($this->minGameDate->startOfDay())) {
             $gameRows = [];
             $genController = new GeneralController();
-            $assignedGameIds =  $genController->game_auto_schedule($league_data->leagueid, $targetDate, false);
+            $result =  $genController->game_auto_schedule($league_data->leagueid, $targetDate, false);
+            $assignedGameIds = $result['game_ids'];
+            $preAssignedGameUmpires = $result['umpireColumnsThatWereAssignedPreviously'];
             $assignedGameUmpires = array();
             if (!empty($assignedGameIds)) {
                 foreach ($assignedGameIds as $gameId) {
-                    $gameRow = GameModel::where('gameid', $gameId)->where('manualAssignAlgoRunStatus', 0)->first();
+                    $gameRow = GameModel::where('gameid', $gameId)->first();
                     if ($gameRow) {
                         for ($i = 1; $i <= 4; $i++) {
                             $col = "ump$i";
                             if ($gameRow->{$col} !== null) {
                                 $umpid = $gameRow->{$col};
+
                                 $assignedGameUmpires[$gameRow->gameid][$col] = $umpid;
-                                //removeing umpire
 
-                                $remove_game_updated_data = [
-                                    $col => null
-                                ];
+                                if (!isset($preAssignedGameUmpires[$gameRow->gameid][$col])) {
+                                    //removeing umpire
 
-                                if ($gameRow->update($remove_game_updated_data)) {
-                                    $leagueUmpireRow = LeagueUmpireModel::where('umpid', $umpid)
-                                        ->where('leagueid', $league_data->leagueid)->first();
+                                    $remove_game_updated_data = [
+                                        $col => null
+                                    ];
 
-                                    //refunding the points that were cut during the auto assigning
-                                    refund_point_to_Aumpire($leagueUmpireRow, $gameId);
+                                    if ($gameRow->update($remove_game_updated_data)) {
+                                        $leagueUmpireRow = LeagueUmpireModel::where('umpid', $umpid)
+                                            ->where('leagueid', $league_data->leagueid)->first();
+
+                                        //refunding the points that were cut during the auto assigning
+                                        refund_point_to_Aumpire($leagueUmpireRow, $gameId);
+                                    }
+
+                                    //removeing umpire
                                 }
-
-                                //removeing umpire
                             }
                         }
                         $gameRows[] = $gameRow;
@@ -71,6 +77,7 @@ class GameManualScheduleAlgo extends Component
                 $page_data = $gameRows;
                 $this->page_data = $page_data;
                 $this->assignedGameUmpires = $assignedGameUmpires;
+                $this->preAssignedGameUmpires = $preAssignedGameUmpires;
             } else {
                 $this->dispatch('error', msg: "No games found.");
             }
@@ -88,10 +95,14 @@ class GameManualScheduleAlgo extends Component
         $posNo = (int)substr($pos, -1);
         $umpreqd = (int)$gameRow->umpreqd;
         if ($posNo <= $umpreqd) {
-            if (isset($this->assignedGameUmpires[$gameId][$pos])) {
-                unset($this->assignedGameUmpires[$gameId][$pos]);
+            if (!isset($this->preAssignedGameUmpires[$gameId][$pos])) {
+                if (isset($this->assignedGameUmpires[$gameId][$pos])) {
+                    unset($this->assignedGameUmpires[$gameId][$pos]);
+                } else {
+                    $this->dispatch('show-modal', modal: '#umpireModal');
+                }
             } else {
-                $this->dispatch('show-modal', modal: '#umpireModal');
+                $this->dispatch('error', msg: 'Can\'t remove previously assigned umpires.');
             }
         } else {
             $this->dispatch('error', msg: 'Can\'t assign umpire to this position.');
@@ -232,7 +243,21 @@ class GameManualScheduleAlgo extends Component
     public function saveSchedule()
     {
         try {
-            $finalAssign = $this->assignedGameUmpires;
+            $preAssignedGameUmpires = $this->preAssignedGameUmpires;
+            $assignedGameUmpires = $this->assignedGameUmpires;
+            $finalAssign = [];
+            if (!empty($preAssignedGameUmpires)) {
+                foreach ($preAssignedGameUmpires as $key => $values) {
+                    foreach ($values as $subKey => $value) {
+                        unset($assignedGameUmpires[$key][$subKey]);
+                    }
+                    if (empty($assignedGameUmpires[$key])) {
+                        unset($assignedGameUmpires[$key]);
+                    }
+                }
+            }
+            $finalAssign = $assignedGameUmpires;
+            // dd($preAssignedGameUmpires, $assignedGameUmpires);
             if (!empty($finalAssign)) {
                 foreach ($finalAssign as $gameId => $umpPos) {
                     $game = GameModel::findOrFail($gameId);
@@ -286,7 +311,6 @@ class GameManualScheduleAlgo extends Component
 
                             //after umpassigned
                         }
-                        $game->manualAssignAlgoRunStatus = 1;
                         $game->save();
                     }
                 }

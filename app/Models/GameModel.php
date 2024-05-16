@@ -10,7 +10,7 @@ class GameModel extends Model
     use HasFactory;
     protected $table = 'games';
     protected $primaryKey = "gameid";
-    protected $fillable = ['leagueid', 'gamedate', 'gamedate_toDisplay', 'playersage', 'hometeamid', 'awayteamid', 'locid', 'umpreqd', 'ump1', 'ump2', 'ump3', 'ump4', 'report', 'report1', 'report2', 'report3', 'report4', 'ump1pay', 'ump1bonus', 'ump234pay', 'ump234bonus', 'manualAssignAlgoRunStatus'];
+    protected $fillable = ['leagueid', 'gamedate', 'gamedate_toDisplay', 'playersage', 'hometeamid', 'awayteamid', 'locid', 'umpreqd', 'ump1', 'ump2', 'ump3', 'ump4', 'report', 'report1', 'report2', 'report3', 'report4', 'ump1pay', 'ump1bonus', 'ump234pay', 'ump234bonus'];
     public function league()
     {
         return $this->belongsTo(LeagueModel::class, 'leagueid');

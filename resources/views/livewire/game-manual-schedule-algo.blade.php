@@ -2,17 +2,17 @@
     @if (!$page_data)
 
         <div class="maine-divs">
-<div class="main-shedule-div">
-<label for="" class="ensdt">Select Date </label>
-            <input min='{{ date('Y-m-d', strtotime($minGameDate)) }}' type="date" wire:model='algoGameDate'
-                class="mayeb" >
+            <div class="main-shedule-div">
+                <label for="" class="ensdt">Select Date </label>
+                <input min='{{ date('Y-m-d', strtotime($minGameDate)) }}' type="date" wire:model='algoGameDate'
+                    class="mayeb">
 
 
                 <div class="text-center">
-            <button wire:click='searchGames' type="button" class="submitbtns mt-2">Search</button>
+                    <button wire:click='searchGames' type="button" class="submitbtns mt-2">Search</button>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
     @else
         <div>
             <div class="list-viw-contet mt-30px" id="list-conssst2">
@@ -98,10 +98,14 @@
                                                     {{ $data->umpire2->name }}
                                                 </div>
                                             @else
-                                                <a data-gameid="{{ $data->gameid }}" href='javascript:void(0)'
-                                                    class="blutns-table"
-                                                    wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump2")'
-                                                    wire:key='assignedUmp-{{ $data->gameid }}-2'>Empty</a>
+                                                @if ($data->umpreqd >= 2)
+                                                    <a data-gameid="{{ $data->gameid }}" href='javascript:void(0)'
+                                                        class="blutns-table"
+                                                        wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump2")'
+                                                        wire:key='assignedUmp-{{ $data->gameid }}-2'>Empty</a>
+                                                @else
+                                                    _ _
+                                                @endif
                                             @endif
                                         </td>
                                         <td class="color-prmths hovername" data-pos="3">
@@ -113,9 +117,13 @@
                                                     {{ $data->umpire3->name }}
                                                 </div>
                                             @else
-                                                <a href='javascript:void(0)' class="blutns-table"
-                                                    wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump3")'
-                                                    wire:key='assignedUmp-{{ $data->gameid }}-3'>Empty</a>
+                                                @if ($data->umpreqd >= 3)
+                                                    <a href='javascript:void(0)' class="blutns-table"
+                                                        wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump3")'
+                                                        wire:key='assignedUmp-{{ $data->gameid }}-3'>Empty</a>
+                                                @else
+                                                    _ _
+                                                @endif
                                             @endif
                                         </td>
                                         <td class="color-prmths hovername" data-pos="4">
@@ -127,9 +135,13 @@
                                                     {{ $data->umpire4->name }}
                                                 </div>
                                             @else
-                                                <a href='javascript:void(0)' class="blutns-table"
-                                                    wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump4")'
-                                                    wire:key='assignedUmp-{{ $data->gameid }}-4'>Empty</a>
+                                                @if ($data->umpreqd >= 4)
+                                                    <a href='javascript:void(0)' class="blutns-table"
+                                                        wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump4")'
+                                                        wire:key='assignedUmp-{{ $data->gameid }}-4'>Empty</a>
+                                                @else
+                                                    _ _
+                                                @endif
                                             @endif
                                         </td>
                                         <td>{{ $data->playersage }}</td>
@@ -170,7 +182,8 @@
 
                                                 <label class="lebelfor-ta-c" for="{{ $leagueumpires->umpire->umpid }}">
                                                     <input id="{{ $leagueumpires->umpire->umpid }}"
-                                                        class="hour_checkbox custombasc" type="radio" name="umpid"
+                                                        class="hour_checkbox custombasc" type="radio"
+                                                        name="umpid"
                                                         wire:key='newumpid-{{ $leagueumpires->umpire->umpid }}'
                                                         wire:click='setUmpire({{ $leagueumpires->umpire->umpid }})'
                                                         value="{{ $leagueumpires->umpire->umpid }}">
@@ -190,7 +203,7 @@
         </div>
         <script>
             // Assuming you have included the necessary JavaScript library for the datepicker
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 // Initialize the datepicker
                 $('#algoGameDate').datepicker({
                     // Add any options you need for the datepicker
