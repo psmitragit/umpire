@@ -1861,15 +1861,17 @@ class LeagueController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => 0]);
         }
-
+        $owe = $league_umpire->owed;
         $bonus = $league_umpire->bonus ?? 0;
-        $bonus = $bonus + (float)$request->payamt;
+        $bonus += (float)$request->payamt;
+        $owe += (float)$request->payamt;
 
         $leagueumpire_data = [
-            'bonus' => $bonus
+            'owed' => $owe,
+            'bonus' => $bonus,
         ];
         if ($league_umpire->update($leagueumpire_data)) {
-            if (add_payRecord($league_data->leagueid, $umpid, $request->paydate, $request->payamt, 'bonus')) {
+            if (add_payRecord($league_data->leagueid, $umpid, $request->paydate, $request->payamt, 'adjusted')) {
                 Session::flash('message', 'Success');
                 return response()->json(['status' => 1]);
             }
@@ -2102,8 +2104,8 @@ class LeagueController extends Controller
         $output = '';
         if (!$payouts->isEmpty()) {
             foreach ($payouts as $payout) {
-                if ($payout->pmttype == 'bonus') {
-                    $type = '<span class="text-success">Bonus</span>';
+                if ($payout->pmttype == 'adjusted') {
+                    $type = '<span class="text-success">Adjusted</span>';
                 } elseif ($payout->pmttype == 'payout') {
                     $type = '<span class="text-danger">Payout</span>';
                 } else {
@@ -2157,12 +2159,14 @@ class LeagueController extends Controller
             ], 422);
         }
 
+        //`bonus` was prev name, `adjusted` is new.
+
         $bonus_amount = (float)$request->bonus_amount;
 
         $amount = (float)$request->amount;
         $paydate = date('Y-m-d', strtotime($request->paydate));
 
-        $new_owe = $owe - $amount;
+        $new_owe = ($owe - $amount) + $bonus_amount;
         $received += $amount;
         $bonus += $bonus_amount;
 
@@ -2175,7 +2179,7 @@ class LeagueController extends Controller
                 add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $amount, 'payout');
             }
             if ($bonus_amount > 0) {
-                add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $bonus_amount, 'bonus');
+                add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $bonus_amount, 'adjusted');
             }
             return response()->json(['message' => 'Success', 'new_owe' => $new_owe, 'new_received' => $received], 200);
         } else {
@@ -2197,21 +2201,30 @@ class LeagueController extends Controller
                 $leagueumpire = LeagueUmpireModel::where('leagueid', $leagueid)
                     ->where('umpid', $umpid)
                     ->first();
+                $related_rows = PayoutModel::where('leagueid', $leagueid)
+                    ->where('umpid', $umpid)
+                    ->where('id', '>', $payout_id)
+                    ->get();
                 if ($pmttype == 'payout') {
-                    $leagueumpire->owed = (float)$leagueumpire->owed + $payamt;
-                    $leagueumpire->received = (float)$leagueumpire->received - $payamt;
-                    $related_rows = PayoutModel::where('leagueid', $leagueid)
-                        ->where('umpid', $umpid)
-                        ->where('id', '>', $payout_id)
-                        ->get();
+                    $leagueumpire->owed += $payamt;
+                    $leagueumpire->received -= $payamt;
+
                     if (!$related_rows->isEmpty()) {
                         foreach ($related_rows as $related_row) {
                             $new_owe = (float)$related_row->owe + $payamt;
                             $related_row->update(['owe' => $new_owe]);
                         }
                     }
-                } elseif ($pmttype == 'bonus') {
-                    $leagueumpire->bonus = (float)$leagueumpire->bonus - $payamt;
+                } elseif ($pmttype == 'adjusted') {
+                    $leagueumpire->bonus -= (float)$payamt;
+                    $leagueumpire->owed -= $payamt;
+
+                    if (!$related_rows->isEmpty()) {
+                        foreach ($related_rows as $related_row) {
+                            $new_owe = (float)$related_row->owe - $payamt;
+                            $related_row->update(['owe' => $new_owe]);
+                        }
+                    }
                 }
                 $leagueumpire->save();
                 Session::flash('message', 'Success');

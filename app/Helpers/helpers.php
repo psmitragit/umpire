@@ -381,7 +381,7 @@ function add_payRecord($leagueid, $umpid, $paydate, $payamt, $pmttype, $gameid =
         ];
         PayoutModel::create($payout_data);
         try {
-            if ($pmttype !== 'game') {
+            if ($pmttype !== 'game' && $pmttype !== 'adjusted') {
                 //notification mail
                 if ($umpire->email_settings->payment == 1) {
                     $umpire_email = $umpire->user->email;
@@ -391,7 +391,7 @@ function add_payRecord($leagueid, $umpid, $paydate, $payamt, $pmttype, $gameid =
             }
         } catch (\Throwable $th) {
         }
-        if ($pmttype == 'game') {
+        if ($pmttype == 'game' || $pmttype == 'adjusted') {
             $msg = 'Amount $' . $payamt . ' added to your wallet.';
         } elseif ($pmttype == 'payout') {
             $msg = 'Received amount $' . $payamt . ' on ' . date('D m/d/y', strtotime($paydate));

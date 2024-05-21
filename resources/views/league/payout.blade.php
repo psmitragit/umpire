@@ -30,7 +30,8 @@
                                 Owed
                             </th>
                             <th>Paid Amount $</th>
-                            <th>Add Bonus $ (Optional)</th>
+                            {{-- <th>Add Bonus $ (Optional)</th> --}}
+                            <th>Adjusted amount $ (Optional)</th>
                             <th>Payment date</th>
 
 
