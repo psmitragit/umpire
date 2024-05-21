@@ -617,13 +617,14 @@ class GeneralController extends Controller
         $past_games = GameModel::where('gamedate_toDisplay', '<', now())
             ->where('status', 0)
             ->get();
-            // dd($past_games);
+        // dd($past_games);
         if ($past_games->count() > 0) {
             foreach ($past_games as $past_game) {
                 $past_game->report == 0 ? $flag = true : $flag = false;
                 $reportNAN = 0;
                 $paidUmpires = $past_game->paid_umpires;
                 $paidUmpIds = [];
+                $allUmpiresIds = [];
                 if (!empty($paidUmpires)) {
                     $paidUmpIds = explode(',', $paidUmpires);
                 }
@@ -633,6 +634,7 @@ class GeneralController extends Controller
                     $umpid = $past_game->{$col};
                     $owed = 0;
                     if ($umpid !== null) {
+                        $allUmpiresIds[] = $umpid;
                         $umpire = UmpireModel::findOrFail($umpid);
                         if (!$flag) {
                             if ($past_game->{$reportCol} !== null) {
@@ -667,6 +669,7 @@ class GeneralController extends Controller
                                     if (add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, date('Y-m-d', strtotime($past_game->gamedate_toDisplay)), $pay, 'game', $past_game->gameid)) {
                                         $past_game->paid_umpires .= ',' . $umpid;
                                         $past_game->paid_umpires = ltrim($past_game->paid_umpires, ',');
+                                        array_push($paidUmpIds, $umpid);
                                     }
                                 }
                             }
@@ -674,7 +677,11 @@ class GeneralController extends Controller
                     }
                 }
                 if ($reportNAN == 0) {
-                    $past_game->status = 1;
+                    sort($allUmpiresIds);
+                    sort($paidUmpIds);
+                    if ($allUmpiresIds == $paidUmpIds) {
+                        $past_game->status = 1;
+                    }
                 }
                 $past_game->save();
             }
