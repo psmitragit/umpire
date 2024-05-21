@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="mapviews-cont" id="map-cont">
-            <div id="map" ></div>
+            <div id="map"></div>
         </div>
 
 
@@ -62,7 +62,10 @@
                                     $modifiedDate = $initialDate->subDays($cancelbefore);
                                     $daysDifference = $today->diffInDays($modifiedDate);
                                     if ($modifiedDate->isSameDay($today) || $modifiedDate->greaterThan($today)) {
-                                        $cancel_text = '<a data-text="Are you sure you want to leave the game?" class="confirmCancel view-btn redbtn" href="' . url('umpire/cancel-game/' . $upcoming_game->gameid) . '">Leave</a>';
+                                        $cancel_text =
+                                            '<a data-text="Are you sure you want to leave the game?" class="confirmCancel view-btn redbtn" href="' .
+                                            url('umpire/cancel-game/' . $upcoming_game->gameid) .
+                                            '">Leave</a>';
                                     } else {
                                         $cancel_text = '';
                                     }
@@ -119,7 +122,8 @@
                                             $reportcol = 'report4';
                                         }
                                         if ($past_game->{$reportcol} !== null) {
-                                            $report_btn = '<span class="text-success"><i class="fa-solid fa-check"></i> Submitted</span>';
+                                            $report_btn =
+                                                '<span class="text-success"><i class="fa-solid fa-check"></i> Submitted</span>';
                                         } else {
                                             $report_btn =
                                                 '
@@ -167,6 +171,11 @@
                 <div class="modal-body">
                     <form action="{{ url('umpire/submit-report') }}" method="POST">
                         @csrf
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="toggle_email_noti" name="toggle_email_noti">
+                            <label class="form-check-label" for="toggle_email_noti">Notify league admin of
+                                report</label>
+                        </div>
                         <input type="hidden" name="game_id" required>
                         <input type="hidden" name="report_column" required>
                         <div class="toptext-modal" id="subtext"></div>
@@ -175,11 +184,10 @@
                         </div>
 
                         <div class="text-center submit-bten-modal">
-                            <button class="submitbtns" type="submit">Submit</button>
+                            <button id="reportSubmitBtn" class="submitbtns" type="submit">Submit</button>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
@@ -268,8 +276,11 @@
     </script>
     <script>
         $(document).ready(function(e) {
+            $('#toggle_email_noti').prop('checked', false);
             $('form').on('submit', (function(e) {
                 e.preventDefault();
+                $('#reportSubmitBtn').text('Updating...');
+                $('#reportSubmitBtn').attr('disabled', true);
                 $.ajax({
                     url: $(this).attr('action'),
                     mimeType: "multipart/form-data",
@@ -289,9 +300,15 @@
                         } else {
                             toastr.error(res.message);
                         }
+                        $('#reportSubmitBtn').text('Submit');
+                        $('#reportSubmitBtn').attr('disabled', false);
+                        $('#toggle_email_noti').prop('checked', false);
                     },
                     error: function(response) {
                         toastr.error('Something went wrong..!!');
+                        $('#reportSubmitBtn').text('Submit');
+                        $('#reportSubmitBtn').attr('disabled', false);
+                        $('#toggle_email_noti').prop('checked', false);
                     }
                 });
             }));

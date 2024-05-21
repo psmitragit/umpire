@@ -2990,7 +2990,9 @@ input:checked+.slider:before {
     display: inline-flex;
     align-items: center;
 }
-
+.text-primary.highlighted_class {
+    font-weight: bolder;
+  }
 #colors1,
 #colors2,
 #colors3 {

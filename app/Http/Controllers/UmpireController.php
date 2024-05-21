@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AllMail;
 use App\Mail\ApplyToLeagueMail;
 use Exception;
 use App\Mail\OTPMail;
@@ -18,6 +19,7 @@ use Illuminate\Support\Carbon;
 use App\Models\GameReportModel;
 use App\Models\UmpirePrefModel;
 use App\Models\BlockGroundModel;
+use App\Models\HighlightedReportModel;
 use App\Models\LeagueUmpireModel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -927,7 +929,9 @@ class UmpireController extends Controller
     {
         try {
             $game_id = $request->input('game_id');
+            $game = GameModel::find($game_id);
             $report_column = $request->input('report_column');
+            $toggle_email = $request->toggle_email_noti;
             $umpid = logged_in_umpire_data()->umpid;
             $answers = $request->input('ans');
             $report_ids = [];
@@ -944,11 +948,24 @@ class UmpireController extends Controller
                 }
             }
             $report_col_data = implode(',', $report_ids);
-            $game = GameModel::find($game_id);
             $game->{$report_column} = $report_col_data;
             $game->save();
             $res = ['status' => 1, 'gameid' => $game_id];
             $msg = 'Umpire submitted report for the game on ' . date('D m/d/y', strtotime($game->gamedate));
+            if ($toggle_email) {
+                $toggle_email_data = [
+                    'gameid' => $game_id,
+                    'report_col' => $report_column,
+                ];
+                HighlightedReportModel::create($toggle_email_data);
+                try {
+                    $leagueAdminEmails = $game->league->users()->pluck('email');
+                    $subject = 'Umpire Report Submit';
+                    Mail::to($leagueAdminEmails)->send(new AllMail($subject, $msg));
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+            }
             add_notification($game->leagueid, $msg, 6, 'league');
         } catch (\Throwable $th) {
             $res = ['status' => 0];

@@ -3,6 +3,7 @@
 use App\Mail\Payment;
 use App\Models\ApplyToLeague;
 use App\Models\GameModel;
+use App\Models\HighlightedReportModel;
 use App\Models\UserModel;
 use App\Models\LeagueModel;
 use App\Models\PayoutModel;
@@ -360,6 +361,10 @@ function get_age($dob)
 
     return $age;
 }
+function checkIfReportIsHighlighted($gameid, $report_col)
+{
+    return HighlightedReportModel::where('gameid', $gameid)->where('report_col', $report_col)->first();
+}
 function add_payRecord($leagueid, $umpid, $paydate, $payamt, $pmttype, $gameid = null)
 {
     try {
@@ -445,7 +450,7 @@ function refund_point_to_Aumpire($leagueumpire_row, $game_id)
                 $refund_game_instance->delete();
                 return true;
             }
-        }else{
+        } else {
             return false;
         }
     } catch (\Throwable $th) {

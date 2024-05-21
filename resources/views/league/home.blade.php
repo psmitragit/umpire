@@ -5,12 +5,12 @@
             <h1 class="pageTitle">Home</h1>
             <div class="mapbtns-div">
                 <div class="Admins">
-                <div class="inputs-srch">
-                    <input placeholder="Search" class="input-srch-field" type="text" oninput="search()" id="searchInput">
-                    <button class="srch-mag-btn" type="button"> <img src="{{ asset('storage/league') }}/img/srch-icon.png"
-                            alt=""> </button>
-                    <input type="hidden" name="table_type" value="myTable">
-                </div>
+                    <div class="inputs-srch">
+                        <input placeholder="Search" class="input-srch-field" type="text" oninput="search()" id="searchInput">
+                        <button class="srch-mag-btn" type="button"> <img
+                                src="{{ asset('storage/league') }}/img/srch-icon.png" alt=""> </button>
+                        <input type="hidden" name="table_type" value="myTable">
+                    </div>
                 </div>
             </div>
         </div>
@@ -115,14 +115,37 @@
                                             if ($league_past_game->{$col} !== null) {
                                                 if ($league_past_game->report == 1) {
                                                     if ($league_past_game->{$report_col} !== null) {
-                                                        $report = '<a href="javascript:void(0)" class="text-primary" onclick="view_report(' . $league_past_game->gameid . ', \'' . $report_col . '\')">View Report</a>';
+                                                        if (
+                                                            checkIfReportIsHighlighted(
+                                                                $league_past_game->gameid,
+                                                                $report_col,
+                                                            )
+                                                        ) {
+                                                            $highlighted_class = 'highlighted_class';
+                                                        } else {
+                                                            $highlighted_class = '';
+                                                        }
+                                                        $report =
+                                                            '<a href="javascript:void(0)" class="text-primary ' .
+                                                            $highlighted_class .
+                                                            '" onclick="view_report(' .
+                                                            $league_past_game->gameid .
+                                                            ', \'' .
+                                                            $report_col .
+                                                            '\')">View Report</a>';
                                                     } else {
-                                                        $report = '<a href="javascript:void(0)" class="text-danger">Report Not Submitted</a>';
+                                                        $report =
+                                                            '<a href="javascript:void(0)" class="text-danger">Report Not Submitted</a>';
                                                     }
                                                 } else {
                                                     $report = '';
                                                 }
-                                                ${'ump' . $i} = '<div>' . $league_past_game->{'umpire' . $i}->name . '</div><div>' . $report . '</div>';
+                                                ${'ump' . $i} =
+                                                    '<div>' .
+                                                    $league_past_game->{'umpire' . $i}->name .
+                                                    '</div><div>' .
+                                                    $report .
+                                                    '</div>';
                                             } else {
                                                 ${'ump' . $i} = '<span class="text-danger">Empty</span>';
                                             }
