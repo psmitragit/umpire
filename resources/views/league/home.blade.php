@@ -41,41 +41,56 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($league_upcomming_games->count() > 0)
-                            @foreach ($league_upcomming_games as $league_upcomming_game)
-                                @php
-                                    $inputDate = $league_upcomming_game->gamedate_toDisplay;
-                                    $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
-                                    $gamedate = $carbonDate->format('D m/d/y h:ia');
-                                    for ($i = 1; $i <= 4; $i++) {
-                                        $col = 'ump' . $i;
-                                        if ($league_upcomming_game->umpreqd >= $i) {
-                                            if ($league_upcomming_game->{$col} !== null) {
-                                                ${'ump' . $i} = $league_upcomming_game->{'umpire' . $i}->name;
-                                            } else {
-                                                ${'ump' . $i} = '<span class="text-danger">Empty</span>';
-                                            }
-                                        } else {
-                                            ${'ump' . $i} = '_ _';
-                                        }
-                                    }
-                                @endphp
+                        @php
+                            $rowCount = 0;
+                        @endphp
+                        @if ($league_upcomming_games_grouped->count() > 0)
+                            @foreach ($league_upcomming_games_grouped as $groupByDate => $league_upcomming_games)
                                 <tr>
-                                    <td>{{ $gamedate }}</td>
-                                    <td class="team">{{ $league_upcomming_game->hometeam->teamname }} vs
-                                        {{ $league_upcomming_game->awayteam->teamname }}</td>
-                                    <td><span class="aspans">{{ $league_upcomming_game->location->ground }}</span></td>
-                                    <td class="color-prmths">{!! $ump1 !!}</td>
-                                    <td class="color-prmths">{!! $ump2 !!}</td>
-                                    <td class="color-prmths">{!! $ump3 !!}</td>
-                                    <td class="color-prmths">{!! $ump4 !!}</td>
+                                    <td colspan="7">
+                                        <h6>
+                                            {{ date('l F jS Y', strtotime($groupByDate)) }}
+                                        </h6>
+                                    </td>
                                 </tr>
+                                @foreach ($league_upcomming_games as $league_upcomming_game)
+                                    @php
+                                        $inputDate = $league_upcomming_game->gamedate_toDisplay;
+                                        $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
+                                        $gamedate = $carbonDate->format('D m/d/y h:ia');
+                                        for ($i = 1; $i <= 4; $i++) {
+                                            $col = 'ump' . $i;
+                                            if ($league_upcomming_game->umpreqd >= $i) {
+                                                if ($league_upcomming_game->{$col} !== null) {
+                                                    ${'ump' . $i} = $league_upcomming_game->{'umpire' . $i}->name;
+                                                } else {
+                                                    ${'ump' . $i} = '<span class="text-danger">Empty</span>';
+                                                }
+                                            } else {
+                                                ${'ump' . $i} = '_ _';
+                                            }
+                                        }
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $gamedate }}</td>
+                                        <td class="team">{{ $league_upcomming_game->hometeam->teamname }} vs
+                                            {{ $league_upcomming_game->awayteam->teamname }}</td>
+                                        <td><span class="aspans">{{ $league_upcomming_game->location->ground }}</span></td>
+                                        <td class="color-prmths">{!! $ump1 !!}</td>
+                                        <td class="color-prmths">{!! $ump2 !!}</td>
+                                        <td class="color-prmths">{!! $ump3 !!}</td>
+                                        <td class="color-prmths">{!! $ump4 !!}</td>
+                                    </tr>
+                                    @php
+                                        $rowCount++;
+                                    @endphp
+                                @endforeach
                             @endforeach
                         @endif
                     </tbody>
 
                 </table>
-                @if ($league_upcomming_games->count() > 10)
+                @if ($rowCount > 10)
                     <button id="toggleButton"><i class="fa-solid fa-angle-down"></i></button>
                 @endif
             </div>

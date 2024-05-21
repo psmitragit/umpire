@@ -282,9 +282,12 @@ class LeagueController extends Controller
 
         $league_upcomming_games_instance = clone $league_games_instance;
         $league_past_games_instance = clone $league_games_instance;
-        $league_upcomming_games = $league_upcomming_games_instance->where('gamedate_toDisplay', '>=', now())->orderBy('gamedate_toDisplay', 'ASC')->get();
+        $league_upcomming_games_grouped = $league_upcomming_games_instance->where('gamedate_toDisplay', '>=', now())->orderBy('gamedate_toDisplay', 'ASC')->get()
+            ->groupBy(function ($date) {
+                return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
+            });
         $league_past_games = $league_past_games_instance->where('gamedate_toDisplay', '<', now())->orderBy('gamedate_toDisplay', 'DESC')->get();
-        $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_upcomming_games', 'league_past_games');
+        $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_upcomming_games_grouped', 'league_past_games');
         return view('league.home')->with($data);
     }
     public function view_report($gameid, $col)
