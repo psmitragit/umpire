@@ -617,10 +617,16 @@ class GeneralController extends Controller
         $past_games = GameModel::where('gamedate_toDisplay', '<', now())
             ->where('status', 0)
             ->get();
-        if (!$past_games->isEmpty()) {
+            // dd($past_games);
+        if ($past_games->count() > 0) {
             foreach ($past_games as $past_game) {
                 $past_game->report == 0 ? $flag = true : $flag = false;
                 $reportNAN = 0;
+                $paidUmpires = $past_game->paid_umpires;
+                $paidUmpIds = [];
+                if (!empty($paidUmpires)) {
+                    $paidUmpIds = explode(',', $paidUmpires);
+                }
                 for ($i = 1; $i <= 4; $i++) {
                     $col = 'ump' . $i;
                     $reportCol = 'report' . $i;
@@ -638,14 +644,15 @@ class GeneralController extends Controller
                         } else {
                             $umpFlag = true;
                         }
-                        if ($umpFlag) { //if report is given or no report needed thn only proceed to payment
-                            $leagueumpire = $umpire->leagues()->where('leagueid', $past_game->leagueid)->first();
-                            if (refund_point_to_Aumpire($leagueumpire, $past_game->gameid)) {
+                        if (!in_array($umpid, $paidUmpIds)) {
+                            if ($umpFlag) { //if report is given or no report needed thn only proceed to payment
+                                $leagueumpire = $umpire->leagues()->where('leagueid', $past_game->leagueid)->first();
+                                refund_point_to_Aumpire($leagueumpire, $past_game->gameid);
                                 $owed = $leagueumpire->owed ?? 0;
                                 if ($col == 'ump1') {
-                                    $pay = $past_game->ump1pay + $past_game->ump1bonus;
+                                    $pay = $past_game->ump1pay + (float)$past_game->ump1bonus;
                                 } else {
-                                    $pay = $past_game->ump234pay + $past_game->ump234bonus;
+                                    $pay = $past_game->ump234pay + (float)$past_game->ump234bonus;
                                 }
                                 $profilePay = $leagueumpire->payout ?? 0;
                                 //if profile pay is higher thn the game payout thn give umpire the  highest pay
@@ -657,17 +664,19 @@ class GeneralController extends Controller
                                 //saving the owe
                                 $leagueumpire->owed = $owed;
                                 if ($leagueumpire->save()) {
-                                    add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, date('Y-m-d', strtotime($past_game->gamedate_toDisplay)), $pay, 'game', $past_game->gameid);
+                                    if (add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, date('Y-m-d', strtotime($past_game->gamedate_toDisplay)), $pay, 'game', $past_game->gameid)) {
+                                        $past_game->paid_umpires .= ',' . $umpid;
+                                        $past_game->paid_umpires = ltrim($past_game->paid_umpires, ',');
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
                 if ($reportNAN == 0) {
                     $past_game->status = 1;
-                    $past_game->save();
                 }
+                $past_game->save();
             }
         }
     }

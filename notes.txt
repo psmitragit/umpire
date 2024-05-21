@@ -1,1 +1,2 @@
-`manualAssignAlgoRunStatus` removed from games table
+UPDATE users
+SET email = CONCAT('demoemail', uid, '@yopmail.com');
