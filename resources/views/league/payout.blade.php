@@ -4,8 +4,9 @@
         <div class="list-viw-contet mt-30px" id="list-conssst2">
             <div class="namphomediv">
                 <h1 class="pageTitle">PAYOUT</h1>
-                <a class="confirmCancel redbtn" style="padding: 5px 26px;" data-text="Are you sure that you want to mark everyone as paid fully?"
-                    href="{{ url('league/pay-all') }}" role="button">Pay All</a>
+                <a class="confirmCancel redbtn" style="padding: 5px 26px;"
+                    data-text="Are you sure that you want to mark everyone as paid fully?" href="{{ url('league/pay-all') }}"
+                    role="button">Pay All</a>
                 <div class="mapbtns-div moasbflexs">
                     <div class="Admins">
                         <div class="inputs-srch">
@@ -20,7 +21,7 @@
             </div>
 
             <div id="myTable">
-                <table class="payout rowas-tabl" id="myTable">
+                <table class="payout rowas-tabl" id="myDTable">
                     <thead>
                         <tr>
                             <th>
@@ -33,8 +34,8 @@
                             {{-- <th>Add Bonus $ (Optional)</th> --}}
                             <th>Adjusted amount $ (Optional)</th>
                             <th>Payment date</th>
-
-
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +48,8 @@
                                             id="amount{{ $data->id }}"> </td>
                                     <td> <input type="text" class="datescs bonus trasbsp"
                                             id="bonus_amount{{ $data->id }}"> </td>
-                                    <td> <input value="{{ date('Y-m-d') }}" type="date" class="datescs tsbns" id="paydate{{ $data->id }}"></td>
+                                    <td> <input value="{{ date('Y-m-d') }}" type="date" class="datescs tsbns"
+                                            id="paydate{{ $data->id }}"></td>
                                     <td><button data-id="{{ $data->id }}" class="redbtn  ass submit pay"
                                             class="application butnts" type="button">Update</button></td>
                                     <td><button data-received="{{ $data->received ?? 0 }}"
@@ -166,6 +168,25 @@
                         $(element).attr('disabled', false);
                     }
                 }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#myDTable').DataTable({
+                "searching": false,
+                "pageLength": -1,
+                "lengthChange": false,
+                "order": [[1, 'desc']],
+                "columnDefs": [{
+                        "orderable": true,
+                        "targets": [0, 1]
+                    },
+                    {
+                        "orderable": false,
+                        "targets": "_all"
+                    }
+                ]
             });
         });
     </script>

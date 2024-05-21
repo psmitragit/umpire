@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('storage/league') }}/css/slick-theme.css">
     <link rel="stylesheet" href="{{ asset('storage/league') }}/css/slick.css">
     <link rel="stylesheet" href="{{ asset('storage/league') }}/css/style.css">
+    <link rel="stylesheet" href="{{ asset('storage/league') }}/css/dataTables.dataTables.min.css">
     <link rel="stylesheet" href="{{ asset('storage/css/toastr.min.css') }}">
     @livewireStyles
     @livewireScripts
@@ -23,6 +24,7 @@
     <script src="{{ asset('storage/league') }}/js/nav.js"></script>
     <script src="{{ asset('storage/league') }}/js/slick.min.js"></script>
     <script src="{{ asset('storage/league') }}/js/jquery-ui.js"></script>
+    <script src="{{ asset('storage/league') }}/js/dataTables.min.js"></script>
     <script src="{{ asset('storage/league') }}/js/app.js"></script>
     <script src="{{ asset('storage/js/toastr.min.js') }}"></script>
     <script>
