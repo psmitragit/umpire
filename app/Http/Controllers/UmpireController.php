@@ -964,7 +964,7 @@ class UmpireController extends Controller
         $todate = request('todate', null);
         if ($fromdate == null && $todate == null) {
             $payouts = $umpire_data->payouts()
-                ->orderBy('paydate', 'ASC')
+                ->orderBy('id', 'DESC')
                 ->get();;
         } else {
             $fromdate = date('Y-m-d', strtotime(request('fromdate', null)));

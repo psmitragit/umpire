@@ -118,14 +118,23 @@
                                 $received = '__';
                                 if ($payout->pmttype == 'game') {
                                     $game = $payout->game;
-                                    $particular = '<span class="team">' . $game->hometeam->teamname . ' vs ' . $game->awayteam->teamname . '</span>';
+                                    $particular =
+                                        '<span class="team">' .
+                                        $game->hometeam->teamname .
+                                        ' vs ' .
+                                        $game->awayteam->teamname .
+                                        '</span>';
                                     $amount = '$' . $payout->payamt;
                                 } elseif ($payout->pmttype == 'payout') {
                                     $particular = '<span class="team">Payout</span>';
                                     $received = '$' . $payout->payamt;
-                                } elseif ($payout->pmttype == 'bonus') {
-                                    $particular = '<span class="text-success">Bonus</span>';
-                                    $received = '$' . $payout->payamt;
+                                } elseif ($payout->pmttype == 'adjusted') {
+                                    $particular = '<span class="text-success">Adjusted</span>';
+                                    if ($payout->payamt < 0) {
+                                        $received = '-$ ' . str_replace('-', '', $payout->payamt) . '';
+                                    } else {
+                                        $received = '$ ' . $payout->payamt . '';
+                                    }
                                 }
                             @endphp
                             <tr>
@@ -304,7 +313,7 @@
                             responsive: false, // Enable responsiveness
                             maintainAspectRatio: true, // Disable aspect ratio
                             height: 160, // Set the height
-                            width: 160 , // Set the width
+                            width: 160, // Set the width
                         },
                     });
                 }
