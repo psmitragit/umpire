@@ -2116,7 +2116,11 @@ class LeagueController extends Controller
                 $output .= '<tr>';
                 $output .= '<td>' . $type . '</td>';
                 $output .= '<td class="time-table">' . $date . '</td>';
-                $output .= '<td>$ ' . $payout->payamt . '</td>';
+                if ($payout->payamt < 0) {
+                    $output .= '<td>-$ ' . str_replace('-', '', $payout->payamt) . '</td>';
+                } else {
+                    $output .= '<td>$ ' . $payout->payamt . '</td>';
+                }
                 $output .= '<td>$ ' . $payout->owe . '</td>';
                 if ($payout->pmttype !== 'game') {
                     $output .= '<td class="text-danger"><a href="' . url('league/delete-payout/' . $payout->id) . '" onclick="return confirm(\'Are you sure?\')"><i class="fa-regular fa-trash-can"></i></a></td>';
@@ -2146,7 +2150,7 @@ class LeagueController extends Controller
                 'nullable',
                 'required_without:amount',
                 'numeric',
-                'gt:0',
+                // 'gt:0',
             ],
             'paydate' => 'required|date',
         ];
@@ -2178,9 +2182,9 @@ class LeagueController extends Controller
             if ($amount > 0) {
                 add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $amount, 'payout');
             }
-            if ($bonus_amount > 0) {
-                add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $bonus_amount, 'adjusted');
-            }
+            // if ($bonus_amount > 0) {
+            add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $bonus_amount, 'adjusted');
+            // }
             return response()->json(['message' => 'Success', 'new_owe' => $new_owe, 'new_received' => $received], 200);
         } else {
             return response()->json([
