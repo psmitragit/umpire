@@ -290,6 +290,10 @@ class LeagueController extends Controller
         $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_upcomming_games_grouped', 'league_past_games');
         return view('league.home')->with($data);
     }
+    public function reportAbsent($gameid, $column, $umpid)
+    {
+        reportFake($gameid, $column, $umpid);
+    }
     public function view_report($gameid, $col)
     {
         $game = GameModel::findOrfail($gameid);
@@ -2202,7 +2206,7 @@ class LeagueController extends Controller
         $umpid = $payout_row->umpid;
         $payamt = (float)$payout_row->payamt;
         $pmttype = $payout_row->pmttype;
-        if ($pmttype !== 'game') {
+        // if ($pmttype !== 'game') {
             if ($payout_row->delete()) {
                 $leagueumpire = LeagueUmpireModel::where('leagueid', $leagueid)
                     ->where('umpid', $umpid)
@@ -2221,7 +2225,7 @@ class LeagueController extends Controller
                             $related_row->update(['owe' => $new_owe]);
                         }
                     }
-                } elseif ($pmttype == 'adjusted') {
+                } elseif ($pmttype == 'adjusted' || $pmttype == 'game') {
                     $leagueumpire->bonus -= (float)$payamt;
                     $leagueumpire->owed -= $payamt;
 
@@ -2237,9 +2241,10 @@ class LeagueController extends Controller
             } else {
                 Session::flash('error_message', 'Something went wrong..!!');
             }
-        } else {
-            Session::flash('error_message', 'Game payouts can\'t be deleted..!!');
-        }
+        // }
+        //  else {
+        //     Session::flash('error_message', 'Game payouts can\'t be deleted..!!');
+        // }
         return redirect()->back();
     }
     public function view_change_password()

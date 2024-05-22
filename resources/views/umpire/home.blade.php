@@ -137,8 +137,12 @@
                                             $reportcol = 'report4';
                                         }
                                         if ($past_game->{$reportcol} !== null) {
-                                            $report_btn =
-                                                '<span class="text-success"><i class="fa-solid fa-check"></i> Submitted</span>';
+                                            if (checkIfReportIsFake($past_game->gameid, $reportcol)) {
+                                                $report_btn = '<span class="text-danger">Absent</span>';
+                                            } else {
+                                                $report_btn =
+                                                    '<span class="text-success"><i class="fa-solid fa-check"></i> Submitted</span>';
+                                            }
                                         } else {
                                             if (!checkIfReportIsFake($past_game->gameid, $reportcol)) {
                                                 $report_btn =

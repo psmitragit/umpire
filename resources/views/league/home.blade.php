@@ -152,6 +152,21 @@
                                                         $report =
                                                             '<a href="javascript:void(0)" class="text-danger">Report Not Submitted</a>';
                                                     }
+                                                    if (!checkIfReportIsFake($league_past_game->gameid, $report_col)) {
+                                                        $report .=
+                                                            '<div>
+                                            <a href="javascript:void(0)" class="view-btn primart-yehs" onclick="reportAbsent(' .
+                                                            $league_past_game->gameid .
+                                                            ', \'' .
+                                                            $report_col .
+                                                            '\', ' .
+                                                            $league_past_game->{$col} .
+                                                            ')">Report absent</a>
+                                            </div>
+                                            ';
+                                                    } else {
+                                                        $report = '<span class="text-danger">Absent</span>';
+                                                    }
                                                 } else {
                                                     $report = '';
                                                 }
@@ -274,6 +289,18 @@
                     $('#subtext').html(teamvs + ' of ' + leaguename);
                     $('#reportquestions').html(res);
                     $('#reportModal').modal('show');
+                },
+                error: function(res) {
+                    toastr.error('Something went wrong..!!');
+                }
+            });
+        }
+
+        function reportAbsent(gameid, report_column, umpid) {
+            $.ajax({
+                url: "{{ url('league/report-absent') }}" + '/' + gameid + '/' + report_column + '/' + umpid,
+                success: function(res) {
+                   window.location.reload();
                 },
                 error: function(res) {
                     toastr.error('Something went wrong..!!');

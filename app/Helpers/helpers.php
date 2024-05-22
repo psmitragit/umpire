@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LeagueController;
 use App\Mail\Payment;
 use App\Models\AbsentReportModel;
 use App\Models\ApplyToLeague;
@@ -380,6 +381,9 @@ function reportFake($gameid, $report_col, $umpid)
     }
     if (in_array($umpid, $paidUmpIds)) {
         // deduct
+        $payRecordRow = PayoutModel::where('gameid', $gameid)->where('umpid', $umpid)->first();
+        $leagueController = new LeagueController();
+        $leagueController->delete_payout($payRecordRow->id);
     }
     $data = [
         'gameid' => $gameid,

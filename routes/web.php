@@ -47,6 +47,7 @@ Route::post('/league-signup', [LeagueController::class, 'saveLeague']);
 Route::middleware(['leagueLoginCheck'])->group(function () {
     Route::get('/league', [LeagueController::class, 'league_view']);
     Route::get('/league/view-report/{id}/{col}', [LeagueController::class, 'view_report']);
+    Route::get('/league/report-absent/{gameid}/{column}/{umpid}', [LeagueController::class, 'reportAbsent']);
     Route::get('/league/logout', [LoginController::class, 'leagueLogout']);
     Route::get('/league/change-password', [LeagueController::class, 'view_change_password']);
     //general
