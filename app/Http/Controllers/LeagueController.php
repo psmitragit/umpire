@@ -2207,40 +2207,40 @@ class LeagueController extends Controller
         $payamt = (float)$payout_row->payamt;
         $pmttype = $payout_row->pmttype;
         // if ($pmttype !== 'game') {
-            if ($payout_row->delete()) {
-                $leagueumpire = LeagueUmpireModel::where('leagueid', $leagueid)
-                    ->where('umpid', $umpid)
-                    ->first();
-                $related_rows = PayoutModel::where('leagueid', $leagueid)
-                    ->where('umpid', $umpid)
-                    ->where('id', '>', $payout_id)
-                    ->get();
-                if ($pmttype == 'payout') {
-                    $leagueumpire->owed += $payamt;
-                    $leagueumpire->received -= $payamt;
+        if ($payout_row->delete()) {
+            $leagueumpire = LeagueUmpireModel::where('leagueid', $leagueid)
+                ->where('umpid', $umpid)
+                ->first();
+            $related_rows = PayoutModel::where('leagueid', $leagueid)
+                ->where('umpid', $umpid)
+                ->where('id', '>', $payout_id)
+                ->get();
+            if ($pmttype == 'payout') {
+                $leagueumpire->owed += $payamt;
+                $leagueumpire->received -= $payamt;
 
-                    if (!$related_rows->isEmpty()) {
-                        foreach ($related_rows as $related_row) {
-                            $new_owe = (float)$related_row->owe + $payamt;
-                            $related_row->update(['owe' => $new_owe]);
-                        }
-                    }
-                } elseif ($pmttype == 'adjusted' || $pmttype == 'game') {
-                    $leagueumpire->bonus -= (float)$payamt;
-                    $leagueumpire->owed -= $payamt;
-
-                    if (!$related_rows->isEmpty()) {
-                        foreach ($related_rows as $related_row) {
-                            $new_owe = (float)$related_row->owe - $payamt;
-                            $related_row->update(['owe' => $new_owe]);
-                        }
+                if (!$related_rows->isEmpty()) {
+                    foreach ($related_rows as $related_row) {
+                        $new_owe = (float)$related_row->owe + $payamt;
+                        $related_row->update(['owe' => $new_owe]);
                     }
                 }
-                $leagueumpire->save();
-                Session::flash('message', 'Success');
-            } else {
-                Session::flash('error_message', 'Something went wrong..!!');
+            } elseif ($pmttype == 'adjusted' || $pmttype == 'game') {
+                $leagueumpire->bonus -= (float)$payamt;
+                $leagueumpire->owed -= $payamt;
+
+                if (!$related_rows->isEmpty()) {
+                    foreach ($related_rows as $related_row) {
+                        $new_owe = (float)$related_row->owe - $payamt;
+                        $related_row->update(['owe' => $new_owe]);
+                    }
+                }
             }
+            $leagueumpire->save();
+            Session::flash('message', 'Success');
+        } else {
+            Session::flash('error_message', 'Something went wrong..!!');
+        }
         // }
         //  else {
         //     Session::flash('error_message', 'Game payouts can\'t be deleted..!!');
@@ -2340,7 +2340,7 @@ class LeagueController extends Controller
                             }
                         } else {
                             $condition_met = true; // Set the flag to true if time is blocked
-                            Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on the game time.2');
+                            Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on the game time');
                         }
                     }
                 } else {
@@ -2429,6 +2429,8 @@ class LeagueController extends Controller
                 if (!$condition_met) {
                     if ($this->assign_ump_toAgamePosition($gameid, $pos, $umpid, 1)) {
                         Session::flash('message', 'Success');
+                        $msg = 'New game assigned on ' . date('D m/d/y', strtotime($game->gamedate));
+                        add_notification($umpid, $msg, 4, 'ump');
                         $res = ['status' => 1];
                     } else {
                         Session::flash('error_message', 'Something went wrong..!!');
@@ -2466,7 +2468,11 @@ class LeagueController extends Controller
             if ($league->email_settings->join_game == 1) {
                 foreach ($league->users as $league_admin) {
                     $league_admin_email = $league_admin->email;
-                    Mail::to($league_admin_email)->send(new ScheduleGame($league, $umpire, $game, 'league', $league_admin_email));
+                    try {
+                        Mail::to($league_admin_email)->send(new ScheduleGame($league, $umpire, $game, 'league', $league_admin_email));
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                    }
                 }
             }
             if ($returnType == 1) {
@@ -2476,7 +2482,7 @@ class LeagueController extends Controller
                 return redirect()->back();
             }
         } catch (Exception $e) {
-            dd($e);
+            // dd($e);
         }
     }
     public function remove_umpire(int $gameid, $pos)
