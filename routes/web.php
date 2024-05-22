@@ -169,6 +169,7 @@ Route::middleware(['umpireLoginCheck'])->group(function () {
     Route::get('/umpire/earning', [UmpireController::class, 'view_earnings']);
     Route::get('/umpire/barchart', [UmpireController::class, 'barchart']);
     Route::get('/umpire/piechart', [UmpireController::class, 'piechart']);
+    Route::get('/umpire/report-absent/{gameid}/{column}', [UmpireController::class, 'reportAbsent']);
 });
 //admin
 Route::get('/admin/login', [LoginController::class, 'viewAdminLogin']);

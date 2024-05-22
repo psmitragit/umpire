@@ -140,14 +140,29 @@
                                             $report_btn =
                                                 '<span class="text-success"><i class="fa-solid fa-check"></i> Submitted</span>';
                                         } else {
-                                            $report_btn =
-                                                '
+                                            if (!checkIfReportIsFake($past_game->gameid, $reportcol)) {
+                                                $report_btn =
+                                                    '
+                                                <div>
                                             <a href="javascript:void(0)" class="view-btn primart-yehs" onclick="submitReport(' .
-                                                $past_game->gameid .
-                                                ', \'' .
-                                                $reportcol .
-                                                '\')">Submit Report</a>
+                                                    $past_game->gameid .
+                                                    ', \'' .
+                                                    $reportcol .
+                                                    '\')">Submit Report</a>
+                                            </div>
                                             ';
+                                                $report_btn .=
+                                                    '<div>
+                                            <a href="javascript:void(0)" class="view-btn primart-yehs" onclick="reportAbsent(' .
+                                                    $past_game->gameid .
+                                                    ', \'' .
+                                                    $reportcol .
+                                                    '\')">Report absent</a>
+                                            </div>
+                                            ';
+                                            } else {
+                                                $report_btn = '<span class="text-danger">Absent</span>';
+                                            }
                                         }
                                     } else {
                                         $report_btn = '<span class="text-secondary">NA</span>';
@@ -282,6 +297,19 @@
                     $('#subtext').html(teamvs + ' of ' + leaguename);
                     $('#reportquestions').html(res);
                     $('#reportModal').modal('show');
+                },
+                error: function(res) {
+                    toastr.error('Something went wrong..!!');
+                }
+            });
+        }
+
+        function reportAbsent(gameid, report_column) {
+            $.ajax({
+                url: "{{ url('umpire/report-absent') }}" + '/' + gameid + '/' + report_column,
+                success: function(res) {
+                    let btnhtml = '<span class="text-danger">Absent</span>';
+                    $('#reportbtnrow' + gameid).html(btnhtml);
                 },
                 error: function(res) {
                     toastr.error('Something went wrong..!!');

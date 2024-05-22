@@ -202,6 +202,11 @@ class UmpireController extends Controller
         $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'umpire_past_games', 'umpire_upcomming_games_grouped');
         return view('umpire.home')->with($data);
     }
+    public function reportAbsent($gameid, $column)
+    {
+        $umpire_data = logged_in_umpire_data();
+        reportFake($gameid, $column, $umpire_data->umpid);
+    }
     public function league_games($leagueid)
     {
         $title = 'Umpire League Games';

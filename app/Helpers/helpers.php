@@ -1,6 +1,7 @@
 <?php
 
 use App\Mail\Payment;
+use App\Models\AbsentReportModel;
 use App\Models\ApplyToLeague;
 use App\Models\GameModel;
 use App\Models\HighlightedReportModel;
@@ -364,6 +365,28 @@ function get_age($dob)
 function checkIfReportIsHighlighted($gameid, $report_col)
 {
     return HighlightedReportModel::where('gameid', $gameid)->where('report_col', $report_col)->first();
+}
+function checkIfReportIsFake($gameid, $report_col)
+{
+    return AbsentReportModel::where('gameid', $gameid)->where('report_col', $report_col)->first();
+}
+function reportFake($gameid, $report_col, $umpid)
+{
+    $game = GameModel::find($gameid);
+    $paidUmpires = $game->paid_umpires;
+    $paidUmpIds = [];
+    if (!empty($paidUmpires)) {
+        $paidUmpIds = explode(',', $paidUmpires);
+    }
+    if (in_array($umpid, $paidUmpIds)) {
+        // deduct
+    }
+    $data = [
+        'gameid' => $gameid,
+        'umpid' => $umpid,
+        'report_col' => $report_col,
+    ];
+    AbsentReportModel::create($data);
 }
 function add_payRecord($leagueid, $umpid, $paydate, $payamt, $pmttype, $gameid = null)
 {
