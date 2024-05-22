@@ -528,8 +528,8 @@ function umpire_upcoming_games($limit = false)
             ->orWhere('ump3', $umpid)
             ->orWhere('ump4', $umpid);
     })
-        ->where('gamedate', '>=', now())
-        ->orderBy('gamedate', 'ASC');
+        ->where('gamedate_toDisplay', '>=', now())
+        ->orderBy('gamedate_toDisplay', 'ASC');
 
     if ($limit !== false) {
         $query->limit($limit);
@@ -549,8 +549,8 @@ function league_upcoming_games($limit = false)
     $leagueid = $league_data->leagueid;
 
     $query = GameModel::where('leagueid', $leagueid)
-        ->where('gamedate', '>=', now())
-        ->orderBy('gamedate', 'ASC');
+        ->where('gamedate_toDisplay', '>=', now())
+        ->orderBy('gamedate_toDisplay', 'ASC');
 
     if ($limit !== false) {
         $query->limit($limit);
