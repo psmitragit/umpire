@@ -180,11 +180,11 @@ class UmpireController extends Controller
 
         $umpire_games = $umpire_games_instance->get();
 
-        $umpire_upcomming_games_grouped = $umpire_upcomming_games_instance->where('gamedate', '>=', now())->orderBy('gamedate_toDisplay', 'ASC')->get()->groupBy(function ($date) {
+        $umpire_upcomming_games_grouped = $umpire_upcomming_games_instance->where('gamedate_toDisplay', '>=', now())->orderBy('gamedate_toDisplay', 'ASC')->get()->groupBy(function ($date) {
             return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
         });
 
-        $umpire_past_games = $umpire_past_games_instance->where('gamedate', '<', now())->orderBy('gamedate_toDisplay', 'DESC')->get();
+        $umpire_past_games = $umpire_past_games_instance->where('gamedate_toDisplay', '<', now())->orderBy('gamedate_toDisplay', 'DESC')->get();
 
 
         $location_details = array();
