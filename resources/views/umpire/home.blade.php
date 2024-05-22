@@ -38,53 +38,68 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($umpire_upcomming_games->count() > 0)
-                            @foreach ($umpire_upcomming_games as $upcoming_game)
-                                @php
-                                    $inputDate = $upcoming_game->gamedate_toDisplay;
-                                    $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
-                                    $gamedate = $carbonDate->format('D m/d/y h:ia');
-                                    $umpType = '';
-                                    if ($upcoming_game->ump1 == $umpire_data->umpid) {
-                                        $umpType = 'Main Umpire';
-                                    } elseif ($upcoming_game->ump2 == $umpire_data->umpid) {
-                                        $umpType = '2nd Umpire';
-                                    } elseif ($upcoming_game->ump3 == $umpire_data->umpid) {
-                                        $umpType = '3rd Umpire';
-                                    } elseif ($upcoming_game->ump4 == $umpire_data->umpid) {
-                                        $umpType = '4th Umpire';
-                                    }
-
-                                    $today = Illuminate\Support\Carbon::now();
-                                    $game_date = explode(' ', $upcoming_game->gamedate)[0];
-                                    $cancelbefore = (int) $upcoming_game->league->leavebefore;
-                                    $initialDate = Illuminate\Support\Carbon::parse($game_date);
-                                    $modifiedDate = $initialDate->subDays($cancelbefore);
-                                    $daysDifference = $today->diffInDays($modifiedDate);
-                                    if ($modifiedDate->isSameDay($today) || $modifiedDate->greaterThan($today)) {
-                                        $cancel_text =
-                                            '<a data-text="Are you sure you want to leave the game?" class="confirmCancel view-btn redbtn" href="' .
-                                            url('umpire/cancel-game/' . $upcoming_game->gameid) .
-                                            '">Leave</a>';
-                                    } else {
-                                        $cancel_text = '';
-                                    }
-                                @endphp
+                        @php
+                            $rowCount = 0;
+                        @endphp
+                        @if ($umpire_upcomming_games_grouped->count() > 0)
+                            @foreach ($umpire_upcomming_games_grouped as $groupByDate => $umpire_upcomming_games)
                                 <tr>
-                                    <td>{{ $gamedate }}</td>
-                                    <td class="team">{{ $upcoming_game->hometeam->teamname }} vs
-                                        {{ $upcoming_game->awayteam->teamname }}</td>
-                                    <td>{{ $upcoming_game->league->leaguename }}</td>
-                                    <td><span class="loasys">{{ $upcoming_game->location->ground }}</span></td>
-                                    <td class="ump-pose">{{ $umpType }}</td>
-                                    <td>{!! $cancel_text !!}</td>
+                                    <td colspan="6">
+                                        <h6>
+                                            {{ date('l F jS Y', strtotime($groupByDate)) }}
+                                        </h6>
+                                    </td>
                                 </tr>
+                                @foreach ($umpire_upcomming_games as $upcoming_game)
+                                    @php
+                                        $inputDate = $upcoming_game->gamedate_toDisplay;
+                                        $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
+                                        $gamedate = $carbonDate->format('D m/d/y h:ia');
+                                        $umpType = '';
+                                        if ($upcoming_game->ump1 == $umpire_data->umpid) {
+                                            $umpType = 'Main Umpire';
+                                        } elseif ($upcoming_game->ump2 == $umpire_data->umpid) {
+                                            $umpType = '2nd Umpire';
+                                        } elseif ($upcoming_game->ump3 == $umpire_data->umpid) {
+                                            $umpType = '3rd Umpire';
+                                        } elseif ($upcoming_game->ump4 == $umpire_data->umpid) {
+                                            $umpType = '4th Umpire';
+                                        }
+
+                                        $today = Illuminate\Support\Carbon::now();
+                                        $game_date = explode(' ', $upcoming_game->gamedate)[0];
+                                        $cancelbefore = (int) $upcoming_game->league->leavebefore;
+                                        $initialDate = Illuminate\Support\Carbon::parse($game_date);
+                                        $modifiedDate = $initialDate->subDays($cancelbefore);
+                                        $daysDifference = $today->diffInDays($modifiedDate);
+                                        if ($modifiedDate->isSameDay($today) || $modifiedDate->greaterThan($today)) {
+                                            $cancel_text =
+                                                '<a data-text="Are you sure you want to leave the game?" class="confirmCancel view-btn redbtn" href="' .
+                                                url('umpire/cancel-game/' . $upcoming_game->gameid) .
+                                                '">Leave</a>';
+                                        } else {
+                                            $cancel_text = '';
+                                        }
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $gamedate }}</td>
+                                        <td class="team">{{ $upcoming_game->hometeam->teamname }} vs
+                                            {{ $upcoming_game->awayteam->teamname }}</td>
+                                        <td>{{ $upcoming_game->league->leaguename }}</td>
+                                        <td><span class="loasys">{{ $upcoming_game->location->ground }}</span></td>
+                                        <td class="ump-pose">{{ $umpType }}</td>
+                                        <td>{!! $cancel_text !!}</td>
+                                    </tr>
+                                    @php
+                                        $rowCount++;
+                                    @endphp
+                                @endforeach
                             @endforeach
                         @endif
                     </tbody>
 
                 </table>
-                @if ($umpire_upcomming_games->count() > 10)
+                @if ($rowCount > 10)
                     <button id="toggleButton"><i class="fa-solid fa-angle-down"></i></button>
                 @endif
             </div>

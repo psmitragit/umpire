@@ -173,17 +173,18 @@ class UmpireController extends Controller
                 ->orWhere('ump2', $umpid)
                 ->orWhere('ump3', $umpid)
                 ->orWhere('ump4', $umpid);
-        })
-            ->orderBy('gamedate', 'ASC');
+        });
 
         $umpire_upcomming_games_instance = clone $umpire_games_instance;
         $umpire_past_games_instance = clone $umpire_games_instance;
 
         $umpire_games = $umpire_games_instance->get();
 
-        $umpire_upcomming_games = $umpire_upcomming_games_instance->where('gamedate', '>=', now())->get();
+        $umpire_upcomming_games_grouped = $umpire_upcomming_games_instance->where('gamedate', '>=', now())->orderBy('gamedate_toDisplay', 'ASC')->get()->groupBy(function ($date) {
+            return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
+        });
 
-        $umpire_past_games = $umpire_past_games_instance->where('gamedate', '<', now())->get();
+        $umpire_past_games = $umpire_past_games_instance->where('gamedate', '<', now())->orderBy('gamedate_toDisplay', 'DESC')->get();
 
 
         $location_details = array();
@@ -197,7 +198,8 @@ class UmpireController extends Controller
             }
         }
         $right_bar = 1;
-        $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'umpire_past_games', 'umpire_upcomming_games');
+
+        $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'umpire_past_games', 'umpire_upcomming_games_grouped');
         return view('umpire.home')->with($data);
     }
     public function league_games($leagueid)
