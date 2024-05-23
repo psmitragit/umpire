@@ -29,7 +29,9 @@
             @endforeach
         @endif
 
-
+        @if (checkIfUmpireNeedsToSubmitReport() > 0)
+            <a href="{{ url('umpire/show-reports') }}" class="blue-btns view-btn primart-yehs">Submit Reports</a>
+        @endif
 
     </div>
 

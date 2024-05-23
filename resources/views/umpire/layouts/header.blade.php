@@ -53,9 +53,7 @@
                     <a href="{{ url('umpire') }}" class="logocancor-s"><img class="logos-hcian"
                             src="{{ asset('storage/umpire') }}/img/uc-logo.png" alt=""></a>
                 </div>
-                @if (checkIfUmpireNeedsToSubmitReport() > 0)
-                    <a href="{{ url('umpire/show-reports') }}" class="show-reposts">Click here to Submit Reports</a>
-                @endif
+               
                 <div class="name-propic">
                     @php
                         $oweReceived = getUmpireOweReceived($umpire_data->umpid);

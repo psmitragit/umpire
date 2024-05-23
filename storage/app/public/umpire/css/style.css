@@ -2966,6 +2966,24 @@ sapem input[type="radio"]:checked+span {
     left: 50%;
     transform: translatex(-50%);
   }
+  .upcoming-games {
+    position: relative;
+  }
+  .blue-btns {
+    position: absolute;
+    bottom: 10px;
+    /* background: #0095d3; */
+    /* color: #fff; */
+    padding: 5px 15px;
+    right: 10px;
+  }
+  .upcoming-games {
+    position: relative;
+  }
+  /* .blue-btns:hover {
+    background: #000;
+    color: #fff;
+  } */
   @keyframes color-change {
 
     0%{

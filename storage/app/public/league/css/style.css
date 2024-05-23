@@ -3145,7 +3145,26 @@ input:checked+.slider:before {
   .title-texts {
     margin-bottom: 10px;
   }
+  .text-primary.highlighted_class::after {
+    content: " ! Imp";
+    color: white;
+    background: red;
+    padding: 1px 4px;
+    margin-left: 5px;
+    border-radius: 5px;
+  }
+  
 /* <======================================================= Responsive =======================================================> */
+
+
+
+
+@media screen and (max-width: 1794px) {
+    .sidebars-menu {
+        padding: 19px;
+      }
+}
+
 @media screen and (max-width: 1550px) {
     .location-game {
         width: 138px;
