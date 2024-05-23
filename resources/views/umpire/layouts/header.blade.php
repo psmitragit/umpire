@@ -30,6 +30,18 @@
         });
     </script>
 </head>
+@if (Session::has('event'))
+    @if (Session::get('event') == 'show-report')
+        <script>
+            $(document).ready(function() {
+                $('#listview').click();
+                setTimeout(() => {
+                    $('#his').click();
+                }, 100);
+            });
+        </script>
+    @endif
+@endif
 
 <body class="checkbody">
     {!! stagingMark() !!}
@@ -41,6 +53,9 @@
                     <a href="{{ url('umpire') }}" class="logocancor-s"><img class="logos-hcian"
                             src="{{ asset('storage/umpire') }}/img/uc-logo.png" alt=""></a>
                 </div>
+                @if (checkIfUmpireNeedsToSubmitReport() > 0)
+                    <a href="{{ url('umpire/show-reports') }}">See Reports</a>
+                @endif
                 <div class="name-propic">
                     @php
                         $oweReceived = getUmpireOweReceived($umpire_data->umpid);

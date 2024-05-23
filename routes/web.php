@@ -144,6 +144,7 @@ Route::get('/umpire-login', [LoginController::class, 'umpire_login']);
 Route::post('/umpire-login', [LoginController::class, 'verifyUmpireLogin']);
 Route::middleware(['umpireLoginCheck'])->group(function () {
     Route::get('/umpire', [UmpireController::class, 'umpire_view']);
+    Route::get('/umpire/show-reports', [UmpireController::class, 'showReport']);
     Route::get('/umpire/logout', [LoginController::class, 'umpireLogout']);
     Route::get('/umpire/change-password', [UmpireController::class, 'view_change_password']);
     Route::get('/umpire/leagues', [UmpireController::class, 'view_leagues']);
