@@ -54,7 +54,7 @@
                             src="{{ asset('storage/umpire') }}/img/uc-logo.png" alt=""></a>
                 </div>
                 @if (checkIfUmpireNeedsToSubmitReport() > 0)
-                    <a href="{{ url('umpire/show-reports') }}">See Reports</a>
+                    <a href="{{ url('umpire/show-reports') }}" class="show-reposts">Click here to Submit Reports</a>
                 @endif
                 <div class="name-propic">
                     @php
