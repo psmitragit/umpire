@@ -49,7 +49,18 @@
     </script>
 </head>
 
-
+@if (Session::has('event'))
+    @if (Session::get('event') == 'show-report')
+        <script>
+            $(document).ready(function() {
+                $('#listview').click();
+                setTimeout(() => {
+                    $('#his').click();
+                }, 100);
+            });
+        </script>
+    @endif
+@endif
 
 <body class="checkbody">
     {!! stagingMark() !!}

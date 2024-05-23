@@ -722,6 +722,37 @@ function add_notification($userid, $msg, $iconid, $usertype)
         return false;
     }
 }
+function checkIfUmpireNeedsToSubmitReport()
+{
+    $umpire = logged_in_umpire_data();
+    $umpid = $umpire->umpid;
+    return GameModel::where(function ($query) use ($umpid) {
+        $query->orWhere('ump1', $umpid)
+            ->orWhere('ump2', $umpid)
+            ->orWhere('ump3', $umpid)
+            ->orWhere('ump4', $umpid);
+    })
+        ->where('gamedate_toDisplay', '<', now())
+        ->whereRaw('CASE
+        WHEN ump1 = ? THEN report1
+        WHEN ump2 = ? THEN report2
+        WHEN ump3 = ? THEN report3
+        WHEN ump4 = ? THEN report4
+    END IS NULL', [$umpid, $umpid, $umpid, $umpid])
+        ->leftJoin('absent_report', function ($join) use ($umpid) {
+            $join->on('games.gameid', '=', 'absent_report.gameid')
+                ->whereRaw("
+                (CASE
+                    WHEN ump1 = $umpid THEN 'report1'
+                    WHEN ump2 = $umpid THEN 'report2'
+                    WHEN ump3 = $umpid THEN 'report3'
+                    WHEN ump4 = $umpid THEN 'report4'
+                END) = absent_report.report_col
+            ");
+        })
+        ->whereNull('absent_report.id')
+        ->get()->count();
+}
 function get_notifications($userid, $usertype, $limit = false)
 {
     try {

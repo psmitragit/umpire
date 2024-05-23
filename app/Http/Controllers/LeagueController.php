@@ -293,6 +293,7 @@ class LeagueController extends Controller
     public function reportAbsent($gameid, $column, $umpid)
     {
         reportFake($gameid, $column, $umpid);
+        Session::flash('event','show-report');
     }
     public function view_report($gameid, $col)
     {
