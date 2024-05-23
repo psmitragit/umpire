@@ -62,10 +62,10 @@
                                 <a href="{{ url('umpire/profile') }}" class="text-and-icon"> <span> Profile</span>
                                     <span><i class="fa-regular fa-user"></i></span>
                                 </a>
-                                <a href="{{ url('umpire/notifications') }}" class="text-and-icon"> <span>
+                                {{-- <a href="{{ url('umpire/notifications') }}" class="text-and-icon"> <span>
                                         Notification</span>
                                     <span><i class="fa-regular fa-envelope"></i></span>
-                                </a>
+                                </a> --}}
                                 <a href="{{ url('umpire/change-password') }}" class="text-and-icon"> <span> Change
                                         Password</span>
                                     <span><i class="fa-solid fa-lock"></i></span>

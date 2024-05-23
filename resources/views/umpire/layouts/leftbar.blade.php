@@ -32,6 +32,12 @@
                         class="fa-solid fa-sack-dollar"></i></span> My Earning</a>
         </div>
 
+        <div class="buttons-disd">
+            <a href="{{ url('umpire/notifications') }}" class="navlogos"> <span><i
+                        class="fa-regular fa-envelope"></i></span>
+                Notification </a>
+        </div>
+
 
         <div class="phnes">
             <div class="buttons-disd">

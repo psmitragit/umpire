@@ -45,7 +45,7 @@
                             @foreach ($umpire_upcomming_games_grouped as $groupByDate => $umpire_upcomming_games)
                                 <tr>
                                     <td colspan="6">
-                                        <h6>
+                                        <h6 class="this-is-it">
                                             {{ date('l F jS Y', strtotime($groupByDate)) }}
                                         </h6>
                                     </td>
@@ -148,7 +148,7 @@
                                                 $report_btn =
                                                     '
                                                 <div>
-                                            <a href="javascript:void(0)" class="view-btn primart-yehs" onclick="submitReport(' .
+                                            <a href="javascript:void(0)" class="view-btn primart-yehs " onclick="submitReport(' .
                                                     $past_game->gameid .
                                                     ', \'' .
                                                     $reportcol .
@@ -157,7 +157,7 @@
                                             ';
                                                 $report_btn .=
                                                     '<div>
-                                            <a href="javascript:void(0)" class="view-btn primart-yehs" onclick="reportAbsent(' .
+                                            <a href="javascript:void(0)" class="view-btn primart-yehs red-bnt" onclick="reportAbsent(' .
                                                     $past_game->gameid .
                                                     ', \'' .
                                                     $reportcol .

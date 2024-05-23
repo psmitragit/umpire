@@ -7,4 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Umpire Central</title>
 </head>
-<body>
+
+
+<body >
+    <div class="full-mail"style="width:750px;margin:auto;">
+    
+        <div style="padding:20px">

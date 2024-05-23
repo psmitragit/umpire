@@ -2664,7 +2664,11 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
-
+.view-btn.primart-yehs.red-bnt {
+    color: #a41515;
+    background: #a415154d;
+    margin-top: 5px;
+  }
 .labens {
     color: #6a6f77;
     font-size: 16px;
@@ -2673,7 +2677,10 @@ body {
     text-align: center;
     margin-left: 10px;
 }
-
+.this-is-it {
+    font-size: 16px;
+    font-weight: bold;
+  }
 .buttons-flex.hyscs.sc {
     margin-top: 30px;
 }
@@ -3814,4 +3821,7 @@ sapem input[type="radio"]:checked+span {
         padding: 7px 10px;
         font-size: 14px;
     }
+    .fix-buttons {
+        display:none;
+      }
 }

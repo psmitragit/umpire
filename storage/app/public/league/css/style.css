@@ -1912,7 +1912,10 @@ body {
     padding: 15px 5px;
     margin-left: 20px;
 }
-
+#expand-text-area {
+    overflow: hidden;
+    min-height: 120px;
+  }
 .headrepages-point {
     color: #161e2d;
     font-size: 22px;
@@ -1920,7 +1923,15 @@ body {
     margin-top: 40px;
     margin-bottom: 40px;
 }
-
+.this-is-it {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .view-btn.primart-yehs.red-bnt {
+    color: #a41515;
+    background: #a415154d;
+    margin-top: 5px;
+  }
 .buttonsubmit {
     margin-top: 50px;
 }
@@ -2177,7 +2188,9 @@ body {
 .bluebtns {
     margin-left: 24px;
 }
-
+#expand-text-area {
+    overflow: hidden;
+  }
 .fullnamediv {
     background: #fafafa;
     border: 1px solid #eee;
@@ -4438,4 +4451,7 @@ input:checked+.slider:before {
     .matsbn {
         padding: 7px 10px;
     }
+    .fix-buttons {
+        display:none;
+      }
 }

@@ -29,7 +29,7 @@
                     Message to Umpires
                 </h2>
                 <div class="text-area-notimsg">
-                    <textarea name="message" required id="" class="text-are-noti-admin"></textarea>
+                    <textarea name="message" required id="expand-text-area" class="text-are-noti-admin bignot"></textarea>
                 </div>
                 <div class="sendbuttonsave">
                     <button class="redbtn submit ms-auto" data-bs-toggle="modal" data-bs-target="#sendnoti"
@@ -96,6 +96,18 @@
                     }
                 });
             }));
+        });
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const textarea = document.getElementById('expand-text-area');
+
+            textarea.addEventListener('input', function () {
+                textarea.style.height = 'auto';  // Reset the height to auto
+                textarea.style.height = textarea.scrollHeight + 'px';  // Set the height to match the scroll height
+            });
         });
     </script>
 @endsection

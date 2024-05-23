@@ -75,10 +75,10 @@
                                 <div class="submenus d-none">
 
                                     <div class="profiels">
-                                        <a href="{{ url('league/notifications') }}" class="text-and-icon"> <span>
+                                        {{-- <a href="{{ url('league/notifications') }}" class="text-and-icon"> <span>
                                                 Notification</span>
                                             <span><i class="fa-regular fa-envelope"></i></span>
-                                        </a>
+                                        </a> --}}
                                         <a href="{{ url('league/change-password') }}" class="text-and-icon"> <span>
                                                 Change Password</span>
                                             <span><i class="fa-solid fa-lock"></i></span>

@@ -15,7 +15,8 @@
                         class="fa-solid fa-calendar-days"></i></span> Home</a>
         </div>
         <div class="buttons-disd">
-            <a href="{{ url('league/game-manual-schedule') }}" class="navlogos {{ $nav == 'auto_algo' ? 'active' : '' }}">
+            <a href="{{ url('league/game-manual-schedule') }}"
+                class="navlogos {{ $nav == 'auto_algo' ? 'active' : '' }}">
                 <span><i class="fas fa-code-branch"></i></span> Run Schedule</a>
         </div>
         <div class="buttons-disd">
@@ -33,6 +34,11 @@
         <div class="buttons-disd">
             <a href="{{ url('league/payout') }}" class="navlogos {{ $nav == 'payout' ? 'active' : '' }}"> <span><i
                         class="fa-solid fa-sack-dollar"></i></span> Payout</a>
+        </div>
+        <div class="buttons-disd">
+            <a href="{{ url('league/notifications') }}" class="navlogos"> <span><i
+                        class="fa-regular fa-envelope"></i></span>
+                Notification </a>
         </div>
 
         <div class="phone-newmenus">

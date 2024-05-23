@@ -48,7 +48,7 @@
                             @foreach ($league_upcomming_games_grouped as $groupByDate => $league_upcomming_games)
                                 <tr>
                                     <td colspan="7">
-                                        <h6>
+                                        <h6 class="this-is-it">
                                             {{ date('l F jS Y', strtotime($groupByDate)) }}
                                         </h6>
                                     </td>
@@ -155,7 +155,7 @@
                                                     if (!checkIfReportIsFake($league_past_game->gameid, $report_col)) {
                                                         $report .=
                                                             '<div>
-                                            <a href="javascript:void(0)" class="view-btn primart-yehs" onclick="reportAbsent(' .
+                                            <a href="javascript:void(0)" class="view-btn primart-yehs red-bnt" onclick="reportAbsent(' .
                                                             $league_past_game->gameid .
                                                             ', \'' .
                                                             $report_col .
