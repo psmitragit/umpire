@@ -131,45 +131,36 @@
                                                 if ($league_past_game->report == 1) {
                                                     if ($league_past_game->{$report_col} !== null) {
                                                         if (
-                                                            checkIfReportIsHighlighted(
-                                                                $league_past_game->gameid,
-                                                                $report_col,
-                                                            )
+                                                            checkIfReportIsFake($league_past_game->gameid, $report_col)
                                                         ) {
-                                                            $highlighted_class = 'highlighted_class';
-                                                            $text = 'Important Report';
+                                                            $report = '<span class="text-danger">Absent</span>';
                                                         } else {
-                                                            $highlighted_class = '';
-                                                            $text = 'View Report';
+                                                            if (
+                                                                checkIfReportIsHighlighted(
+                                                                    $league_past_game->gameid,
+                                                                    $report_col,
+                                                                )
+                                                            ) {
+                                                                $highlighted_class = 'highlighted_class';
+                                                                $text = 'Important Report';
+                                                            } else {
+                                                                $highlighted_class = '';
+                                                                $text = 'View Report';
+                                                            }
+                                                            $report =
+                                                                '<a href="javascript:void(0)" class="text-primary ' .
+                                                                $highlighted_class .
+                                                                '" onclick="view_report(' .
+                                                                $league_past_game->gameid .
+                                                                ', \'' .
+                                                                $report_col .
+                                                                '\', '.$league_past_game->{$col}.')">' .
+                                                                $text .
+                                                                '</a>';
                                                         }
-                                                        $report =
-                                                            '<a href="javascript:void(0)" class="text-primary ' .
-                                                            $highlighted_class .
-                                                            '" onclick="view_report(' .
-                                                            $league_past_game->gameid .
-                                                            ', \'' .
-                                                            $report_col .
-                                                            '\')">' .
-                                                            $text .
-                                                            '</a>';
                                                     } else {
                                                         $report =
                                                             '<a href="javascript:void(0)" class="text-danger">Report Not Submitted</a>';
-                                                    }
-                                                    if (!checkIfReportIsFake($league_past_game->gameid, $report_col)) {
-                                                        $report .=
-                                                            '<div>
-                                            <a href="javascript:void(0)" class="view-btn primart-yehs red-bnt" onclick="reportAbsent(' .
-                                                            $league_past_game->gameid .
-                                                            ', \'' .
-                                                            $report_col .
-                                                            '\', ' .
-                                                            $league_past_game->{$col} .
-                                                            ')">Report absent</a>
-                                            </div>
-                                            ';
-                                                    } else {
-                                                        $report = '<span class="text-danger">Absent</span>';
                                                     }
                                                 } else {
                                                     $report = '';
@@ -218,6 +209,7 @@
                     <h5 class="modalicons-title">Game Report</h5>
                     <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-x"></i></button>
+                    <a href="" id="reportAbsentBtn" class="btn btn-danger confirmCancel">Report Absent</a>
                 </div>
                 <div class="modal-body">
 
@@ -284,7 +276,7 @@
             });
         });
 
-        function view_report(gameid, report_column) {
+        function view_report(gameid, report_column, umpid) {
             $.ajax({
                 url: "{{ url('league/view-report') }}" + '/' + gameid + '/' + report_column,
                 success: function(res) {
@@ -292,19 +284,9 @@
                     var leaguename = '{{ $league_data->leaguename }}';
                     $('#subtext').html(teamvs + ' of ' + leaguename);
                     $('#reportquestions').html(res);
+                    let url = "{{ url('league/report-absent') }}" + '/' + gameid + '/' + report_column + '/' + umpid;
+                    $('#reportAbsentBtn').attr('href', url);
                     $('#reportModal').modal('show');
-                },
-                error: function(res) {
-                    toastr.error('Something went wrong..!!');
-                }
-            });
-        }
-
-        function reportAbsent(gameid, report_column, umpid) {
-            $.ajax({
-                url: "{{ url('league/report-absent') }}" + '/' + gameid + '/' + report_column + '/' + umpid,
-                success: function(res) {
-                    window.location.reload();
                 },
                 error: function(res) {
                     toastr.error('Something went wrong..!!');

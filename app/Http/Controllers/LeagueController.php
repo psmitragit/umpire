@@ -294,6 +294,7 @@ class LeagueController extends Controller
     {
         reportFake($gameid, $column, $umpid);
         Session::flash('event','show-report');
+        return redirect('league');
     }
     public function view_report($gameid, $col)
     {
