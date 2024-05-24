@@ -221,11 +221,13 @@ class UmpireController extends Controller
         $umpire_data = logged_in_umpire_data();
         $umpid = $umpire_data->umpid;
         $games = GameModel::where('leagueid', $leagueid)
-            ->orderBy('gamedate_toDisplay', 'ASC')
+            ->orderBy('gamedate_toDisplay', 'DESC')
             ->get();
-        $assignedGames = [];
+        $assignedGamesId = [];
+        $assignedGames_grouped = [];
         $location_details = array();
         if ($games->count() > 0) {
+            $league = $games[0]->league;
             foreach ($games as $game) {
                 $location = $game->location;
                 $location_details[] = [
@@ -244,18 +246,29 @@ class UmpireController extends Controller
                 }
 
                 if ($isAssigned) {
-                    $assignedGames[] = $game;
+                    $assignedGamesId[] = $game->gameid;
                 }
 
                 //filtering assigned games
 
+            }
+
+            $games_grouped = $games->groupBy(function ($date) {
+                return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
+            });
+            if (!empty($assignedGamesId)) {
+                $assignedGames_grouped = GameModel::whereIn('gameid', $assignedGamesId)
+                    ->orderBy('gamedate_toDisplay', 'DESC')
+                    ->get()->groupBy(function ($date) {
+                        return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
+                    });
             }
         } else {
             Session::flash('error_message', 'No Games');
             return redirect()->back();
         }
         $right_bar = 1;
-        $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'games', 'assignedGames');
+        $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'games_grouped', 'assignedGames_grouped', 'league');
         return view('umpire.games')->with($data);
     }
     public function saveUmpire(Request $request)
