@@ -1,5 +1,3 @@
 UPDATE users
 SET email = CONCAT('demoemail', uid, '@yopmail.com');
 
-`highlighted_report` new table added
-`absent_report` new table added

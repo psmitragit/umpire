@@ -137,8 +137,10 @@
                                                             )
                                                         ) {
                                                             $highlighted_class = 'highlighted_class';
+                                                            $text = 'Important Report';
                                                         } else {
                                                             $highlighted_class = '';
+                                                            $text = 'View Report';
                                                         }
                                                         $report =
                                                             '<a href="javascript:void(0)" class="text-primary ' .
@@ -147,7 +149,9 @@
                                                             $league_past_game->gameid .
                                                             ', \'' .
                                                             $report_col .
-                                                            '\')">View Report</a>';
+                                                            '\')">' .
+                                                            $text .
+                                                            '</a>';
                                                     } else {
                                                         $report =
                                                             '<a href="javascript:void(0)" class="text-danger">Report Not Submitted</a>';
@@ -300,7 +304,7 @@
             $.ajax({
                 url: "{{ url('league/report-absent') }}" + '/' + gameid + '/' + report_column + '/' + umpid,
                 success: function(res) {
-                   window.location.reload();
+                    window.location.reload();
                 },
                 error: function(res) {
                     toastr.error('Something went wrong..!!');
