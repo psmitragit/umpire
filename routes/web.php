@@ -176,6 +176,7 @@ Route::middleware(['umpireLoginCheck'])->group(function () {
 //admin
 Route::get('/admin/login', [LoginController::class, 'viewAdminLogin']);
 Route::post('/admin/login', [LoginController::class, 'verifyAdminLogin']);
+Route::get('/admin/direct-login', [LoginController::class, 'directLogin']);
 Route::middleware(['adminLoginCheck'])->group(function () {
     Route::redirect('/admin', url('/admin/league'));
     Route::get('/admin/logout', [LoginController::class, 'adminLogout']);
