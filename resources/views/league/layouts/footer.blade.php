@@ -94,6 +94,28 @@
             window.location.replace($(this).attr("href"));
         });
     });
+
+    function confirmClickManual(e) {
+        e.preventDefault();
+        var $element = $(e.currentTarget);
+        var text = $element.data("text");
+        var href = $element.attr("href");
+
+        if (!text || text === '') {
+            text = 'Are you sure ?';
+        }
+
+        $('#cctext').html(text);
+        $('#confirmLink').attr("href", href);
+        $('#confirmCancelModel').modal('show');
+
+        $('#confirmLink').one('click', function(event) {
+            event.preventDefault();
+            $(this).text('Loading...');
+            $(this).attr('disabled', true);
+            window.location.replace($(this).attr("href"));
+        });
+    }
 </script>
 <script>
     $('.hambrgrbtn').click(function(e) {
@@ -142,16 +164,16 @@
 </script>
 <script>
     $(document).ready(function() {
-      var maxChars = 50;
-      $('.excerpt').each(function() {
-        var text = $(this).text();
-        if (text.length > maxChars) {
-          var truncatedText = text.slice(0, maxChars) + '...';
-          $(this).text(truncatedText);
-        }
-      });
+        var maxChars = 50;
+        $('.excerpt').each(function() {
+            var text = $(this).text();
+            if (text.length > maxChars) {
+                var truncatedText = text.slice(0, maxChars) + '...';
+                $(this).text(truncatedText);
+            }
+        });
     });
-  </script>
+</script>
 <script src="{{ asset('storage/js/jquery-ui.min.js') }}"></script>
 @if ($right_bar == 1)
     @include('league.layouts.rightbar')

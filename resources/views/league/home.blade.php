@@ -154,13 +154,30 @@
                                                                 $league_past_game->gameid .
                                                                 ', \'' .
                                                                 $report_col .
-                                                                '\', '.$league_past_game->{$col}.')">' .
+                                                                '\', ' .
+                                                                $league_past_game->{$col} .
+                                                                ')">' .
                                                                 $text .
                                                                 '</a>';
                                                         }
                                                     } else {
-                                                        $report =
-                                                            '<a href="javascript:void(0)" class="text-danger">Report Not Submitted</a>';
+                                                        if (
+                                                            checkIfReportIsFake($league_past_game->gameid, $report_col)
+                                                        ) {
+                                                            $report = '<span class="text-danger">Absent</span>';
+                                                        } else {
+                                                            $report =
+                                                                '<a data-text="Mark this umpire as absent?" href="' .
+                                                                url(
+                                                                    'league/report-absent/' .
+                                                                        $league_past_game->gameid .
+                                                                        '/' .
+                                                                        $report_col .
+                                                                        '/' .
+                                                                        $league_past_game->{$col},
+                                                                ) .
+                                                                '" onclick="confirmClickManual(event)" class="text-danger">Report Not Submitted</a>';
+                                                        }
                                                     }
                                                 } else {
                                                     $report = '';
@@ -284,7 +301,8 @@
                     var leaguename = '{{ $league_data->leaguename }}';
                     $('#subtext').html(teamvs + ' of ' + leaguename);
                     $('#reportquestions').html(res);
-                    let url = "{{ url('league/report-absent') }}" + '/' + gameid + '/' + report_column + '/' + umpid;
+                    let url = "{{ url('league/report-absent') }}" + '/' + gameid + '/' + report_column + '/' +
+                        umpid;
                     $('#reportAbsentBtn').attr('href', url);
                     $('#reportModal').modal('show');
                 },
