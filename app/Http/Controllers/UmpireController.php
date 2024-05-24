@@ -210,6 +210,8 @@ class UmpireController extends Controller
     {
         $umpire_data = logged_in_umpire_data();
         reportFake($gameid, $column, $umpire_data->umpid);
+        Session::flash('event','show-report');
+        return redirect('umpire');
     }
     public function league_games($leagueid)
     {

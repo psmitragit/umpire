@@ -155,15 +155,6 @@
                                                     '\')">Submit Report</a>
                                             </div>
                                             ';
-                                                $report_btn .=
-                                                    '<div>
-                                            <a href="javascript:void(0)" class="view-btn primart-yehs red-bnt" onclick="reportAbsent(' .
-                                                    $past_game->gameid .
-                                                    ', \'' .
-                                                    $reportcol .
-                                                    '\')">Report absent</a>
-                                            </div>
-                                            ';
                                             } else {
                                                 $report_btn = '<span class="text-danger">Absent</span>';
                                             }
@@ -201,6 +192,7 @@
                     <h5 class="modalicons-title">Submit Report</h5>
                     <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-x"></i></button>
+                    <a href="" id="reportAbsentBtn" class="btn btn-danger confirmCancel">Report Absent</a>
                 </div>
                 <div class="modal-body">
                     <form action="{{ url('umpire/submit-report') }}" method="POST">
@@ -300,20 +292,9 @@
                     var leaguename = $('#leaguename' + gameid).text();
                     $('#subtext').html(teamvs + ' of ' + leaguename);
                     $('#reportquestions').html(res);
+                    let url = "{{ url('umpire/report-absent') }}" + '/' + gameid + '/' + report_column;
+                    $('#reportAbsentBtn').attr('href', url);
                     $('#reportModal').modal('show');
-                },
-                error: function(res) {
-                    toastr.error('Something went wrong..!!');
-                }
-            });
-        }
-
-        function reportAbsent(gameid, report_column) {
-            $.ajax({
-                url: "{{ url('umpire/report-absent') }}" + '/' + gameid + '/' + report_column,
-                success: function(res) {
-                    let btnhtml = '<span class="text-danger">Absent</span>';
-                    $('#reportbtnrow' + gameid).html(btnhtml);
                 },
                 error: function(res) {
                     toastr.error('Something went wrong..!!');
