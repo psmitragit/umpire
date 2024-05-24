@@ -3153,7 +3153,16 @@ input:checked+.slider:before {
     margin-left: 5px;
     border-radius: 5px;
   }
-  
+  #reportAbsentBtn:hover {
+    color: #fff;
+  }
+  #reportAbsentBtn {
+    display: inline-block;
+    margin: 0;
+  }
+  #reportAbsentBtn {
+    padding: 4px 15px;
+  }
 /* <======================================================= Responsive =======================================================> */
 
 

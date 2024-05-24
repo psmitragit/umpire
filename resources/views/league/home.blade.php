@@ -247,9 +247,12 @@
             <div class="modal-content">
                 <div class="modal-hesn">
                     <h5 class="modalicons-title">Game Report</h5>
+                    <div class="tej">
+                        <a href="" id="reportAbsentBtn" class="submitbtns confirmCancel">Report Absent</a>
+                    </div>
                     <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-x"></i></button>
-                    <a href="" id="reportAbsentBtn" class="btn btn-danger confirmCancel">Report Absent</a>
+        
                 </div>
                 <div class="modal-body">
 

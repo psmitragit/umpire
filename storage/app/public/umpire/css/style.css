@@ -2980,10 +2980,9 @@ sapem input[type="radio"]:checked+span {
   .upcoming-games {
     position: relative;
   }
-  /* .blue-btns:hover {
-    background: #000;
+  #reportAbsentBtn:hover {
     color: #fff;
-  } */
+  }
   @keyframes color-change {
 
     0%{

@@ -190,9 +190,11 @@
             <div class="modal-content">
                 <div class="modal-hesn">
                     <h5 class="modalicons-title">Submit Report</h5>
+
+                    <div class="sdy"> <a href="" id="reportAbsentBtn" class="submitbtns confirmCancel">Report Absent</a></div>
                     <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-x"></i></button>
-                    <a href="" id="reportAbsentBtn" class="btn btn-danger confirmCancel">Report Absent</a>
+                   
                 </div>
                 <div class="modal-body">
                     <form action="{{ url('umpire/submit-report') }}" method="POST">
