@@ -1246,8 +1246,10 @@ class LeagueController extends Controller
             $title = 'League Games';
             $nav = 'games';
             $page_data = $league_data->games()
-                ->where('gamedate', '>=', now())
-                ->orderBy('gamedate', 'ASC')->get();
+                ->where('gamedate_toDisplay', '>=', now())
+                ->orderBy('gamedate_toDisplay', 'ASC')->get()->groupBy(function ($date) {
+                    return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
+                });
             $right_bar = 0;
             $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav');
             return view('league.games')->with($data);

@@ -76,89 +76,100 @@
                         </tr>
                     </thead>
                     <tbody id="search_output">
-                        @if (!$page_data->isEmpty())
-                            @foreach ($page_data as $data)
-                                @php
-                                    $inputDate = $data->gamedate_toDisplay;
-                                    $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
-                                    $gamedate = $carbonDate->format('D m/d/y h:ia');
-                                    $umpires = [$data->ump1, $data->ump2, $data->ump3, $data->ump4];
-                                @endphp
-                                <tr data-umpreqd="{{ $data->umpreqd }}"
-                                    data-umpires="{{ htmlspecialchars(json_encode($umpires)) }}"
-                                    data-gameid="{{ $data->gameid }}">
-                                    <td class="date-leag">{{ $gamedate }}</td>
-                                    <td class="team-a">{{ $data->hometeam->teamname }} vs {{ $data->awayteam->teamname }}
+                        @if ($page_data->count() > 0)
+                            @foreach ($page_data as $groupByDate => $league_upcomming_games)
+                                <tr>
+                                    <td colspan="13">
+                                        <h6 class="this-is-it">
+                                            {{ date('l F jS Y', strtotime($groupByDate)) }}
+                                        </h6>
                                     </td>
-                                    <td class="location-game"> <span class="aspans"> {{ $data->location->ground }}</span>
-                                    </td>
-                                    <td class="color-prmths hovername" data-pos="1">
-                                        @if ($data->ump1 !== null)
-                                            <span class="halfname"
-                                                onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire1->name, 8, '...') }}</span>
-                                            <div class="fullnamediv">
-                                                {{ $data->umpire1->name }}
-                                            </div>
-                                        @else
-                                            <a href='javascript:void(0)' class="blutns-table"
-                                                onclick="assignUmpire(this)">Empty</a>
-                                        @endif
-                                    </td>
-                                    <td class="color-prmths hovername" data-pos="2">
-                                        @if ($data->ump2 !== null)
-                                            <span class="halfname"
-                                                onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire2->name, 8, '...') }}</span>
-                                            <div class="fullnamediv">
-                                                {{ $data->umpire2->name }}
-                                            </div>
-                                        @else
-                                            <a data-gameid="{{ $data->gameid }}" href='javascript:void(0)'
-                                                class="blutns-table" onclick="assignUmpire(this)">Empty</a>
-                                        @endif
-                                    </td>
-                                    <td class="color-prmths hovername" data-pos="3">
-                                        @if ($data->ump3 !== null)
-                                            <span class="halfname"
-                                                onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire3->name, 8, '...') }}</span>
-                                            <div class="fullnamediv">
-                                                {{ $data->umpire3->name }}
-                                            </div>
-                                        @else
-                                            <a href='javascript:void(0)' class="blutns-table"
-                                                onclick="assignUmpire(this)">Empty</a>
-                                        @endif
-                                    </td>
-                                    <td class="color-prmths hovername" data-pos="4">
-                                        @if ($data->ump4 !== null)
-                                            <span class="halfname"
-                                                onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire4->name, 8, '...') }}</span>
-                                            <div class="fullnamediv">
-                                                {{ $data->umpire4->name }}
-                                            </div>
-                                        @else
-                                            <a href='javascript:void(0)' class="blutns-table"
-                                                onclick="assignUmpire(this)">Empty</a>
-                                        @endif
-                                    </td>
-                                    <td>{{ $data->playersage }}</td>
-                                    <td>{{ $data->umpreqd }}</td>
-                                    <td>{!! $data->report == 1
-                                        ? '<i class="fa-solid fa-check text-success"></i>'
-                                        : '<i class="fa-solid fa-x text-danger"></i>' !!}</td>
-                                    <td class="text-success">${{ $data->ump1pay + $data->ump234pay }} +
-                                        ${{ $data->ump1bonus + $data->ump234bonus }}</td>
-                                    <td class="wisb">
-                                        @if ($data->ump1 == null && $data->ump2 == null && $data->ump3 == null && $data->ump4 == null)
-                                            <a href="{{ url('league/edit-game/' . $data->gameid) }}"
-                                                class="delete-notifixctasc blue-bgs ac  sc"><i
-                                                    class="fa-solid fa-pencil"></i></a>
-                                        @endif
-                                    </td>
-                                    <td class="wisb"><a data-text = 'Are you sure you want to cancel this game?'
-                                            href="{{ url('league/delete-game/' . $data->gameid) }}"
-                                            class="delete-notifixctasc addbgs asd sc ms-2 confirmCancel"><i
-                                                class="fa-regular fa-trash-can"></i></a></td>
                                 </tr>
+                                @foreach ($league_upcomming_games as $data)
+                                    @php
+                                        $inputDate = $data->gamedate_toDisplay;
+                                        $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
+                                        $gamedate = $carbonDate->format('D m/d/y h:ia');
+                                        $umpires = [$data->ump1, $data->ump2, $data->ump3, $data->ump4];
+                                    @endphp
+                                    <tr data-umpreqd="{{ $data->umpreqd }}"
+                                        data-umpires="{{ htmlspecialchars(json_encode($umpires)) }}"
+                                        data-gameid="{{ $data->gameid }}">
+                                        <td class="date-leag">{{ $gamedate }}</td>
+                                        <td class="team-a">{{ $data->hometeam->teamname }} vs
+                                            {{ $data->awayteam->teamname }}
+                                        </td>
+                                        <td class="location-game"> <span class="aspans">
+                                                {{ $data->location->ground }}</span>
+                                        </td>
+                                        <td class="color-prmths hovername" data-pos="1">
+                                            @if ($data->ump1 !== null)
+                                                <span class="halfname"
+                                                    onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire1->name, 8, '...') }}</span>
+                                                <div class="fullnamediv">
+                                                    {{ $data->umpire1->name }}
+                                                </div>
+                                            @else
+                                                <a href='javascript:void(0)' class="blutns-table"
+                                                    onclick="assignUmpire(this)">Empty</a>
+                                            @endif
+                                        </td>
+                                        <td class="color-prmths hovername" data-pos="2">
+                                            @if ($data->ump2 !== null)
+                                                <span class="halfname"
+                                                    onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire2->name, 8, '...') }}</span>
+                                                <div class="fullnamediv">
+                                                    {{ $data->umpire2->name }}
+                                                </div>
+                                            @else
+                                                <a data-gameid="{{ $data->gameid }}" href='javascript:void(0)'
+                                                    class="blutns-table" onclick="assignUmpire(this)">Empty</a>
+                                            @endif
+                                        </td>
+                                        <td class="color-prmths hovername" data-pos="3">
+                                            @if ($data->ump3 !== null)
+                                                <span class="halfname"
+                                                    onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire3->name, 8, '...') }}</span>
+                                                <div class="fullnamediv">
+                                                    {{ $data->umpire3->name }}
+                                                </div>
+                                            @else
+                                                <a href='javascript:void(0)' class="blutns-table"
+                                                    onclick="assignUmpire(this)">Empty</a>
+                                            @endif
+                                        </td>
+                                        <td class="color-prmths hovername" data-pos="4">
+                                            @if ($data->ump4 !== null)
+                                                <span class="halfname"
+                                                    onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire4->name, 8, '...') }}</span>
+                                                <div class="fullnamediv">
+                                                    {{ $data->umpire4->name }}
+                                                </div>
+                                            @else
+                                                <a href='javascript:void(0)' class="blutns-table"
+                                                    onclick="assignUmpire(this)">Empty</a>
+                                            @endif
+                                        </td>
+                                        <td>{{ $data->playersage }}</td>
+                                        <td>{{ $data->umpreqd }}</td>
+                                        <td>{!! $data->report == 1
+                                            ? '<i class="fa-solid fa-check text-success"></i>'
+                                            : '<i class="fa-solid fa-x text-danger"></i>' !!}</td>
+                                        <td class="text-success">${{ $data->ump1pay + $data->ump234pay }} +
+                                            ${{ $data->ump1bonus + $data->ump234bonus }}</td>
+                                        <td class="wisb">
+                                            @if ($data->ump1 == null && $data->ump2 == null && $data->ump3 == null && $data->ump4 == null)
+                                                <a href="{{ url('league/edit-game/' . $data->gameid) }}"
+                                                    class="delete-notifixctasc blue-bgs ac  sc"><i
+                                                        class="fa-solid fa-pencil"></i></a>
+                                            @endif
+                                        </td>
+                                        <td class="wisb"><a data-text = 'Are you sure you want to cancel this game?'
+                                                href="{{ url('league/delete-game/' . $data->gameid) }}"
+                                                class="delete-notifixctasc addbgs asd sc ms-2 confirmCancel"><i
+                                                    class="fa-regular fa-trash-can"></i></a></td>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         @endif
                     </tbody>

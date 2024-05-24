@@ -221,8 +221,9 @@ class UmpireController extends Controller
         $umpire_data = logged_in_umpire_data();
         $umpid = $umpire_data->umpid;
         $games = GameModel::where('leagueid', $leagueid)
-            ->orderBy('gamedate', 'ASC')
+            ->orderBy('gamedate_toDisplay', 'ASC')
             ->get();
+        $assignedGames = [];
         $location_details = array();
         if ($games->count() > 0) {
             foreach ($games as $game) {
@@ -231,13 +232,30 @@ class UmpireController extends Controller
                     'latitude' => $location->latitude,
                     'longitude' => $location->longitude,
                 ];
+
+                //filtering assigned games
+
+                $isAssigned = false;
+                for ($i = 1; $i <= 4; $i++) {
+                    if ($game->{"ump$i"} == $umpire_data->umpid) {
+                        $isAssigned = true;
+                        break;
+                    }
+                }
+
+                if ($isAssigned) {
+                    $assignedGames[] = $game;
+                }
+
+                //filtering assigned games
+
             }
         } else {
             Session::flash('error_message', 'No Games');
             return redirect()->back();
         }
         $right_bar = 1;
-        $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'games');
+        $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'games', 'assignedGames');
         return view('umpire.games')->with($data);
     }
     public function saveUmpire(Request $request)

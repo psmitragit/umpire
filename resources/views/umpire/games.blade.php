@@ -1,5 +1,8 @@
 @extends('umpire.layouts.main')
 @section('main-container')
+    @php
+        $today = Illuminate\Support\Carbon::now();
+    @endphp
     <div class="body-content">
         <div class="namphomediv">
             <h1 class="pageTitle">Leagues</h1>
@@ -23,63 +26,28 @@
                     <button class="upcomne" id="assigned">Assigned</button>
                 </div>
             </div>
-            <table class="rowas-tabl" id="myTable">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Teams</th>
-                        <th>Location</th>
-                        <th>Pay</th>
-                        <th>Assigned</th>
-                    </tr>
-                </thead>
-                <tbody id="myTableBody">
-                    @if ($games->count() > 0)
-                        @php
-                            $row_count = 0;
-                        @endphp
-                        @foreach ($games as $game)
+            <div id="games">
+                <table class="rowas-tabl" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Teams</th>
+                            <th>Location</th>
+                            <th>Pay</th>
+                            <th>Assigned</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableBody">
+                        @if (!empty($games))
                             @php
-                                $inputDate = $game->gamedate_toDisplay;
-                                $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
-                                $gamedate = $carbonDate->format('D m/d/y h:ia');
-                                $today = Illuminate\Support\Carbon::now();
-                                $umpType = '';
-                                $isAssigned = true;
-                                if ($game->ump1 == $umpire_data->umpid) {
-                                    $umpType = '<span class="text-success">Yes(Main Umpire)</span>';
-                                } elseif ($game->ump2 == $umpire_data->umpid) {
-                                    $umpType = '<span class="text-success">Yes(2nd Umpire)</span>';
-                                } elseif ($game->ump3 == $umpire_data->umpid) {
-                                    $umpType = '<span class="text-success">Yes(3rd Umpire)</span>';
-                                } elseif ($game->ump4 == $umpire_data->umpid) {
-                                    $umpType = '<span class="text-success">Yes(4th Umpire)</span>';
-                                } else {
-                                    $isAssigned = false;
-                                }
+                                $row_count = 0;
                             @endphp
-                            @if ($isAssigned)
+                            @foreach ($games as $game)
                                 @php
-                                    $pay = 0;
-                                    if ($game->ump1 == $umpire_data->umpid) {
-                                        $pay = '$' . $game->ump1pay . '+$' . $game->ump1bonus;
-                                    } else {
-                                        $pay = '$' . $game->ump234pay . '+$' . $game->ump234bonus;
-                                    }
-                                @endphp
-                                <tr class="assigned">
-                                    <td>{{ $gamedate }}</td>
-                                    <td class="team">{{ $game->hometeam->teamname }} vs
-                                        {{ $game->awayteam->teamname }}</td>
-                                    <td>{{ $game->location->ground }}</td>
-                                    <td class="text-success">{!! $pay !!}</td>
-                                    <td>{!! $umpType !!}</td>
-                                </tr>
-                                @php
-                                    $row_count++;
-                                @endphp
-                            @else
-                                @php
+                                    $inputDate = $game->gamedate_toDisplay;
+                                    $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
+                                    $gamedate = $carbonDate->format('D m/d/y h:ia');
+
                                     $umpreq = $game->umpreqd;
                                     $i = 1;
                                     $empty_umps = [];
@@ -144,15 +112,69 @@
                                         $row_count++;
                                     @endphp
                                 @endif
-                            @endif
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
-            @if ($row_count > 10)
-                <button id="toggleButton"><i class="fa-solid fa-angle-down"></i></button>
-            @endif
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+                @if ($row_count > 10)
+                    <button id="toggleButton"><i class="fa-solid fa-angle-down"></i></button>
+                @endif
+            </div>
+            <div id="assigned_games" style="display: none">
+                <table class="rowas-tabl" id="">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Teams</th>
+                            <th>Location</th>
+                            <th>Pay</th>
+                            <th>Assigned</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myTableBody">
+                        @php
+                            $assignedGames_row_count = 0;
+                        @endphp
+                        @if (!empty($assignedGames))
+                            @foreach ($assignedGames as $assignedGame)
+                                @php
+                                    $inputDate = $assignedGame->gamedate_toDisplay;
+                                    $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
+                                    $assignedGameDate = $carbonDate->format('D m/d/y h:ia');
+                                    $umpType = '';
 
+                                    if ($assignedGame->ump1 == $umpire_data->umpid) {
+                                        $umpType = '<span class="text-success">Yes(Main Umpire)</span>';
+                                    } elseif ($assignedGame->ump2 == $umpire_data->umpid) {
+                                        $umpType = '<span class="text-success">Yes(2nd Umpire)</span>';
+                                    } elseif ($assignedGame->ump3 == $umpire_data->umpid) {
+                                        $umpType = '<span class="text-success">Yes(3rd Umpire)</span>';
+                                    } elseif ($assignedGame->ump4 == $umpire_data->umpid) {
+                                        $umpType = '<span class="text-success">Yes(4th Umpire)</span>';
+                                    }
+                                    $pay = 0;
+                                    if ($assignedGame->ump1 == $umpire_data->umpid) {
+                                        $pay = '$' . $assignedGame->ump1pay . '+$' . $assignedGame->ump1bonus;
+                                    } else {
+                                        $pay = '$' . $assignedGame->ump234pay . '+$' . $assignedGame->ump234bonus;
+                                    }
+                                @endphp
+                                <tr class="assigned">
+                                    <td>{{ $assignedGameDate }}</td>
+                                    <td class="team">{{ $assignedGame->hometeam->teamname }} vs
+                                        {{ $assignedGame->awayteam->teamname }}</td>
+                                    <td>{{ $assignedGame->location->ground }}</td>
+                                    <td class="text-success">{!! $pay !!}</td>
+                                    <td>{!! $umpType !!}</td>
+                                </tr>
+                                @php
+                                    $assignedGames_row_count++;
+                                @endphp
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <script>
@@ -175,14 +197,12 @@
             mapview.classList.add('trssnps')
             bodycontent.classList.add("bgs-colors")
         }
-        document.addEventListener('DOMContentLoaded', function() {
-            listview.click();
-            const table = document.getElementById('myTable');
-            const button = document.getElementById('toggleButton');
-            let showAllRows = false;
-            let rowsToShow = 10;
 
-            function toggleRows() {
+        function togglebtn(table_id, button_id, showAllRows = false) {
+            const table = document.getElementById(table_id);
+            const button = document.getElementById(button_id);
+            if (table && button) {
+                let rowsToShow = 10;
                 const rows = table.querySelectorAll('tbody tr');
                 for (let i = 0; i < rows.length; i++) {
                     if (showAllRows || i < rowsToShow) {
@@ -192,29 +212,33 @@
                     }
                 }
                 button.innerHTML = showAllRows ?
-                    '<i class="fa-solid fa-angle-up"></i>' :
-                    '<i class="fa-solid fa-angle-down"></i>';
-
-                showAllRows = !showAllRows;
+                    '<i class="fa-solid fa-angle-up" onclick="togglebtn(\'' + table_id + '\',\'' + button_id + '\',' +
+                    false +
+                    ')"></i>' :
+                    '<i class="fa-solid fa-angle-down" onclick="togglebtn(\'' + table_id + '\',\'' + button_id + '\',' +
+                    true +
+                    ')"></i>';
             }
-            toggleRows();
-            button.addEventListener('click', toggleRows);
-        });
+        }
     </script>
     <script>
         $(document).ready(function() {
+            listview.click();
+            togglebtn('myTable', 'toggleButton');
             $("#assigned").on("click", function() {
                 $("#all-matches").removeClass("active");
                 $(this).addClass("active");
-                $("#myTableBody tr:not(.assigned)").hide();
-                $("#myTableBody tr.assigned").show();
+                $("#games").hide();
+                $("#assigned_games").show();
                 $("#toggleButton").hide();
             });
             $("#all-matches").on("click", function() {
+                togglebtn('myTable', 'toggleButton');
                 $("#assigned").removeClass("active");
                 $(this).addClass("active");
-                $("#myTableBody tr").show();
-                $("#toggleButton").hide();
+                $("#games").show();
+                $("#assigned_games").hide();
+                $("#toggleButton").show();
             });
         });
     </script>
