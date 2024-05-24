@@ -28,7 +28,7 @@
                     @endphp
                     @if ($upcomming_games_grouped->count() > 0)
                         @foreach ($upcomming_games_grouped as $groupByDate => $upcomming_games)
-                            <tr>
+                            <tr class="gamegroupclass" id="gamegroupclass{{ $groupByDate }}">
                                 <td colspan="6">
                                     <h6 class="this-is-it">
                                         {{ date('l F jS Y', strtotime($groupByDate)) }}
@@ -98,7 +98,7 @@
                                         @endphp
                                         @if (!empty($empty_umps))
                                             @foreach ($empty_umps as $empty_ump)
-                                                <tr>
+                                                <tr class="gamegroupclass{{ $groupByDate }}">
                                                     <td>{{ $gamedate }}</td>
                                                     <td>{{ $upcoming_game->league->leaguename }}</td>
                                                     <td class="team">{{ $upcoming_game->hometeam->teamname }} vs
@@ -117,7 +117,7 @@
                                                     $row_count++;
                                                 @endphp
                                             @endforeach
-                                            @else
+                                        @else
                                         @endif
                                     @endif
                                 @endif
@@ -157,4 +157,15 @@
             @endif
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('tr.gamegroupclass').each(function() {
+                var rowId = $(this).attr('id');
+                var classToCheck = rowId;
+                if ($('tr.' + classToCheck).length === 0) {
+                    $(this).remove();
+                }
+            });
+        });
+    </script>
 @endsection
