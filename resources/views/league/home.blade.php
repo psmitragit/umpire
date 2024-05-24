@@ -117,101 +117,124 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($league_past_games->count() > 0)
-                            @foreach ($league_past_games as $league_past_game)
-                                @php
-                                    $inputDate = $league_past_game->gamedate_toDisplay;
-                                    $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
-                                    $gamedate = $carbonDate->format('D m/d/y h:ia');
-                                    for ($i = 1; $i <= 4; $i++) {
-                                        $report_col = 'report' . $i;
-                                        $col = 'ump' . $i;
-                                        if ($league_past_game->umpreqd >= $i) {
-                                            if ($league_past_game->{$col} !== null) {
-                                                if ($league_past_game->report == 1) {
-                                                    if ($league_past_game->{$report_col} !== null) {
-                                                        if (
-                                                            checkIfReportIsFake($league_past_game->gameid, $report_col)
-                                                        ) {
-                                                            $report = '<span class="text-danger">Absent</span>';
-                                                        } else {
-                                                            if (
-                                                                checkIfReportIsHighlighted(
-                                                                    $league_past_game->gameid,
-                                                                    $report_col,
-                                                                )
-                                                            ) {
-                                                                $highlighted_class = 'highlighted_class';
-                                                                $text = 'Important Report';
-                                                            } else {
-                                                                $highlighted_class = '';
-                                                                $text = 'View Report';
-                                                            }
-                                                            $report =
-                                                                '<a href="javascript:void(0)" class="text-primary ' .
-                                                                $highlighted_class .
-                                                                '" onclick="view_report(' .
-                                                                $league_past_game->gameid .
-                                                                ', \'' .
-                                                                $report_col .
-                                                                '\', ' .
-                                                                $league_past_game->{$col} .
-                                                                ')">' .
-                                                                $text .
-                                                                '</a>';
-                                                        }
-                                                    } else {
-                                                        if (
-                                                            checkIfReportIsFake($league_past_game->gameid, $report_col)
-                                                        ) {
-                                                            $report = '<span class="text-danger">Absent</span>';
-                                                        } else {
-                                                            $report =
-                                                                '<a data-text="Mark this umpire as absent?" href="' .
-                                                                url(
-                                                                    'league/report-absent/' .
+                        @php
+                            $rowPastCount = 0;
+                        @endphp
+                        @if ($league_past_games_grouped->count() > 0)
+                            @foreach ($league_past_games_grouped as $groupByDate => $league_past_games)
+                                <tr>
+                                    <td colspan="7">
+                                        <h6 class="this-is-it">
+                                            {{ date('l F jS Y', strtotime($groupByDate)) }}
+                                        </h6>
+                                    </td>
+                                </tr>
+                                @if ($league_past_games->count() > 0)
+                                    @foreach ($league_past_games as $league_past_game)
+                                        @php
+                                            $inputDate = $league_past_game->gamedate_toDisplay;
+                                            $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
+                                            $gamedate = $carbonDate->format('D m/d/y h:ia');
+                                            for ($i = 1; $i <= 4; $i++) {
+                                                $report_col = 'report' . $i;
+                                                $col = 'ump' . $i;
+                                                if ($league_past_game->umpreqd >= $i) {
+                                                    if ($league_past_game->{$col} !== null) {
+                                                        if ($league_past_game->report == 1) {
+                                                            if ($league_past_game->{$report_col} !== null) {
+                                                                if (
+                                                                    checkIfReportIsFake(
+                                                                        $league_past_game->gameid,
+                                                                        $report_col,
+                                                                    )
+                                                                ) {
+                                                                    $report = '<span class="text-danger">Absent</span>';
+                                                                } else {
+                                                                    if (
+                                                                        checkIfReportIsHighlighted(
+                                                                            $league_past_game->gameid,
+                                                                            $report_col,
+                                                                        )
+                                                                    ) {
+                                                                        $highlighted_class = 'highlighted_class';
+                                                                        $text = 'Important Report';
+                                                                    } else {
+                                                                        $highlighted_class = '';
+                                                                        $text = 'View Report';
+                                                                    }
+                                                                    $report =
+                                                                        '<a href="javascript:void(0)" class="text-primary ' .
+                                                                        $highlighted_class .
+                                                                        '" onclick="view_report(' .
                                                                         $league_past_game->gameid .
-                                                                        '/' .
+                                                                        ', \'' .
                                                                         $report_col .
-                                                                        '/' .
-                                                                        $league_past_game->{$col},
-                                                                ) .
-                                                                '" onclick="confirmClickManual(event)" class="text-danger">Report Not Submitted</a>';
+                                                                        '\', ' .
+                                                                        $league_past_game->{$col} .
+                                                                        ')">' .
+                                                                        $text .
+                                                                        '</a>';
+                                                                }
+                                                            } else {
+                                                                if (
+                                                                    checkIfReportIsFake(
+                                                                        $league_past_game->gameid,
+                                                                        $report_col,
+                                                                    )
+                                                                ) {
+                                                                    $report = '<span class="text-danger">Absent</span>';
+                                                                } else {
+                                                                    $report =
+                                                                        '<a data-text="Mark this umpire as absent?" href="' .
+                                                                        url(
+                                                                            'league/report-absent/' .
+                                                                                $league_past_game->gameid .
+                                                                                '/' .
+                                                                                $report_col .
+                                                                                '/' .
+                                                                                $league_past_game->{$col},
+                                                                        ) .
+                                                                        '" onclick="confirmClickManual(event)" class="text-danger">Report Not Submitted</a>';
+                                                                }
+                                                            }
+                                                        } else {
+                                                            $report = '';
                                                         }
+                                                        ${'ump' . $i} =
+                                                            '<div>' .
+                                                            $league_past_game->{'umpire' . $i}->name .
+                                                            '</div><div>' .
+                                                            $report .
+                                                            '</div>';
+                                                    } else {
+                                                        ${'ump' . $i} = '<span class="text-danger">Empty</span>';
                                                     }
                                                 } else {
-                                                    $report = '';
+                                                    ${'ump' . $i} = '_ _';
                                                 }
-                                                ${'ump' . $i} =
-                                                    '<div>' .
-                                                    $league_past_game->{'umpire' . $i}->name .
-                                                    '</div><div>' .
-                                                    $report .
-                                                    '</div>';
-                                            } else {
-                                                ${'ump' . $i} = '<span class="text-danger">Empty</span>';
                                             }
-                                        } else {
-                                            ${'ump' . $i} = '_ _';
-                                        }
-                                    }
-                                @endphp
-                                <tr>
-                                    <td>{{ $gamedate }}</td>
-                                    <td class="team" id="teamvs{{ $league_past_game->gameid }}">
-                                        {{ $league_past_game->hometeam->teamname }} vs
-                                        {{ $league_past_game->awayteam->teamname }}</td>
-                                    <td>{{ $league_past_game->location->ground }}</td>
-                                    <td class="color-prmths">{!! $ump1 !!}</td>
-                                    <td class="color-prmths">{!! $ump2 !!}</td>
-                                    <td class="color-prmths">{!! $ump3 !!}</td>
-                                    <td class="color-prmths">{!! $ump4 !!}</td>
-                                </tr>
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $gamedate }}</td>
+                                            <td class="team" id="teamvs{{ $league_past_game->gameid }}">
+                                                {{ $league_past_game->hometeam->teamname }} vs
+                                                {{ $league_past_game->awayteam->teamname }}</td>
+                                            <td>{{ $league_past_game->location->ground }}</td>
+                                            <td class="color-prmths">{!! $ump1 !!}</td>
+                                            <td class="color-prmths">{!! $ump2 !!}</td>
+                                            <td class="color-prmths">{!! $ump3 !!}</td>
+                                            <td class="color-prmths">{!! $ump4 !!}</td>
+                                        </tr>
+                                        @php
+                                            $rowPastCount++;
+                                        @endphp
+                                    @endforeach
+                                @endif
                             @endforeach
                         @endif
                     </tbody>
                 </table>
-                @if ($league_past_games->count() > 10)
+                @if ($rowPastCount > 10)
                     <button id="toggleButton2"><i class="fa-solid fa-angle-down"></i></button>
                 @endif
 

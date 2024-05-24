@@ -286,14 +286,16 @@ class LeagueController extends Controller
             ->groupBy(function ($date) {
                 return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
             });
-        $league_past_games = $league_past_games_instance->where('gamedate_toDisplay', '<', now())->orderBy('gamedate_toDisplay', 'DESC')->get();
-        $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_upcomming_games_grouped', 'league_past_games');
+        $league_past_games_grouped = $league_past_games_instance->where('gamedate_toDisplay', '<', now())->orderBy('gamedate_toDisplay', 'DESC')->get()->groupBy(function ($date) {
+            return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
+        });
+        $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'league_upcomming_games_grouped', 'league_past_games_grouped');
         return view('league.home')->with($data);
     }
     public function reportAbsent($gameid, $column, $umpid)
     {
         reportFake($gameid, $column, $umpid);
-        Session::flash('event','show-report');
+        Session::flash('event', 'show-report');
         return redirect('league');
     }
     public function view_report($gameid, $col)

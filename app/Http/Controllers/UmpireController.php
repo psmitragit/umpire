@@ -202,15 +202,16 @@ class UmpireController extends Controller
         $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'umpire_past_games', 'umpire_upcomming_games_grouped');
         return view('umpire.home')->with($data);
     }
-    public function showReport(){
-        Session::flash('event','show-report');
+    public function showReport()
+    {
+        Session::flash('event', 'show-report');
         return redirect('umpire');
     }
     public function reportAbsent($gameid, $column)
     {
         $umpire_data = logged_in_umpire_data();
         reportFake($gameid, $column, $umpire_data->umpid);
-        Session::flash('event','show-report');
+        Session::flash('event', 'show-report');
         return redirect('umpire');
     }
     public function league_games($leagueid)
@@ -872,12 +873,14 @@ class UmpireController extends Controller
                 $leagueids[] = $league->leagueid;
             }
         }
-        $upcomming_games = GameModel::where('gamedate', '>=', now())
+        $upcomming_games_grouped = GameModel::where('gamedate_toDisplay', '>=', now())
             ->whereIn('leagueid', $leagueids)
-            ->orderBy('gamedate', 'ASC')
-            ->get();
+            ->orderBy('gamedate_toDisplay', 'ASC')
+            ->get()->groupBy(function ($date) {
+                return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
+            });
         $right_bar = 0;
-        $data = compact('title', 'upcomming_games', 'umpire_data', 'right_bar', 'nav');
+        $data = compact('title', 'upcomming_games_grouped', 'umpire_data', 'right_bar', 'nav');
         return view('umpire.open_games')->with($data);
     }
     public function cancel_game($gameid)
