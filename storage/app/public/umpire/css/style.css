@@ -27,7 +27,7 @@ h6 {
     font-weight: unset;
     line-height: inherit;
 }
-  
+
 .fix-buttons {
     position: fixed;
     left:  20px;
@@ -2982,6 +2982,13 @@ sapem input[type="radio"]:checked+span {
   }
   #reportAbsentBtn:hover {
     color: #fff;
+  }
+  #reportAbsentBtn {
+    padding: 4px 15px;
+  }
+  #reportAbsentBtn {
+    display: inline-block;
+    margin: 0;
   }
   @keyframes color-change {
 

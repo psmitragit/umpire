@@ -184,7 +184,9 @@ class UmpireController extends Controller
             return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
         });
 
-        $umpire_past_games = $umpire_past_games_instance->where('gamedate_toDisplay', '<', now())->orderBy('gamedate_toDisplay', 'DESC')->get();
+        $umpire_past_games_grouped = $umpire_past_games_instance->where('gamedate_toDisplay', '<', now())->orderBy('gamedate_toDisplay', 'DESC')->get()->groupBy(function ($date) {
+            return Carbon::parse($date->gamedate_toDisplay)->format('Y-m-d');
+        });
 
 
         $location_details = array();
@@ -199,7 +201,7 @@ class UmpireController extends Controller
         }
         $right_bar = 1;
 
-        $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'umpire_past_games', 'umpire_upcomming_games_grouped');
+        $data = compact('title', 'umpire_data', 'right_bar', 'nav', 'location_details', 'umpire_past_games_grouped', 'umpire_upcomming_games_grouped');
         return view('umpire.home')->with($data);
     }
     public function showReport()

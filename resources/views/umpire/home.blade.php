@@ -118,61 +118,71 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($umpire_past_games->count() > 0)
-                            @foreach ($umpire_past_games as $past_game)
-                                @php
-                                    $inputDate = $past_game->gamedate_toDisplay;
-                                    $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
-                                    $gamedate = $carbonDate->format('D m/d/y h:ia');
-                                    $report_btn = '';
-                                    $reportcol = '';
-                                    if ($past_game->report == 1) {
-                                        if ($past_game->ump1 == $umpire_data->umpid) {
-                                            $reportcol = 'report1';
-                                        } elseif ($past_game->ump2 == $umpire_data->umpid) {
-                                            $reportcol = 'report2';
-                                        } elseif ($past_game->ump3 == $umpire_data->umpid) {
-                                            $reportcol = 'report3';
-                                        } elseif ($past_game->ump4 == $umpire_data->umpid) {
-                                            $reportcol = 'report4';
-                                        }
-                                        if ($past_game->{$reportcol} !== null) {
-                                            if (checkIfReportIsFake($past_game->gameid, $reportcol)) {
-                                                $report_btn = '<span class="text-danger">Absent</span>';
-                                            } else {
-                                                $report_btn =
-                                                    '<span class="text-success"><i class="fa-solid fa-check"></i> Submitted</span>';
+                        @if ($umpire_past_games_grouped->count() > 0)
+                            @foreach ($umpire_past_games_grouped as $groupByDate => $umpire_past_games)
+                                <tr>
+                                    <td colspan="6">
+                                        <h6 class="this-is-it">
+                                            {{ date('l F jS Y', strtotime($groupByDate)) }}
+                                        </h6>
+                                    </td>
+                                </tr>
+                                @foreach ($umpire_past_games as $past_game)
+                                    @php
+                                        $inputDate = $past_game->gamedate_toDisplay;
+                                        $carbonDate = Illuminate\Support\Carbon::parse($inputDate);
+                                        $gamedate = $carbonDate->format('D m/d/y h:ia');
+                                        $report_btn = '';
+                                        $reportcol = '';
+                                        if ($past_game->report == 1) {
+                                            if ($past_game->ump1 == $umpire_data->umpid) {
+                                                $reportcol = 'report1';
+                                            } elseif ($past_game->ump2 == $umpire_data->umpid) {
+                                                $reportcol = 'report2';
+                                            } elseif ($past_game->ump3 == $umpire_data->umpid) {
+                                                $reportcol = 'report3';
+                                            } elseif ($past_game->ump4 == $umpire_data->umpid) {
+                                                $reportcol = 'report4';
                                             }
-                                        } else {
-                                            if (!checkIfReportIsFake($past_game->gameid, $reportcol)) {
-                                                $report_btn =
-                                                    '
+                                            if ($past_game->{$reportcol} !== null) {
+                                                if (checkIfReportIsFake($past_game->gameid, $reportcol)) {
+                                                    $report_btn = '<span class="text-danger">Absent</span>';
+                                                } else {
+                                                    $report_btn =
+                                                        '<span class="text-success"><i class="fa-solid fa-check"></i> Submitted</span>';
+                                                }
+                                            } else {
+                                                if (!checkIfReportIsFake($past_game->gameid, $reportcol)) {
+                                                    $report_btn =
+                                                        '
                                                 <div>
                                             <a href="javascript:void(0)" class="view-btn primart-yehs " onclick="submitReport(' .
-                                                    $past_game->gameid .
-                                                    ', \'' .
-                                                    $reportcol .
-                                                    '\')">Submit Report</a>
+                                                        $past_game->gameid .
+                                                        ', \'' .
+                                                        $reportcol .
+                                                        '\')">Submit Report</a>
                                             </div>
                                             ';
-                                            } else {
-                                                $report_btn = '<span class="text-danger">Absent</span>';
+                                                } else {
+                                                    $report_btn = '<span class="text-danger">Absent</span>';
+                                                }
                                             }
+                                        } else {
+                                            $report_btn = '<span class="text-secondary">NA</span>';
                                         }
-                                    } else {
-                                        $report_btn = '<span class="text-secondary">NA</span>';
-                                    }
 
-                                @endphp
-                                <tr>
-                                    <td>{{ $gamedate }}</td>
-                                    <td class="team" id="teamvs{{ $past_game->gameid }}">
-                                        {{ $past_game->hometeam->teamname }} vs
-                                        {{ $past_game->awayteam->teamname }}</td>
-                                    <td id="leaguename{{ $past_game->gameid }}">{{ $past_game->league->leaguename }}</td>
-                                    <td><span class="loasys">{{ $past_game->location->ground }}</span></td>
-                                    <td id="reportbtnrow{{ $past_game->gameid }}">{!! $report_btn !!}</td>
-                                </tr>
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $gamedate }}</td>
+                                        <td class="team" id="teamvs{{ $past_game->gameid }}">
+                                            {{ $past_game->hometeam->teamname }} vs
+                                            {{ $past_game->awayteam->teamname }}</td>
+                                        <td id="leaguename{{ $past_game->gameid }}">{{ $past_game->league->leaguename }}
+                                        </td>
+                                        <td><span class="loasys">{{ $past_game->location->ground }}</span></td>
+                                        <td id="reportbtnrow{{ $past_game->gameid }}">{!! $report_btn !!}</td>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         @endif
                     </tbody>
@@ -191,10 +201,11 @@
                 <div class="modal-hesn">
                     <h5 class="modalicons-title">Submit Report</h5>
 
-                    <div class="sdy"> <a href="" id="reportAbsentBtn" class="submitbtns confirmCancel">Report Absent</a></div>
+                    <div class="sdy"> <a href="" id="reportAbsentBtn" class="submitbtns confirmCancel">Report
+                            Absent</a></div>
                     <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-x"></i></button>
-                   
+
                 </div>
                 <div class="modal-body">
                     <form action="{{ url('umpire/submit-report') }}" method="POST">
