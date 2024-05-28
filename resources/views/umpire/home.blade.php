@@ -118,6 +118,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @php
+                            $rowCount = 0;
+                        @endphp
                         @if ($umpire_past_games_grouped->count() > 0)
                             @foreach ($umpire_past_games_grouped as $groupByDate => $umpire_past_games)
                                 <tr>
@@ -182,13 +185,16 @@
                                         <td><span class="loasys">{{ $past_game->location->ground }}</span></td>
                                         <td id="reportbtnrow{{ $past_game->gameid }}">{!! $report_btn !!}</td>
                                     </tr>
+                                    @php
+                                        $rowCount++;
+                                    @endphp
                                 @endforeach
                             @endforeach
                         @endif
                     </tbody>
 
                 </table>
-                @if ($umpire_past_games->count() > 10)
+                @if ($rowCount > 10)
                     <button id="toggleButton2"><i class="fa-solid fa-angle-down"></i></button>
                 @endif
             </div>
