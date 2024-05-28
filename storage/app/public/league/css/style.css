@@ -3146,7 +3146,7 @@ input:checked+.slider:before {
     margin-bottom: 10px;
   }
   .text-primary.highlighted_class::after {
-    content: " ! Imp";
+    content: "!";
     color: white;
     background: red;
     padding: 1px 4px;

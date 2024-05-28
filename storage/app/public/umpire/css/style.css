@@ -2990,6 +2990,13 @@ sapem input[type="radio"]:checked+span {
     display: inline-block;
     margin: 0;
   }
+
+  .blue-btns.view-btn.primart-yehs {
+    left: 50%;
+    transform: translateX(-50%);
+    right: unset;
+  }
+
   @keyframes color-change {
 
     0%{
