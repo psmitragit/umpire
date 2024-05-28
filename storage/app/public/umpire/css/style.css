@@ -434,11 +434,20 @@ body {
 .upcoming-games {
     height: 48%;
     margin-bottom: 2%;
+
+
+ 
+}
+.games-upcomings {
+    height: 100%;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #b3b3b3 #e7e7e7;
 }
 
+.upcoming-games.asff {
+    overflow: hidden;
+  }
 .viewmore:hover {
     color: #e87701;
 }
