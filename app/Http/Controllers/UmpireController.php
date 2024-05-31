@@ -591,7 +591,7 @@ class UmpireController extends Controller
     public function view_notifications()
     {
         $title = 'Umpire Notifications';
-        $nav = '';
+        $nav = 'notifications';
         $umpire_data = logged_in_umpire_data();
         $email_settings = $umpire_data->email_settings;
 
