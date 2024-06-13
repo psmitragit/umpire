@@ -291,8 +291,7 @@ function displayCalendar($month, $year, $cal_data = array())
                     $game_row = GameModel::find($cdata['gameid']);
                     $location = $game_row->location->ground;
                     $game_date = explode(' ', $game_row->gamedate)[0];
-                    $game_time = explode(' ', $game_row->gamedate_toDisplay)[1];
-                    $time = substr($game_time, 0, 5);
+                    $time = date('h:i A', strtotime($game_row->gamedate_toDisplay));
                     $cancelbefore = (int)$game_row->league->leavebefore;
 
                     $initialDate = Carbon::parse($game_date);
@@ -424,7 +423,7 @@ function add_payRecord($leagueid, $umpid, $paydate, $payamt, $pmttype, $gameid =
         } catch (\Throwable $th) {
         }
         if ($pmttype == 'game' || $pmttype == 'adjusted') {
-            $msg = 'Amount $' . $payamt . ' added to your wallet.';
+            $msg = '$' . $payamt . ' added to your wallet.';
         } elseif ($pmttype == 'payout') {
             $msg = 'Received amount $' . $payamt . ' on ' . date('D m/d/y', strtotime($paydate));
         } elseif ($pmttype == 'bonus') {

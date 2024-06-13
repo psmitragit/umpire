@@ -65,9 +65,9 @@
                                             if ($game->{$col} == null) {
                                                 $pay = 0;
                                                 if ($col == 'ump1') {
-                                                    $pay = '$' . $game->ump1pay . '+$' . $game->ump1bonus;
+                                                    $pay = '$' . $game->ump1pay + $game->ump1bonus;
                                                 } else {
-                                                    $pay = '$' . $game->ump234pay . '+$' . $game->ump234bonus;
+                                                    $pay = '$' . $game->ump234pay + $game->ump234bonus;
                                                 }
                                                 if ($col == 'ump1') {
                                                     $newcol = 'Main Umpire';
@@ -168,9 +168,9 @@
                                         }
                                         $pay = 0;
                                         if ($assignedGame->ump1 == $umpire_data->umpid) {
-                                            $pay = '$' . $assignedGame->ump1pay . '+$' . $assignedGame->ump1bonus;
+                                            $pay = '$' . $assignedGame->ump1pay + $assignedGame->ump1bonus;
                                         } else {
-                                            $pay = '$' . $assignedGame->ump234pay . '+$' . $assignedGame->ump234bonus;
+                                            $pay = '$' . $assignedGame->ump234pay + $assignedGame->ump234bonus;
                                         }
                                     @endphp
                                     <tr class="assigned">

@@ -35,7 +35,7 @@
         <div class="buttons-disd">
             <a href="{{ url('umpire/notifications') }}" class="navlogos {{ $nav == 'notifications' ? 'active' : '' }}"> <span><i
                         class="fa-regular fa-envelope"></i></span>
-                Notification </a>
+                Notifications </a>
         </div>
 
 

@@ -38,18 +38,19 @@
         <div class="buttons-disd">
             <a href="{{ url('league/notifications') }}" class="navlogos"> <span><i
                         class="fa-regular fa-envelope"></i></span>
-                Notification </a>
+                Notifications </a>
         </div>
 
         <div class="phone-newmenus">
-            <div class="buttons-disd">
+
+            {{-- <div class="buttons-disd">
                 <a href="{{ url('league/notification') }}"
                     class="navlogos {{ $nav == 'notification' ? 'active' : '' }}"> <span><i
-                            class="fa-regular fa-envelope"></i></span> Notification
+                            class="fa-regular fa-envelope"></i></span> Notifications
 
                 </a>
+            </div> --}}
 
-            </div>
             <div class="buttons-disd">
                 <a href="{{ url('league/change-password') }}"
                     class="navlogos {{ $nav == 'change-password' ? 'active' : '' }}"> <span><i

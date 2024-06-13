@@ -58,24 +58,42 @@
     });
 </script>
 <script>
-    function filterTable(tableid) {
-        const dataTable = document.getElementById(tableid);
+    function filterTable(containerId) {
+        const container = document.getElementById(containerId);
         const searchInput = document.getElementById('searchInput');
         const searchValue = searchInput.value.toLowerCase();
-        const rows = dataTable.getElementsByTagName('tr');
 
-        for (let i = 1; i < rows.length; i++) {
-            const row = rows[i];
-            const rowData = row.textContent.toLowerCase();
+        if (container.tagName.toLowerCase() === 'table') {
+            const rows = container.getElementsByTagName('tr');
 
-            if (rowData.includes(searchValue)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                const rowData = row.textContent.toLowerCase();
+
+                if (rowData.includes(searchValue)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        } else {
+            const items = container.getElementsByClassName(
+            'col-lg-3 col-md-4 col-6');
+
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const itemData = item.textContent.toLowerCase();
+
+                if (itemData.includes(searchValue)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
             }
         }
     }
 </script>
+
 <script>
     $('.confirmCancel').click(function(e) {
         e.preventDefault();

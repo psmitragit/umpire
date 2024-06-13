@@ -10,8 +10,8 @@
                 </div>
                 <div class="Admins">
                     <div class="inputs-srch">
-                        <input oninput="filterTable('myTable2');" id="searchInput" placeholder="Search"
-                            class="input-srch-field" type="text">
+                        <input placeholder="Search" name="srch" class="input-srch-field srch" type="text"
+                            id="searchInput" oninput="filterTable('myTable2');">
                         <button class="srch-mag-btn" type="button"> <img
                                 src="{{ asset('storage/league') }}/img/srch-icon.png" alt=""> </button>
 
@@ -26,9 +26,9 @@
         <div class="list-viw-contet w-75 mx-auto customhight-100vh" id="list-conssst2sc">
 
 
-            <div >
-              <h3 class="title-texts">Click on an umpires name to view their profile</h3>
-                <div class="row dvs">
+            <div>
+                <h3 class="title-texts">Click umpire to see profile</h3>
+                <div class="row dvs" id="myTable2">
                     @if ($page_data->count() > 0)
                         @foreach ($page_data as $data)
                             <div class="col-lg-3 col-md-4 col-6">
@@ -39,16 +39,14 @@
                     @else
                         <div>No umpire found</div>
                     @endif
-
-
                 </div>
 
             </div>
 
-            </div>
-
-
         </div>
+
+
+    </div>
     </div>
     <script>
         $(document).ready(function() {

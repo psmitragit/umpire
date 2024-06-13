@@ -252,7 +252,7 @@
                     </div>
                     <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-x"></i></button>
-        
+
                 </div>
                 <div class="modal-body">
 
@@ -325,7 +325,11 @@
                 success: function(res) {
                     var teamvs = $('#teamvs' + gameid).text();
                     var leaguename = '{{ $league_data->leaguename }}';
-                    $('#subtext').html(teamvs + ' of ' + leaguename);
+                    if (teamvs.startsWith('Teams')) {
+                        teamvs = teamvs.substring('Teams'.length).trim();
+                    }
+                    let subTextHtml = teamvs + ' for ' + leaguename;
+                    $('#subtext').html(subTextHtml);
                     $('#reportquestions').html(res);
                     let url = "{{ url('league/report-absent') }}" + '/' + gameid + '/' + report_column + '/' +
                         umpid;

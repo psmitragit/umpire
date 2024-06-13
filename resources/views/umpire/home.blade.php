@@ -33,7 +33,7 @@
 
                             <th>LEAGUE</th>
                             <th>Location</th>
-                            <th>Umpier</th>
+                            <th>Umpire</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -309,7 +309,14 @@
                     $('[name="report_column"]').val(report_column);
                     var teamvs = $('#teamvs' + gameid).text();
                     var leaguename = $('#leaguename' + gameid).text();
-                    $('#subtext').html(teamvs + ' of ' + leaguename);
+                    if (teamvs.startsWith('Teams')) {
+                        teamvs = teamvs.substring('Teams'.length).trim();
+                    }
+                    if (leaguename.startsWith('LEAGUE')) {
+                        leaguename = leaguename.substring('LEAGUE'.length).trim();
+                    }
+                    let subTextHtml = teamvs + ' for ' + leaguename;
+                    $('#subtext').html(subTextHtml);
                     $('#reportquestions').html(res);
                     let url = "{{ url('umpire/report-absent') }}" + '/' + gameid + '/' + report_column;
                     $('#reportAbsentBtn').attr('href', url);

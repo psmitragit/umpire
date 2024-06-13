@@ -67,14 +67,12 @@
                                                     if ($col == 'ump1') {
                                                         $pay =
                                                             '$' .
-                                                            $upcoming_game->ump1pay .
-                                                            '+$' .
+                                                            $upcoming_game->ump1pay +
                                                             $upcoming_game->ump1bonus;
                                                     } else {
                                                         $pay =
                                                             '$' .
-                                                            $upcoming_game->ump234pay .
-                                                            '+$' .
+                                                            $upcoming_game->ump234pay +
                                                             $upcoming_game->ump234bonus;
                                                     }
                                                     if ($col == 'ump1') {

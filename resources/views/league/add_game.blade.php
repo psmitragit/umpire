@@ -50,11 +50,11 @@
                             <input value="{{ $value }}" type="text" class="selector-names" name="gameHour"
                                 required>
                             <select name="ampm" class="selector-names" id="" required>
-                                <option {{ !empty($page_data) && $value_select == 'AM' ? 'selected' : '' }} value="AM">
-                                    AM
-                                </option>
                                 <option {{ !empty($page_data) && $value_select == 'PM' ? 'selected' : '' }} value="PM">
                                     PM
+                                </option>
+                                <option {{ !empty($page_data) && $value_select == 'AM' ? 'selected' : '' }} value="AM">
+                                    AM
                                 </option>
                             </select>
                         </div>

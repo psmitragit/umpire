@@ -155,8 +155,9 @@
                                         <td>{!! $data->report == 1
                                             ? '<i class="fa-solid fa-check text-success"></i>'
                                             : '<i class="fa-solid fa-x text-danger"></i>' !!}</td>
-                                        <td class="text-success">${{ $data->ump1pay + $data->ump234pay }} +
-                                            ${{ $data->ump1bonus + $data->ump234bonus }}</td>
+                                        <td class="text-success">
+                                            ${{ $data->ump1pay + $data->ump234pay + $data->ump1bonus + $data->ump234bonus }}
+                                        </td>
                                         <td class="wisb">
                                             @if ($data->ump1 == null && $data->ump2 == null && $data->ump3 == null && $data->ump4 == null)
                                                 <a href="{{ url('league/edit-game/' . $data->gameid) }}"

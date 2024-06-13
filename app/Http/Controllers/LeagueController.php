@@ -2134,9 +2134,9 @@ class LeagueController extends Controller
                     $output .= '<td>$ ' . $payout->payamt . '</td>';
                 }
                 $output .= '<td>$ ' . $payout->owe . '</td>';
-                if ($payout->pmttype !== 'game') {
-                    $output .= '<td class="text-danger"><a href="' . url('league/delete-payout/' . $payout->id) . '" onclick="return confirm(\'Are you sure?\')"><i class="fa-regular fa-trash-can"></i></a></td>';
-                }
+                // if ($payout->pmttype !== 'game') {
+                //     $output .= '<td class="text-danger"><a href="' . url('league/delete-payout/' . $payout->id) . '" onclick="return confirm(\'Are you sure?\')"><i class="fa-regular fa-trash-can"></i></a></td>';
+                // }
                 $output .= '</tr>';
             }
         }
@@ -2162,7 +2162,7 @@ class LeagueController extends Controller
                 'nullable',
                 'required_without:amount',
                 'numeric',
-                // 'gt:0',
+                'not_in:0',
             ],
             'paydate' => 'required|date',
         ];
