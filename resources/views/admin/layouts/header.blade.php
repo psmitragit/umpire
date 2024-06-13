@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="{{ asset('storage/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('storage/css/admin-custom.css') }}">
     <link rel="stylesheet" href="{{ asset('storage/css/toastr.min.css') }}">
+    @livewireStyles()
+    @livewireScripts()
     <script src="{{ asset('storage/js/jquery-3.6.4.min.js') }}"></script>
     <script src="{{ asset('storage/js/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('storage/js/toastr.min.js') }}"></script>
