@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\GameModel;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -26,13 +28,19 @@ class ResetDb extends Command
      */
     public function handle()
     {
-    // Dropping all tables in the current database
-    $this->dropAllTables();
+        // Dropping all tables in the current database
+        $this->dropAllTables();
 
-    // Importing the SQL file
-    $this->importSqlFile();
+        // Importing the SQL file
+        $this->importSqlFile();
 
-    $this->info('Database has been reset successfully.');
+        // Adding one day to the game dates
+        $this->addDaysInGame();
+
+        // Export the updated database and replace the old db file
+        $this->exportDatabase();
+
+        $this->info('Database has been reset and exported successfully.');
     }
     private function dropAllTables()
     {
@@ -45,6 +53,15 @@ class ResetDb extends Command
         }
 
         $this->info('All tables dropped.');
+    }
+    public function addDaysInGame()
+    {
+        $games = GameModel::get();
+        foreach ($games as $game) {
+            $game->gamedate = Carbon::parse($game->gamedate)->addDay();
+            $game->gamedate_toDisplay = Carbon::parse($game->gamedate_toDisplay)->addDay();
+            $game->save();
+        }
     }
 
     private function importSqlFile()
@@ -61,6 +78,29 @@ class ResetDb extends Command
             $this->info('SQL file imported successfully!');
         } catch (\Exception $e) {
             $this->error('Error importing SQL file: ' . $e->getMessage());
+        }
+    }
+    private function exportDatabase()
+    {
+        // Define the path to the SQL file to replace
+        $path = storage_path('app/demodb/umpire_demo.sql');
+
+        // Command to export the database
+        $database = env('DB_DATABASE');
+        $username = env('DB_USERNAME');
+        $password = env('DB_PASSWORD');
+        $host = env('DB_HOST');
+        $exportCommand = "mysqldump --user=$username --password=$password --host=$host $database > $path";
+
+        // Execute the export command
+        $output = null;
+        $resultCode = null;
+        exec($exportCommand, $output, $resultCode);
+
+        if ($resultCode === 0) {
+            $this->info('Database exported and replaced successfully!');
+        } else {
+            $this->error('Error exporting database. Code: ' . $resultCode);
         }
     }
 }
