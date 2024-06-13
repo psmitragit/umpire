@@ -15,20 +15,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
 
-        //actual
-
+        $schedule->command('run:resetdb')->dailyAt('02:00');
         $schedule->job(new AutoGameSchedule)->dailyAt('00:05');
         $schedule->job(new AutoGameSchedule)->dailyAt('23:45');
         $schedule->job(new AfterGame)->hourly();
 
-        //actual
-
-        //for test
-
-        // $schedule->job(new AutoGameSchedule)->everyFiveSeconds();
-        // $schedule->job(new AfterGame)->everyFiveSeconds();
-
-        //for test
     }
 
     /**

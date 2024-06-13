@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DemoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LeagueController;
@@ -17,6 +18,10 @@ use App\Http\Controllers\SettingsController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+//DEMO SITE
+Route::get('/demo-umpire', [DemoController::class, 'demoUmpire']);
+Route::get('/demo-league', [DemoController::class, 'demoLeague']);
 
 //test
 // Route::get('/game-auto-schedule', [GeneralController::class, 'game_auto_schedule']);
