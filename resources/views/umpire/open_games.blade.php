@@ -26,7 +26,7 @@
                     @php
                         $row_count = 0;
                     @endphp
-                    @if ($upcomming_games_grouped->count() > 0)
+                    @if (count($upcomming_games_grouped) > 0)
                         @foreach ($upcomming_games_grouped as $groupByDate => $upcomming_games)
                             <tr class="gamegroupclass" id="gamegroupclass{{ $groupByDate }}">
                                 <td colspan="6">

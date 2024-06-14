@@ -41,7 +41,7 @@
                         @php
                             $rowCount = 0;
                         @endphp
-                        @if ($umpire_upcomming_games_grouped->count() > 0)
+                        @if (count($umpire_upcomming_games_grouped) > 0)
                             @foreach ($umpire_upcomming_games_grouped as $groupByDate => $umpire_upcomming_games)
                                 <tr>
                                     <td colspan="6">
@@ -121,7 +121,7 @@
                         @php
                             $rowCount = 0;
                         @endphp
-                        @if ($umpire_past_games_grouped->count() > 0)
+                        @if (count($umpire_past_games_grouped) > 0)
                             @foreach ($umpire_past_games_grouped as $groupByDate => $umpire_past_games)
                                 <tr>
                                     <td colspan="6">
