@@ -2,5 +2,6 @@
 /vendor
 /public/storage
 /storage/logs
-/storage/app/demodb/
+storage/app/demodb/umpire_demo.sql
+storage/app/demodb/.my.cnf
 
