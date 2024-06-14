@@ -41,7 +41,7 @@
                         @php
                             $row_count = 0;
                         @endphp
-                        @if ($games_grouped->count() > 0)
+                        @if (count($games_grouped) > 0)
                             @foreach ($games_grouped as $groupByDate => $games)
                                 <tr>
                                     <td colspan="13">
@@ -141,7 +141,7 @@
                         </tr>
                     </thead>
                     <tbody id="myTableBody">
-                        @if ($assignedGames_grouped->count() > 0)
+                        @if (count($assignedGames_grouped) > 0)
                             @foreach ($assignedGames_grouped as $groupByDate => $assignedGames)
                                 <tr>
                                     <td colspan="13">
