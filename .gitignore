@@ -2,5 +2,5 @@
 /vendor
 /public/storage
 /storage/logs
-/storage/app/demodb/umpire_demo.db
+/storage/app/demodb/umpire_demo.sql
 
