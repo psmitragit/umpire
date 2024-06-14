@@ -85,21 +85,17 @@ class ResetDb extends Command
     private function exportDatabase()
     {
         $path = storage_path('app/demodb/umpire_demo.sql');
+        $cnfPath = storage_path('app/demodb/.my.cnf');
         $database = env('DB_DATABASE');
-        $username = env('DB_USERNAME');
-        $password = env('DB_PASSWORD');
-        $host = env('DB_HOST');
 
         $exportCommand = sprintf(
-            'mysqldump --user=%s --password=%s --host=%s --skip-lock-tables --skip-add-locks --skip-disable-keys --single-transaction %s > %s',
-            escapeshellarg($username),
-            escapeshellarg($password),
-            escapeshellarg($host),
+            'mysqldump --defaults-file=%s --single-transaction --skip-lock-tables --skip-add-locks --skip-disable-keys %s > %s',
+            escapeshellarg($cnfPath),
             escapeshellarg($database),
             escapeshellarg($path)
         );
 
-        $output = null;
+        $output = [];
         $resultCode = null;
         exec($exportCommand . ' 2>&1', $output, $resultCode);
 
