@@ -141,7 +141,7 @@
                         </tr>
                     </thead>
                     <tbody id="myTableBody">
-                        @if ($assignedGames_grouped->count() > 0)
+                        @if (count($assignedGames_grouped) > 0)
                             @foreach ($assignedGames_grouped as $groupByDate => $assignedGames)
                                 <tr>
                                     <td colspan="13">

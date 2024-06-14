@@ -434,6 +434,14 @@ class UmpireController extends Controller
                 }
             }
             Session::flash('message', 'Success');
+
+            try {
+                $demoController = new DemoController();
+                $demoController->autoApproveLeagueApplication($umpire_data->umpid);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+
             return response()->json(['status' => 1]);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'msg' => 'Something went wrong..!!']);
