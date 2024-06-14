@@ -82,25 +82,30 @@ class ResetDb extends Command
     }
     private function exportDatabase()
     {
-        // Define the path to the SQL file to replace
         $path = storage_path('app/demodb/umpire_demo.sql');
-
-        // Command to export the database
         $database = env('DB_DATABASE');
         $username = env('DB_USERNAME');
         $password = env('DB_PASSWORD');
         $host = env('DB_HOST');
-        $exportCommand = "mysqldump --user=$username --password=$password --host=$host $database > $path";
 
-        // Execute the export command
+        $exportCommand = sprintf(
+            'mysqldump --user=%s --password=%s --host=%s %s > %s',
+            escapeshellarg($username),
+            escapeshellarg($password),
+            escapeshellarg($host),
+            escapeshellarg($database),
+            escapeshellarg($path)
+        );
+
         $output = null;
         $resultCode = null;
-        exec($exportCommand, $output, $resultCode);
+        exec($exportCommand . ' 2>&1', $output, $resultCode);
 
         if ($resultCode === 0) {
             $this->info('Database exported and replaced successfully!');
         } else {
             $this->error('Error exporting database. Code: ' . $resultCode);
+            $this->error('Command Output: ' . implode("\n", $output));
         }
     }
 }
