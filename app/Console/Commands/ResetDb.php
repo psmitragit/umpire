@@ -89,7 +89,7 @@ class ResetDb extends Command
         $database = env('DB_DATABASE');
 
         $exportCommand = sprintf(
-            'mysqldump --defaults-file=%s --single-transaction --skip-lock-tables --skip-add-locks --skip-disable-keys %s > %s',
+            'mysqldump --defaults-file=%s --single-transaction --skip-lock-tables --skip-add-locks --skip-disable-keys --no-tablespaces %s > %s',
             escapeshellarg($cnfPath),
             escapeshellarg($database),
             escapeshellarg($path)
