@@ -91,7 +91,7 @@ class ResetDb extends Command
         $host = env('DB_HOST');
 
         $exportCommand = sprintf(
-            'mysqldump --user=%s --password=%s --host=%s %s > %s',
+            'mysqldump --user=%s --password=%s --host=%s --skip-lock-tables --skip-add-locks --skip-disable-keys --single-transaction %s > %s',
             escapeshellarg($username),
             escapeshellarg($password),
             escapeshellarg($host),
