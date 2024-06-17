@@ -16,6 +16,7 @@ use App\Models\LeagueUmpireModel;
 use App\Models\NotificationModel;
 use App\Models\RefundPointsModel;
 use App\Models\SiteMetaData;
+use App\Models\ToggleSettings;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -142,6 +143,27 @@ function count_avg_league_games_per_week($league_id)
         0,
     );
     return $averageGamesByWeek;
+}
+
+function checkToggleStatus($league, $type)
+{
+    return ToggleSettings::where('toggled_for', $league)->where('setting', $type)->first();
+}
+
+function toggleSettings($league, $type, $status, $toggled_by = 0)
+{
+    $row = checkToggleStatus($league, $type);
+    if ($row) {
+        if (!$status) {
+            $row->delete();
+            return true;
+        }
+    } else {
+        if ($status) {
+            ToggleSettings::create(['toggled_by' => $toggled_by, 'setting' => $type, 'toggled_for' => $league]);
+            return true;
+        }
+    }
 }
 
 function count_avg_league_games_pay_per_week($league_id, $details = false)
