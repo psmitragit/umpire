@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\Models\GameModel;
+use DateTime;
 use Carbon\Carbon;
+use App\Models\GameModel;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use App\Models\UmpireBlockedDatesModel;
 
 class ResetDb extends Command
 {
@@ -61,6 +63,27 @@ class ResetDb extends Command
                 $game->gamedate_toDisplay = Carbon::parse($game->gamedate_toDisplay)->addDay();
                 $game->save();
             }
+            //adding demo umpires availability
+
+            $demoUmpIds = [132, 133, 134, 135, 136, 137, 138, 139, 140];
+            $startDate = new DateTime();
+            $dates = [];
+            for ($i = 0; $i < 365; $i++) {
+                $dates[] = $startDate->format('Y-m-d');
+                $startDate->modify('+1 day');
+            }
+            foreach ($dates as $date) {
+                foreach ($demoUmpIds as $demoUmpId) {
+                    $data = [
+                        'umpid' => $demoUmpId,
+                        'blockdate' => $date,
+                        'blocktime' => '',
+                    ];
+                    UmpireBlockedDatesModel::create($data);
+                }
+            }
+
+            //adding demo umpires availability
         } catch (\Throwable $th) {
             //throw $th;
         }
