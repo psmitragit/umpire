@@ -2405,31 +2405,35 @@ class LeagueController extends Controller
                         Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' don\'t meet the game\'s age requirement.');
                     }
                 }
-                //check if have other games on the same datetime
-                $gapMorethnTwo = 0;
-                $gamedatetime = $game->gamedate;
-                $samedategames = GameModel::whereDate('gamedate', explode(' ', $gamedatetime)[0])
-                    ->where(function ($query) use ($umpid) {
-                        $query->orWhere('ump1', $umpid)
-                            ->orWhere('ump2', $umpid)
-                            ->orWhere('ump3', $umpid)
-                            ->orWhere('ump4', $umpid);
-                    })->get();
+                $demoUmpIds = [132, 133, 134, 135, 136, 137, 138, 139, 140];
 
-                if (!$samedategames->isEmpty()) {
-                    $gapMorethnTwo = 1;
-                    foreach ($samedategames as $samedategame) {
-                        $samedategamedatetime = $samedategame->gamedate;
-                        $gameDateTimeObj = Carbon::parse($gamedatetime);
-                        $sameDateGameDateTimeObj = Carbon::parse($samedategamedatetime);
+                if (!in_array($umpid, $demoUmpIds)) {
+                    //check if have other games on the same datetime
+                    $gapMorethnTwo = 0;
+                    $gamedatetime = $game->gamedate;
+                    $samedategames = GameModel::whereDate('gamedate', explode(' ', $gamedatetime)[0])
+                        ->where(function ($query) use ($umpid) {
+                            $query->orWhere('ump1', $umpid)
+                                ->orWhere('ump2', $umpid)
+                                ->orWhere('ump3', $umpid)
+                                ->orWhere('ump4', $umpid);
+                        })->get();
 
-                        if ($gameDateTimeObj->diffInHours($sameDateGameDateTimeObj) < 2) {
-                            $gapMorethnTwo = 2;
-                            break;
+                    if (!$samedategames->isEmpty()) {
+                        $gapMorethnTwo = 1;
+                        foreach ($samedategames as $samedategame) {
+                            $samedategamedatetime = $samedategame->gamedate;
+                            $gameDateTimeObj = Carbon::parse($gamedatetime);
+                            $sameDateGameDateTimeObj = Carbon::parse($samedategamedatetime);
+
+                            if ($gameDateTimeObj->diffInHours($sameDateGameDateTimeObj) < 2) {
+                                $gapMorethnTwo = 2;
+                                break;
+                            }
                         }
-                    }
 
-                    $condition_met = true; // Set the flag to true if found another game on the same datetime
+                        $condition_met = true; // Set the flag to true if found another game on the same datetime
+                    }
                 }
 
                 if (!$condition_met) {

@@ -213,21 +213,26 @@ class GameManualScheduleAlgo extends Component
                     $this->dispatch('error', msg: 'Umpire: ' . htmlspecialchars($umpire->name) . ' don\'t meet the game\'s age requirement.');
                 }
             }
-            //check if have other games on the same datetime
-            $samedategames = $this->assignedGameUmpires;
 
-            if (!empty($samedategames)) {
-                foreach ($samedategames as $samedategame) {
-                    foreach ($samedategame as $samedategamepos) {
-                        if ((int)$samedategamepos == (int)$umpid) {
-                            $condition_met = true; // Set the flag to true if found another game on the same datetime
-                            $this->dispatch('error', msg: 'Umpire: ' . htmlspecialchars($umpire->name) . ' already assigned to another game.');
-                            break;
+
+            $demoUmpIds = [132, 133, 134, 135, 136, 137, 138, 139, 140];
+
+            if (!in_array($umpid, $demoUmpIds)) {
+                //check if have other games on the same datetime
+                $samedategames = $this->assignedGameUmpires;
+
+                if (!empty($samedategames)) {
+                    foreach ($samedategames as $samedategame) {
+                        foreach ($samedategame as $samedategamepos) {
+                            if ((int)$samedategamepos == (int)$umpid) {
+                                $condition_met = true; // Set the flag to true if found another game on the same datetime
+                                $this->dispatch('error', msg: 'Umpire: ' . htmlspecialchars($umpire->name) . ' already assigned to another game.');
+                                break;
+                            }
                         }
                     }
                 }
             }
-
 
             if (!$condition_met) {
                 $this->assignedGameUmpires[$gameid][$pos] = $umpid;

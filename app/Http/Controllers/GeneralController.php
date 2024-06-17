@@ -484,122 +484,128 @@ class GeneralController extends Controller
         $uniqueumpireids = array_unique($assigned_umpires);
         if (count($uniqueumpireids) > 0) {
             foreach ($uniqueumpireids as $assigned_umpire_id) {
-                $assigned_umpire_row = UmpireModel::find($assigned_umpire_id);
-                $umpire_prefs = $assigned_umpire_row->pref()->orderBy('slno', 'ASC')->get();
-                foreach ($umpire_prefs as $umpire_pref) {
-                    $pref[] = $umpire_pref->leagueid;
-                }
-                $games_row = GameModel::selectRaw("*,
+
+                $demoUmpIds = [132, 133, 134, 135, 136, 137, 138, 139, 140];
+
+                if (!in_array($assigned_umpire_id, $demoUmpIds)) {
+
+                    $assigned_umpire_row = UmpireModel::find($assigned_umpire_id);
+                    $umpire_prefs = $assigned_umpire_row->pref()->orderBy('slno', 'ASC')->get();
+                    foreach ($umpire_prefs as $umpire_pref) {
+                        $pref[] = $umpire_pref->leagueid;
+                    }
+                    $games_row = GameModel::selectRaw("*,
                 CASE
                     WHEN ump1 = $assigned_umpire_id THEN 'ump1'
                     WHEN ump2 = $assigned_umpire_id THEN 'ump2'
                     WHEN ump3 = $assigned_umpire_id THEN 'ump3'
                     WHEN ump4 = $assigned_umpire_id THEN 'ump4'
                 END AS ump")
-                    ->where(function ($query) use ($assigned_umpire_id) {
-                        $query->orWhere('ump1', $assigned_umpire_id)
-                            ->orWhere('ump2', $assigned_umpire_id)
-                            ->orWhere('ump3', $assigned_umpire_id)
-                            ->orWhere('ump4', $assigned_umpire_id);
-                    })
-                    ->where('gamedate', '>=', now())
-                    ->get();
-                if ($games_row->count() > 0) {
-                    $game_data_groupedBy_date = [];
-                    foreach ($games_row as $gm_row) {
-                        if ($gm_row->ump == 'ump1') {
-                            $game_pay = $gm_row->ump1pay + $gm_row->ump1bonus;
-                        } else {
-                            $game_pay = $gm_row->ump234pay + $gm_row->ump234bonus;
+                        ->where(function ($query) use ($assigned_umpire_id) {
+                            $query->orWhere('ump1', $assigned_umpire_id)
+                                ->orWhere('ump2', $assigned_umpire_id)
+                                ->orWhere('ump3', $assigned_umpire_id)
+                                ->orWhere('ump4', $assigned_umpire_id);
+                        })
+                        ->where('gamedate', '>=', now())
+                        ->get();
+                    if ($games_row->count() > 0) {
+                        $game_data_groupedBy_date = [];
+                        foreach ($games_row as $gm_row) {
+                            if ($gm_row->ump == 'ump1') {
+                                $game_pay = $gm_row->ump1pay + $gm_row->ump1bonus;
+                            } else {
+                                $game_pay = $gm_row->ump234pay + $gm_row->ump234bonus;
+                            }
+                            $game_data_groupedBy_date[explode(' ', $gm_row->gamedate)[0]][] = [
+                                'id' => $gm_row->gameid,
+                                'leagueid' => $gm_row->leagueid,
+                                'pay' => $game_pay,
+                                'ump' => $gm_row->ump
+                            ];
                         }
-                        $game_data_groupedBy_date[explode(' ', $gm_row->gamedate)[0]][] = [
-                            'id' => $gm_row->gameid,
-                            'leagueid' => $gm_row->leagueid,
-                            'pay' => $game_pay,
-                            'ump' => $gm_row->ump
-                        ];
-                    }
 
-                    $filteredGame = []; // Variable to store the filtered values
-                    $removedGames = [];  // Variable to store the removed values
+                        $filteredGame = []; // Variable to store the filtered values
+                        $removedGames = [];  // Variable to store the removed values
 
 
-                    foreach ($game_data_groupedBy_date as $k => &$samedategame) {
-                        if (count($samedategame) > 1) {
-                            // Sort the games based on user preferences
-                            usort($samedategame, function ($a, $b) use ($pref) {
-                                $prefA = $pref[0]; // 1st preference
+                        foreach ($game_data_groupedBy_date as $k => &$samedategame) {
+                            if (count($samedategame) > 1) {
+                                // Sort the games based on user preferences
+                                usort($samedategame, function ($a, $b) use ($pref) {
+                                    $prefA = $pref[0]; // 1st preference
 
-                                // Check if the 1st preference is 0
-                                if ($prefA === 0) {
-                                    if ($a['pay'] != $b['pay']) {
-                                        return $b['pay'] - $a['pay']; // Sort by pay descending
-                                    } else {
-                                        return 0; // Pay is the same, move to the 2nd preference
-                                    }
-                                } else {
-                                    // 1st preference is a league ID (not 0)
-                                    // Check if the league IDs are the same
-                                    if ($a['leagueid'] == $prefA && $b['leagueid'] == $prefA) {
+                                    // Check if the 1st preference is 0
+                                    if ($prefA === 0) {
                                         if ($a['pay'] != $b['pay']) {
-                                            return $b['pay'] - $a['pay']; // Sort by pay descending for the same league ID
+                                            return $b['pay'] - $a['pay']; // Sort by pay descending
                                         } else {
-                                            return 0; // Pay is the same for the same league ID
+                                            return 0; // Pay is the same, move to the 2nd preference
                                         }
-                                    } elseif ($a['leagueid'] == $prefA) {
-                                        return -1; // $a is the 1st preference league ID
-                                    } elseif ($b['leagueid'] == $prefA) {
-                                        return 1; // $b is the 1st preference league ID
                                     } else {
-                                        return 0; // Neither is the 1st preference league ID
+                                        // 1st preference is a league ID (not 0)
+                                        // Check if the league IDs are the same
+                                        if ($a['leagueid'] == $prefA && $b['leagueid'] == $prefA) {
+                                            if ($a['pay'] != $b['pay']) {
+                                                return $b['pay'] - $a['pay']; // Sort by pay descending for the same league ID
+                                            } else {
+                                                return 0; // Pay is the same for the same league ID
+                                            }
+                                        } elseif ($a['leagueid'] == $prefA) {
+                                            return -1; // $a is the 1st preference league ID
+                                        } elseif ($b['leagueid'] == $prefA) {
+                                            return 1; // $b is the 1st preference league ID
+                                        } else {
+                                            return 0; // Neither is the 1st preference league ID
+                                        }
+                                    }
+                                });
+
+                                // Keep the first game and remove the rest
+                                $filteredGame = $samedategame[0];
+                                // Remove the rest of the games and add them to the removedGames variable
+                                $removedGames = array_merge($removedGames, array_slice($samedategame, 1));
+
+                                //removing the umpire slots from the same timed games
+                                if (count($removedGames) > 0) {
+                                    foreach ($removedGames as $removedGame) {
+                                        $remove_game_row = GameModel::find($removedGame['id']);
+                                        $remove_game_updated_data = [
+                                            $removedGame['ump'] => null
+                                        ];
+                                        if ($remove_game_row->update($remove_game_updated_data)) {
+                                            $leagueumpire_row = $assigned_umpire_row->leagues()->where('leagueid', $removedGame['leagueid'])->first();
+                                            //refunding the points that were cut during the auto assigning
+                                            refund_point_to_Aumpire($leagueumpire_row, $removedGame['id']);
+                                        }
                                     }
                                 }
-                            });
-
-                            // Keep the first game and remove the rest
-                            $filteredGame = $samedategame[0];
-                            // Remove the rest of the games and add them to the removedGames variable
-                            $removedGames = array_merge($removedGames, array_slice($samedategame, 1));
-
-                            //removing the umpire slots from the same timed games
-                            if (count($removedGames) > 0) {
-                                foreach ($removedGames as $removedGame) {
-                                    $remove_game_row = GameModel::find($removedGame['id']);
-                                    $remove_game_updated_data = [
-                                        $removedGame['ump'] => null
-                                    ];
-                                    if ($remove_game_row->update($remove_game_updated_data)) {
-                                        $leagueumpire_row = $assigned_umpire_row->leagues()->where('leagueid', $removedGame['leagueid'])->first();
-                                        //refunding the points that were cut during the auto assigning
-                                        refund_point_to_Aumpire($leagueumpire_row, $removedGame['id']);
+                            }
+                            $assigned_game = $samedategame[0];
+                        }
+                        if ($sendNotification) {
+                            $league = LeagueModel::find($assigned_game['leagueid']);
+                            $assigned_game_row = GameModel::find($assigned_game['id']);
+                            try {
+                                //notification mail
+                                if ($assigned_umpire_row->email_settings->schedule_game == 1) {
+                                    $umpire_email = $assigned_umpire_row->user->email;
+                                    Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'ump', $umpire_email));
+                                }
+                                if ($league->email_settings->join_game == 1) {
+                                    foreach ($league->users as $league_admin) {
+                                        $league_admin_email = $league_admin->email;
+                                        Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'league', $league_admin_email));
                                     }
                                 }
+                                //notification mail end
+                            } catch (\Throwable $th) {
                             }
+                            $msg = 'New game assigned on ' . date('D m/d/y', strtotime($assigned_game_row->gamedate));
+                            $msg2 = $assigned_umpire_row->name . ' assigned to a game on ' . date('D m/d/y', strtotime($assigned_game_row->gamedate));
+                            add_notification($assigned_umpire_row->umpid, $msg, 4, 'ump');
+                            add_notification($assigned_game['leagueid'], $msg2, 4, 'league');
                         }
-                        $assigned_game = $samedategame[0];
-                    }
-                    if ($sendNotification) {
-                        $league = LeagueModel::find($assigned_game['leagueid']);
-                        $assigned_game_row = GameModel::find($assigned_game['id']);
-                        try {
-                            //notification mail
-                            if ($assigned_umpire_row->email_settings->schedule_game == 1) {
-                                $umpire_email = $assigned_umpire_row->user->email;
-                                Mail::to($umpire_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'ump', $umpire_email));
-                            }
-                            if ($league->email_settings->join_game == 1) {
-                                foreach ($league->users as $league_admin) {
-                                    $league_admin_email = $league_admin->email;
-                                    Mail::to($league_admin_email)->send(new ScheduleGame($league, $assigned_umpire_row, $assigned_game_row, 'league', $league_admin_email));
-                                }
-                            }
-                            //notification mail end
-                        } catch (\Throwable $th) {
-                        }
-                        $msg = 'New game assigned on ' . date('D m/d/y', strtotime($assigned_game_row->gamedate));
-                        $msg2 = $assigned_umpire_row->name . ' assigned to a game on ' . date('D m/d/y', strtotime($assigned_game_row->gamedate));
-                        add_notification($assigned_umpire_row->umpid, $msg, 4, 'ump');
-                        add_notification($assigned_game['leagueid'], $msg2, 4, 'league');
                     }
                 }
             }
