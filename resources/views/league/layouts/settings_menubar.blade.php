@@ -20,7 +20,7 @@
         <a href="{{ url('league/settings/application') }}"
             class="nav-settings {{ $active_sub_nav_bar == 'application' ? 'actively' : '' }}">Application</a>
     </div>
-    <div class="settingsnav">
+    <div class="settingsnav {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
         <a href="{{ url('league/settings/divisions') }}"
             class="nav-settings {{ $active_sub_nav_bar == 'divisions' ? 'actively' : '' }}">Add divisions</a>
     </div>

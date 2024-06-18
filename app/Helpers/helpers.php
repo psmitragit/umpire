@@ -158,17 +158,25 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
     if ($row) {
         if (!$status) {
             $row->delete();
+            if ($type == 'divisions') {
+                $leagueRow->divisions()->restore();
+            }
             return true;
         }
     } else {
         if ($status) {
             ToggleSettings::create(['toggled_by' => $toggled_by, 'setting' => $type, 'toggled_for' => $league]);
-            if($type == 'age'){
+            if ($type == 'age') {
                 $leagueRow->mainumpage = 0;
                 $leagueRow->otherumpage = 0;
 
                 $leagueRow->save();
                 $leagueRow->age_of_players()->delete();
+            } elseif ($type == 'divisions') {
+                foreach ($leagueRow->divisions as $division) {
+                    $division->blockedDivisions()->delete();
+                }
+                $leagueRow->divisions()->delete();
             }
             return true;
         }

@@ -382,10 +382,15 @@ class LeagueController extends Controller
     }
     public function view_division()
     {
+        $league_data = logged_in_league_data();
+
+        if (checkToggleStatus($league_data->leagueid, 'divisions')) {
+            Session::flash('error_message', 'Not authorized.');
+            return redirect()->back();
+        }
         $title = 'League Division';
         $nav = 'settings';
         $active_sub_nav_bar = 'divisions';
-        $league_data = logged_in_league_data();
         $page_data = $league_data->divisions;
         $right_bar = 1;
         $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'active_sub_nav_bar');

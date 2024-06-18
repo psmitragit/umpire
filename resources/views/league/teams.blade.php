@@ -64,14 +64,18 @@
                 <div class="modal-body">
                     <form action="{{ url('league/save_team') }}" method="POST" id="report_form">
                         @csrf
-                        <div class="selcta">
-                            <select name="divid" class="mayeb" id="">
-                                <option value="">Select</option>
-                                @foreach ($league_data->divisions as $division)
-                                    <option value="{{ $division->id }}">{{ $division->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        @if (checkToggleStatus($league_data->leagueid, 'divisions'))
+                            {{-- leave blank --}}
+                        @else
+                            <div class="selcta">
+                                <select name="divid" class="mayeb" id="">
+                                    <option value="">Select</option>
+                                    @foreach ($league_data->divisions as $division)
+                                        <option value="{{ $division->id }}">{{ $division->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
                         <div class="modalqstnbalbe">
                             <textarea name="question" id="" placeholder="Write your team name here..." required></textarea>
                         </div>
