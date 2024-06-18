@@ -63,41 +63,41 @@
 
                 {{-- new select time section --}}
 
-
-
-                <div class="col-md-3 margin-bottom-custom">
-                    <div class="textforthe-add">Select team One</div>
-                </div>
-                <div class="col-md-3 margin-bottom-custom">
-                    <select name="hometeam" class="selector-names" id="" required onchange="updateAwayTeam()">
-                        <option value="" selected>Select</option>
-                        @if (!$league_data->teams->isEmpty())
-                            @foreach ($league_data->teams as $team)
-                                <option
-                                    {{ !empty($page_data) && $page_data->hometeamid == $team->teamid ? 'selected' : '' }}
-                                    value="{{ $team->teamid }}">{{ $team->teamname }}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                </div>
-                <div class="col-md-3 margin-bottom-custom">
-                    <div class="textforthe-add">Select Team two</div>
-                </div>
-                <div class="col-md-3 margin-bottom-custom">
-
-                    <div class="selects">
-                        <select id="awayteam" name="awayteam" class="selector-names" id="" required disabled>
+                    <div class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
+                        <div class="textforthe-add">Select team One</div>
+                    </div>
+                    <div class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
+                        <select name="hometeam" class="selector-names" id=""  onchange="updateAwayTeam()">
                             <option value="" selected>Select</option>
                             @if (!$league_data->teams->isEmpty())
                                 @foreach ($league_data->teams as $team)
                                     <option
-                                        {{ !empty($page_data) && $page_data->awayteamid == $team->teamid ? 'selected' : '' }}
+                                        {{ !empty($page_data) && $page_data->hometeamid == $team->teamid ? 'selected' : '' }}
                                         value="{{ $team->teamid }}">{{ $team->teamname }}</option>
                                 @endforeach
                             @endif
                         </select>
                     </div>
-                </div>
+                    <div class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
+                        <div class="textforthe-add">Select Team two</div>
+                    </div>
+                    <div class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
+
+                        <div class="selects">
+                            <select id="awayteam" name="awayteam" class="selector-names" id=""  disabled>
+                                <option value="" selected>Select</option>
+                                @if (!$league_data->teams->isEmpty())
+                                    @foreach ($league_data->teams as $team)
+                                        <option
+                                            {{ !empty($page_data) && $page_data->awayteamid == $team->teamid ? 'selected' : '' }}
+                                            value="{{ $team->teamid }}">{{ $team->teamname }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+
+
                 <div class="col-md-3 margin-bottom-custom">
                     <div class="textforthe-add">Select Location</div>
                 </div>
@@ -119,7 +119,8 @@
 
                     <div class="selects">
 
-                        <input {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }} value="{{ !empty($page_data) ? $page_data->playersage : '' }}" type="number" min="1"
+                        <input {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }}
+                            value="{{ !empty($page_data) ? $page_data->playersage : 0 }}" type="number" min="1"
                             class="selector-names" name="playersage" required>
                     </div>
                 </div>

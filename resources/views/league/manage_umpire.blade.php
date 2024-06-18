@@ -107,7 +107,7 @@
                             <span class="kabes">Add Blacklist</span>
                         </div>
                         <div class="d-flex flex-wrap">
-                            <div class="by-temas-texts">
+                            <div class="by-temas-texts {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
                                 <span class="inpoysascolor nessc" id="colors1"> </span>
                                 <input type="radio" name="as" class="d-none" id="radio1s">
                                 <span class="acctives" id="color-text1">By team</span>
@@ -194,7 +194,7 @@
         <div class="overfow-tables">
             <h2 class="blocks-liost-texts">Blocklisted</h2>
             <div class="mionas-tabsle-csjas">
-                <table class="oevs-fles">
+                <table class="oevs-fles  {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'disabled' : '' }}">
                     <thead>
                         <tr>
                             <th>Team</th>
@@ -423,7 +423,7 @@
         });
 
         $(document).ready(function() {
-            $('#colors1').click();
+            $('#colors2').click();
         });
     </script>
     <script>

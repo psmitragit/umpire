@@ -16,6 +16,7 @@ use App\Models\LeagueUmpireModel;
 use App\Models\NotificationModel;
 use App\Models\RefundPointsModel;
 use App\Models\SiteMetaData;
+use App\Models\TeamModel;
 use App\Models\ToggleSettings;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -158,9 +159,6 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
     if ($row) {
         if (!$status) {
             $row->delete();
-            if ($type == 'divisions') {
-                $leagueRow->divisions()->restore();
-            }
             return true;
         }
     } else {
@@ -176,8 +174,7 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
                 foreach ($leagueRow->divisions as $division) {
                     $division->blockedDivisions()->delete();
                 }
-                $leagueRow->divisions()->delete();
-            }elseif ($type == 'auto_scheduler') {
+            } elseif ($type == 'auto_scheduler') {
                 $leagueRow->age_of_players()->delete();
                 $leagueRow->locations()->delete();
                 $leagueRow->pay()->delete();
@@ -186,10 +183,22 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
                 $leagueRow->umpire_position()->delete();
                 $leagueRow->umpire_duration()->delete();
                 $leagueRow->total_game()->delete();
+            }elseif ($type == 'teams') {
+                $leagueRow->blocked_umpire_teams()->delete();
             }
             return true;
         }
     }
+}
+
+function getFirstBlankTeam()
+{
+    return TeamModel::where('leagueid', 0)->orderBy('teamid', 'ASC')->first();
+}
+
+function getSecondBlankTeam()
+{
+    return TeamModel::where('leagueid', 0)->orderBy('teamid', 'DESC')->first();
 }
 
 function count_avg_league_games_pay_per_week($league_id, $details = false)

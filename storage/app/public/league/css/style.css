@@ -4535,7 +4535,7 @@ input:checked+.slider:before {
     opacity: 0.3;
 }
 
-.by-temas-texts.disabled #colors3, .by-temas-texts.disabled #color-text3 {
+.by-temas-texts.disabled .nessc, .by-temas-texts.disabled .acctives {
     pointer-events: none;
     opacity: 0.3;
 }

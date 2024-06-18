@@ -40,13 +40,21 @@
                         <thead>
                             <tr>
                                 <th>Date & Time</th>
-                                <th>Game</th>
+                                @if (checkToggleStatus($league_data->leagueid, 'teams'))
+                                    {{-- leave blank --}}
+                                @else
+                                    <th>Game</th>
+                                @endif
                                 <th>Location</th>
                                 <th>1st UMP</th>
                                 <th>2nd UMP</th>
                                 <th>3rd UMP</th>
                                 <th>4th UMP</th>
-                                <th>Player Age</th>
+                                @if (checkToggleStatus($league_data->leagueid, 'age'))
+                                    {{-- leave blank --}}
+                                @else
+                                    <th>Player Age</th>
+                                @endif
                                 <th>Umpire</th>
                                 <th>Report</th>
                                 <th>Payout</th>
@@ -69,9 +77,13 @@
                                     @endphp
                                     <tr>
                                         <td class="date-leag">{{ $gamedate }}</td>
-                                        <td class="team-a">{{ $data->hometeam->teamname }} vs
-                                            {{ $data->awayteam->teamname }}
-                                        </td>
+                                        @if (checkToggleStatus($league_data->leagueid, 'teams'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="team-a">{{ $data->hometeam->teamname }} vs
+                                                {{ $data->awayteam->teamname }}
+                                            </td>
+                                        @endif
                                         <td class="location-game"> <span class="aspans">
                                                 {{ $data->location->ground }}</span>
                                         </td>
@@ -144,7 +156,11 @@
                                                 @endif
                                             @endif
                                         </td>
-                                        <td>{{ $data->playersage }}</td>
+                                        @if (checkToggleStatus($league_data->leagueid, 'age'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td>{{ $data->playersage }}</td>
+                                        @endif
                                         <td>{{ $data->umpreqd }}</td>
                                         <td>{!! $data->report == 1
                                             ? '<i class="fa-solid fa-check text-success"></i>'

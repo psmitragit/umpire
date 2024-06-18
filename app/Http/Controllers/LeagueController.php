@@ -384,6 +384,10 @@ class LeagueController extends Controller
         $nav = 'settings';
         $active_sub_nav_bar = 'teams';
         $league_data = logged_in_league_data();
+        if (checkToggleStatus($league_data->leagueid, 'teams')) {
+            Session::flash('error_message', 'Not authorized.');
+            return redirect()->back();
+        }
         $page_data = $league_data->teams;
         $right_bar = 1;
         $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'active_sub_nav_bar');
@@ -1313,8 +1317,8 @@ class LeagueController extends Controller
             'gametime' => 'required',
             'gameHour' => 'required',
             'ampm' => 'required',
-            'hometeam' => 'required',
-            'awayteam' => 'required',
+            'hometeam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
+            'awayteam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'gamelocation' => 'required',
             'playersage' => 'required',
             'umpreqd' => 'required',
@@ -1372,8 +1376,8 @@ class LeagueController extends Controller
                 'gamedate' => $gamedatetime,
                 'gamedate_toDisplay' => $gamedate_toDisplay,
                 'playersage' => $request->playersage,
-                'hometeamid' => $request->hometeam,
-                'awayteamid' => $request->awayteam,
+                'hometeamid' => checkToggleStatus($league_data->leagueid, 'teams') ? getFirstBlankTeam()->teamid : $request->hometeam,
+                'awayteamid' => checkToggleStatus($league_data->leagueid, 'teams') ? getSecondBlankTeam()->teamid : $request->awayteam,
                 'locid' => $request->gamelocation,
                 'umpreqd' => $request->umpreqd,
                 'report' => $request->report,
@@ -1419,8 +1423,8 @@ class LeagueController extends Controller
             'gametime' => 'required',
             'gameHour' => 'required',
             'ampm' => 'required',
-            'hometeam' => 'required',
-            'awayteam' => 'required',
+            'hometeam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
+            'awayteam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'gamelocation' => 'required',
             'playersage' => 'required',
             'umpreqd' => 'required',
@@ -1489,6 +1493,10 @@ class LeagueController extends Controller
 
             if (checkToggleStatus($league_data->leagueid, 'age')) {
                 unset($data['playersage']);
+            }
+            if (checkToggleStatus($league_data->leagueid, 'teams')) {
+                unset($data['hometeamid']);
+                unset($data['awayteamid']);
             }
 
             GameModel::find($id)->update($data);
@@ -1631,6 +1639,15 @@ class LeagueController extends Controller
             if (!empty($importedData)) {
                 $flag = 0;
                 foreach ($importedData as $data) {
+
+                    if (checkToggleStatus($league_data->leagueid, 'teams')) {
+                       $data[1] = getFirstBlankTeam();
+                       $data[2] = getSecondBlankTeam();
+                    }
+
+                    if (checkToggleStatus($league_data->leagueid, 'age')) {
+                        $data[4] = 0;
+                     }
 
                     $dataValidator = Validator::make($data, [
                         0 => 'required|date',

@@ -31,7 +31,11 @@
                             <th>
                                 Date/Time
                             </th>
-                            <th>Teams</th>
+                            @if (checkToggleStatus($league_data->leagueid, 'teams'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>Teams</th>
+                            @endif
                             <th>Location</th>
                             <th>Primary</th>
                             <th>Secondary</th>
@@ -73,8 +77,12 @@
                                     @endphp
                                     <tr>
                                         <td>{{ $gamedate }}</td>
-                                        <td class="team">{{ $league_upcomming_game->hometeam->teamname }} vs
-                                            {{ $league_upcomming_game->awayteam->teamname }}</td>
+                                        @if (checkToggleStatus($league_data->leagueid, 'teams'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="team">{{ $league_upcomming_game->hometeam->teamname }} vs
+                                                {{ $league_upcomming_game->awayteam->teamname }}</td>
+                                        @endif
                                         <td><span class="aspans">{{ $league_upcomming_game->location->ground }}</span></td>
                                         <td class="color-prmths">{!! $ump1 !!}</td>
                                         <td class="color-prmths">{!! $ump2 !!}</td>
@@ -105,8 +113,11 @@
                                 Date/Time
                             </th>
 
-
-                            <th>Teams</th>
+                            @if (checkToggleStatus($league_data->leagueid, 'teams'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>Teams</th>
+                            @endif
 
                             <th>Location</th>
                             <th>Primary</th>
@@ -216,9 +227,13 @@
                                         @endphp
                                         <tr>
                                             <td>{{ $gamedate }}</td>
-                                            <td class="team" id="teamvs{{ $league_past_game->gameid }}">
-                                                {{ $league_past_game->hometeam->teamname }} vs
-                                                {{ $league_past_game->awayteam->teamname }}</td>
+                                            @if (checkToggleStatus($league_data->leagueid, 'teams'))
+                                                {{-- leave blank --}}
+                                            @else
+                                                <td class="team" id="teamvs{{ $league_past_game->gameid }}">
+                                                    {{ $league_past_game->hometeam->teamname }} vs
+                                                    {{ $league_past_game->awayteam->teamname }}</td>
+                                            @endif
                                             <td>{{ $league_past_game->location->ground }}</td>
                                             <td class="color-prmths">{!! $ump1 !!}</td>
                                             <td class="color-prmths">{!! $ump2 !!}</td>
