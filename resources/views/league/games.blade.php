@@ -66,7 +66,11 @@
                             <th>2nd UMP</th>
                             <th>3rd UMP</th>
                             <th>4th UMP</th>
-                            <th>Player Age</th>
+                            @if (checkToggleStatus($league_data->leagueid, 'age'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>Player Age</th>
+                            @endif
                             <th>Umpire</th>
                             <th>Report</th>
                             <th>Payout</th>
@@ -150,7 +154,11 @@
                                                     onclick="assignUmpire(this)">Empty</a>
                                             @endif
                                         </td>
-                                        <td>{{ $data->playersage }}</td>
+                                        @if (checkToggleStatus($league_data->leagueid, 'age'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td>{{ $data->playersage }}</td>
+                                        @endif
                                         <td>{{ $data->umpreqd }}</td>
                                         <td>{!! $data->report == 1
                                             ? '<i class="fa-solid fa-check text-success"></i>'

@@ -119,7 +119,7 @@
 
                     <div class="selects">
 
-                        <input value="{{ !empty($page_data) ? $page_data->playersage : '' }}" type="number" min="1"
+                        <input {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }} value="{{ !empty($page_data) ? $page_data->playersage : '' }}" type="number" min="1"
                             class="selector-names" name="playersage" required>
                     </div>
                 </div>

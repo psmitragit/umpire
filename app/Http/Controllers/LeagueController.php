@@ -426,6 +426,12 @@ class LeagueController extends Controller
                 'otherumpage' => $request->otherumpage,
                 'umpire_joining_status' => $request->umpire_joining_status ?? 0,
             ];
+
+            if (checkToggleStatus($league_data->leagueid, 'age')) {
+                $data['mainumpage'] = 0;
+                $data['otherumpage'] = 0;
+            }
+
             LeagueModel::find($league_data->leagueid)->update($data);
             Session::flash('message', 'Success');
             return response()->json(array('status' => 1));
@@ -800,6 +806,10 @@ class LeagueController extends Controller
             $template = 'base_point';
             $point_menu = 1;
         } elseif ($type == 'age-of-players') {
+            if (checkToggleStatus($league_data->leagueid, 'age')) {
+                Session::flash('error_message', 'Not authorized.');
+                return redirect()->back();
+            }
             $title = 'Age of Players';
             $page_data = $league_data->age_of_players ?? array();
             $template = 'age_of_players';
@@ -1352,6 +1362,11 @@ class LeagueController extends Controller
                 'ump234pay' => $request->ump234pay ?? 0,
                 'ump234bonus' => $request->ump234bonus ?? 0
             ];
+
+            if (checkToggleStatus($league_data->leagueid, 'age')) {
+                $data['playersage'] = 0;
+            }
+
             GameModel::create($data);
             Session::flash('message', 'Success');
             return response()->json(['status' => 1]);
@@ -1451,6 +1466,11 @@ class LeagueController extends Controller
                 'ump234pay' => $request->ump234pay ?? 0,
                 'ump234bonus' => $request->ump234bonus ?? 0
             ];
+
+            if (checkToggleStatus($league_data->leagueid, 'age')) {
+                unset($data['playersage']);
+            }
+
             GameModel::find($id)->update($data);
             Session::flash('message', 'Success');
             return response()->json(['status' => 1]);

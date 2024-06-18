@@ -3,7 +3,7 @@
         <a href="{{ url('league/settings/point/schedule-on-any-game') }}"
             class="points-acn {{ $point_menu == 1 ? 'active' : '' }}">Schedule on any game</a>
     </div>
-    <div class="point-anc-div">
+    <div class="point-anc-div {{ checkToggleStatus($league_data->leagueid, 'age') ? 'disabled' : '' }}">
         <a href="{{ url('league/settings/point/age-of-players') }}"
             class="points-acn {{ $point_menu == 2 ? 'active' : '' }}">Age of Players</a>
     </div>

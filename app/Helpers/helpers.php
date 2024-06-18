@@ -153,6 +153,8 @@ function checkToggleStatus($league, $type)
 function toggleSettings($league, $type, $status, $toggled_by = 0)
 {
     $row = checkToggleStatus($league, $type);
+    $leagueRow = LeagueModel::find($league);
+
     if ($row) {
         if (!$status) {
             $row->delete();
@@ -161,6 +163,13 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
     } else {
         if ($status) {
             ToggleSettings::create(['toggled_by' => $toggled_by, 'setting' => $type, 'toggled_for' => $league]);
+            if($type == 'age'){
+                $leagueRow->mainumpage = 0;
+                $leagueRow->otherumpage = 0;
+
+                $leagueRow->save();
+                $leagueRow->age_of_players()->delete();
+            }
             return true;
         }
     }

@@ -142,7 +142,7 @@ input:checked + .slider::before {
 
                     <div class="displayflesx">
                         <span class="text1s col-md-5">By default Primary umpire must be</span>
-                        <span class="pists col-md-auto"><input name="mainumpage" value="{{ $league_data->mainumpage }}"
+                        <span class="pists col-md-auto"><input {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }} name="mainumpage" value="{{ $league_data->mainumpage }}"
                                 type="text" class="name-inpostya"></span>
                         <span class="text2s mr-0 col-md-5">years older</span>
                     </div>
@@ -152,7 +152,7 @@ input:checked + .slider::before {
 
                     <div class="displayflesx">
                         <span class="text1s col-md-5">and 2nd,3rd,4th umpire must be</span>
-                        <span class="pists col-md-auto"><input name="otherumpage" value="{{ $league_data->otherumpage }}"
+                        <span class="pists col-md-auto"><input {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }} name="otherumpage" value="{{ $league_data->otherumpage }}"
                                 type="text" class="name-inpostya"></span>
                         <span class="text2s mr-0 col-md-5">years older</span>
                     </div>
