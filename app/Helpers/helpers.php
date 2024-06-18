@@ -177,6 +177,15 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
                     $division->blockedDivisions()->delete();
                 }
                 $leagueRow->divisions()->delete();
+            }elseif ($type == 'auto_scheduler') {
+                $leagueRow->age_of_players()->delete();
+                $leagueRow->locations()->delete();
+                $leagueRow->pay()->delete();
+                $leagueRow->time()->delete();
+                $leagueRow->day_of_week()->delete();
+                $leagueRow->umpire_position()->delete();
+                $leagueRow->umpire_duration()->delete();
+                $leagueRow->total_game()->delete();
             }
             return true;
         }

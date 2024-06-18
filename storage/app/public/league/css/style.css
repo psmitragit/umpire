@@ -4526,6 +4526,27 @@ input:checked+.slider:before {
     cursor: no-drop;
 }
 
-.settingsnav.disabled {
+.settingsnav.disabled, .buttons-disd.disabled, .by-temas-texts.disabled {
+    cursor: no-drop;
+}
+
+.buttons-disd.disabled .navlogos {
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.by-temas-texts.disabled #colors3, .by-temas-texts.disabled #color-text3 {
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+.oevs-fles.disabled thead th, .oevs-fles.disabled tbody td {
+    color: #00000017;
+    cursor: no-drop;
+}
+
+.oevs-fles.disabled button, .oevs-fles.disabled button {
+    opacity: 0.4;
+    pointer-events: none;
     cursor: no-drop;
 }

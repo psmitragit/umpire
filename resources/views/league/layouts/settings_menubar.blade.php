@@ -4,7 +4,7 @@
             class="nav-settings {{ $active_sub_nav_bar == 'general' ? 'actively' : '' }}"> General</a>
     </div>
 
-    <div class="settingsnav">
+    <div class="settingsnav {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'disabled' : '' }}">
         <a href="{{ url('league/settings/points') }}"
             class="nav-settings {{ $active_sub_nav_bar == 'points' ? 'actively' : '' }}"> Points</a>
     </div>

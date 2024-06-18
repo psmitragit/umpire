@@ -168,6 +168,15 @@ class LeagueController extends Controller
                     'leagueid' => $league->leagueid
                 ];
                 LeagueEmailSettingsModel::create($emailSettings_data);
+
+                $data = [
+                    'leagueid' => $league->leagueid,
+                    'addless' => '-',
+                    'point' => 10
+                ];
+                LeagueModel::find($league->leagueid)->schedule()->delete();
+                ScheduleLeagueModel::create($data);
+
                 Session::flash('message', 'Success');
                 return response()->json(['status' => 1]);
             } catch (Exception $e) {
@@ -803,6 +812,12 @@ class LeagueController extends Controller
         $nav = 'settings';
         $active_sub_nav_bar = 'points';
         $league_data = logged_in_league_data();
+
+        if (checkToggleStatus($league_data->leagueid, 'auto_scheduler')) {
+            Session::flash('error_message', 'Not authorized.');
+            return redirect('league/settings');
+        }
+
         $right_bar = 1;
         $all_presets = PresetModel::get();
         if ($type == 'schedule-on-any-game') {
@@ -2574,6 +2589,10 @@ class LeagueController extends Controller
     public function leagueRunningSchedulerManually()
     {
         $league_data = logged_in_league_data();
+        if (checkToggleStatus($league_data->leagueid, 'auto_scheduler')) {
+            Session::flash('error_message', 'Not authorized.');
+            return redirect()->back();
+        }
         $title = 'Auto schedule';
         $nav = 'auto_algo';
         $right_bar = 0;

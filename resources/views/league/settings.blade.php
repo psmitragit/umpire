@@ -107,7 +107,7 @@ input:checked + .slider::before {
                 <hr class="custom-hr">
                 <div class="displayflesx ">
                     <span class="text1s col-md-5">Umpire starts with</span>
-                    <span class="pists col-md-auto"><input name="joiningpoint" type="text" class="name-inpostya"
+                    <span class="pists col-md-auto"><input {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'readonly' : '' }} name="joiningpoint" type="text" class="name-inpostya"
                             value="{{ $league_data->joiningpoint }}"></span>
                     <span class="text2s mr-0 col-md-5">Points when joining league</span>
                 </div>
@@ -115,7 +115,7 @@ input:checked + .slider::before {
 
                 <div class="displayflesx">
                     <span class="text1s col-md-5">auto assign umpires</span>
-                    <span class="pists col-md-auto"><input name="assignbefore" value="{{ $league_data->assignbefore }}"
+                    <span class="pists col-md-auto"><input {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'readonly' : '' }} name="assignbefore" value="{{ $league_data->assignbefore }}"
                             type="text" class="name-inpostya"></span>
                     <span class="text2s mr-0 col-md-5">days before game</span>
                 </div>
