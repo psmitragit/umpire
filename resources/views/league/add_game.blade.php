@@ -63,39 +63,43 @@
 
                 {{-- new select time section --}}
 
-                    <div class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
-                        <div class="textforthe-add">Select team One</div>
-                    </div>
-                    <div class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
-                        <select name="hometeam" class="selector-names" id=""  onchange="updateAwayTeam()">
+                <div
+                    class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
+                    <div class="textforthe-add">Select team One</div>
+                </div>
+                <div
+                    class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
+                    <select name="hometeam" class="selector-names" id="" onchange="updateAwayTeam()">
+                        <option value="" selected>Select</option>
+                        @if (!$league_data->teams->isEmpty())
+                            @foreach ($league_data->teams as $team)
+                                <option
+                                    {{ !empty($page_data) && $page_data->hometeamid == $team->teamid ? 'selected' : '' }}
+                                    value="{{ $team->teamid }}">{{ $team->teamname }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+                <div
+                    class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
+                    <div class="textforthe-add">Select Team two</div>
+                </div>
+                <div
+                    class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
+
+                    <div class="selects">
+                        <select id="awayteam" name="awayteam" class="selector-names" id="" disabled>
                             <option value="" selected>Select</option>
                             @if (!$league_data->teams->isEmpty())
                                 @foreach ($league_data->teams as $team)
                                     <option
-                                        {{ !empty($page_data) && $page_data->hometeamid == $team->teamid ? 'selected' : '' }}
+                                        {{ !empty($page_data) && $page_data->awayteamid == $team->teamid ? 'selected' : '' }}
                                         value="{{ $team->teamid }}">{{ $team->teamname }}</option>
                                 @endforeach
                             @endif
                         </select>
                     </div>
-                    <div class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
-                        <div class="textforthe-add">Select Team two</div>
-                    </div>
-                    <div class="col-md-3 margin-bottom-custom {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'd-none' : '' }}">
-
-                        <div class="selects">
-                            <select id="awayteam" name="awayteam" class="selector-names" id=""  disabled>
-                                <option value="" selected>Select</option>
-                                @if (!$league_data->teams->isEmpty())
-                                    @foreach ($league_data->teams as $team)
-                                        <option
-                                            {{ !empty($page_data) && $page_data->awayteamid == $team->teamid ? 'selected' : '' }}
-                                            value="{{ $team->teamid }}">{{ $team->teamname }}</option>
-                                    @endforeach
-                                @endif
-                            </select>
-                        </div>
-                    </div>
+                </div>
 
 
                 <div class="col-md-3 margin-bottom-custom">
@@ -130,8 +134,6 @@
 
                 <div class="col-md-3 margin-bottom-custom">
                     <div class="textforthe-add">
-
-
                         No. of Umpires
                     </div>
                 </div>
@@ -140,22 +142,28 @@
                     <span class="radiobtn-span" id="radio-sapn1"></span>
                     <label for="redio1" class="labels"><span class="round-radio"></span> One</label>
 
+                    @if (checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                        {{-- leave blank --}}
+                    @else
+                        <input type="radio" name="umpreqd" value="2" class="d-none" id="redio2">
+                        <span class="radiobtn-span ms-4" id="radio-sapn2"></span>
+                        <label for="redio2" class="labels"><span class="round-radio"></span> Two</label>
+                    @endif
+                    @if (checkToggleStatus($league_data->leagueid, 'umpire_3'))
+                        {{-- leave blank --}}
+                    @else
+                        <input type="radio" name="umpreqd" value="3" class="d-none" id="redio3">
+                        <span class="radiobtn-span ms-4" id="radio-sapn3"></span>
+                        <label for="redio3" class="labels"><span class="round-radio"></span> Three</label>
+                    @endif
+                    @if (checkToggleStatus($league_data->leagueid, 'umpire_4'))
+                        {{-- leave blank --}}
+                    @else
+                        <input type="radio" name="umpreqd" value="4" class="d-none" id="redio4">
+                        <span class="radiobtn-span ms-4" id="radio-sapn4"></span>
+                        <label for="redio4" class="labels"><span class="round-radio"></span> Four</label>
+                    @endif
 
-                    <input type="radio" name="umpreqd" value="2" class="d-none" id="redio2">
-                    <span class="radiobtn-span ms-4" id="radio-sapn2"></span>
-                    <label for="redio2" class="labels"><span class="round-radio"></span> Two</label>
-
-
-
-                    <input type="radio" name="umpreqd" value="3" class="d-none" id="redio3">
-                    <span class="radiobtn-span ms-4" id="radio-sapn3"></span>
-                    <label for="redio3" class="labels"><span class="round-radio"></span> Three</label>
-
-
-
-                    <input type="radio" name="umpreqd" value="4" class="d-none" id="redio4">
-                    <span class="radiobtn-span ms-4" id="radio-sapn4"></span>
-                    <label for="redio4" class="labels"><span class="round-radio"></span> Four</label>
                 </div>
 
 

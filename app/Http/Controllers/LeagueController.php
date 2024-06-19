@@ -1641,13 +1641,24 @@ class LeagueController extends Controller
                 foreach ($importedData as $data) {
 
                     if (checkToggleStatus($league_data->leagueid, 'teams')) {
-                       $data[1] = getFirstBlankTeam();
-                       $data[2] = getSecondBlankTeam();
+                        $data[1] = getFirstBlankTeam();
+                        $data[2] = getSecondBlankTeam();
                     }
 
                     if (checkToggleStatus($league_data->leagueid, 'age')) {
                         $data[4] = 0;
-                     }
+                    }
+
+                    $umpAllowed = 4;
+
+                    if (checkToggleStatus($league_data->leagueid, 'umpire_2')) {
+                        $umpAllowed = 1;
+                    } elseif (checkToggleStatus($league_data->leagueid, 'umpire_3')) {
+                        $umpAllowed = 2;
+                    } elseif (checkToggleStatus($league_data->leagueid, 'umpire_4')) {
+                        $umpAllowed = 3;
+                    }
+
 
                     $dataValidator = Validator::make($data, [
                         0 => 'required|date',
@@ -1655,7 +1666,7 @@ class LeagueController extends Controller
                         2 => 'required|numeric|min:1',
                         3 => 'required|numeric|min:1',
                         4 => 'required|numeric|min:1',
-                        5 => 'required|numeric|min:1',
+                        5 => 'required|numeric|min:1|lte:' . $umpAllowed,
                         6 => 'required|in:yes,no',
                         7 => [
                             'required',
