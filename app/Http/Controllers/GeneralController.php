@@ -67,8 +67,7 @@ class GeneralController extends Controller
                 $row = CMS::create(['page' => 'subscription', 'section' => $section, 'value' => $value]);
             }
         }
-        Session::flash('message', 'Success');
-        return redirect()->back();
+        return response()->json(['status' => 1]);
     }
     public function forget_password(Request $request)
     {

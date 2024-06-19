@@ -122,7 +122,7 @@
                     type: 'post',
                     dataType: 'json',
                     success: function(res) {
-                        window.location.reload();
+                        toastr.success("Success");
                     },
                     error: function(response) {
 
