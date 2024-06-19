@@ -158,7 +158,13 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
 
     if ($row) {
         if (!$status) {
-            $row->delete();
+            if ($toggled_by !== 0) {
+                if ($row->toggled_by == $toggled_by) {
+                    $row->delete();
+                }
+            } else {
+                $row->delete();
+            }
             return true;
         }
     } else {
@@ -183,7 +189,7 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
                 $leagueRow->umpire_position()->delete();
                 $leagueRow->umpire_duration()->delete();
                 $leagueRow->total_game()->delete();
-            }elseif ($type == 'teams') {
+            } elseif ($type == 'teams') {
                 $leagueRow->blocked_umpire_teams()->delete();
             }
             return true;
