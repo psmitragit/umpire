@@ -38,10 +38,21 @@
                             @endif
                             <th>Location</th>
                             <th>Primary</th>
-                            <th>Secondary</th>
-                            <th>third</th>
-                            <th>Fourth</th>
-
+                            @if (checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>Secondary</th>
+                            @endif
+                            @if (checkToggleStatus($league_data->leagueid, 'umpire_3'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>third</th>
+                            @endif
+                            @if (checkToggleStatus($league_data->leagueid, 'umpire_4'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>Fourth</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -85,9 +96,21 @@
                                         @endif
                                         <td><span class="aspans">{{ $league_upcomming_game->location->ground }}</span></td>
                                         <td class="color-prmths">{!! $ump1 !!}</td>
-                                        <td class="color-prmths">{!! $ump2 !!}</td>
-                                        <td class="color-prmths">{!! $ump3 !!}</td>
-                                        <td class="color-prmths">{!! $ump4 !!}</td>
+                                        @if (checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="color-prmths">{!! $ump2 !!}</td>
+                                        @endif
+                                        @if (checkToggleStatus($league_data->leagueid, 'umpire_3'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="color-prmths">{!! $ump3 !!}</td>
+                                        @endif
+                                        @if (checkToggleStatus($league_data->leagueid, 'umpire_4'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="color-prmths">{!! $ump4 !!}</td>
+                                        @endif
                                     </tr>
                                     @php
                                         $rowCount++;
@@ -121,9 +144,21 @@
 
                             <th>Location</th>
                             <th>Primary</th>
-                            <th>Secondary</th>
-                            <th>third</th>
-                            <th>Fourth</th>
+                            @if (checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>Secondary</th>
+                            @endif
+                            @if (checkToggleStatus($league_data->leagueid, 'umpire_3'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>third</th>
+                            @endif
+                            @if (checkToggleStatus($league_data->leagueid, 'umpire_4'))
+                                {{-- leave blank --}}
+                            @else
+                                <th>Fourth</th>
+                            @endif
 
                         </tr>
                     </thead>
@@ -236,9 +271,21 @@
                                             @endif
                                             <td>{{ $league_past_game->location->ground }}</td>
                                             <td class="color-prmths">{!! $ump1 !!}</td>
-                                            <td class="color-prmths">{!! $ump2 !!}</td>
-                                            <td class="color-prmths">{!! $ump3 !!}</td>
-                                            <td class="color-prmths">{!! $ump4 !!}</td>
+                                            @if (checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                                                {{-- leave blank --}}
+                                            @else
+                                                <td class="color-prmths">{!! $ump2 !!}</td>
+                                            @endif
+                                            @if (checkToggleStatus($league_data->leagueid, 'umpire_3'))
+                                                {{-- leave blank --}}
+                                            @else
+                                                <td class="color-prmths">{!! $ump3 !!}</td>
+                                            @endif
+                                            @if (checkToggleStatus($league_data->leagueid, 'umpire_4'))
+                                                {{-- leave blank --}}
+                                            @else
+                                                <td class="color-prmths">{!! $ump4 !!}</td>
+                                            @endif
                                         </tr>
                                         @php
                                             $rowPastCount++;

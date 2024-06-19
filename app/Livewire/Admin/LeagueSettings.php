@@ -17,9 +17,9 @@ class LeagueSettings extends Component
             'divisions' => false,
             'auto_scheduler' => false,
             'teams' => false,
-            'umpire_four' => false,
-            'umpire_three' => false,
-            'umpire_two' => false,
+            'umpire_4' => false,
+            'umpire_3' => false,
+            'umpire_2' => false,
         ];
     }
     public function render()
@@ -42,11 +42,11 @@ class LeagueSettings extends Component
     {
         $leagueRow =  $this->leagueRow;
 
-        if ($this->toggle['umpire_two'] == true) {
-            $this->toggle['umpire_three'] = true;
-            $this->toggle['umpire_four'] = true;
-        } else if ($this->toggle['umpire_three'] == true) {
-            $this->toggle['umpire_four'] = true;
+        if ($this->toggle['umpire_2'] == true) {
+            $this->toggle['umpire_3'] = true;
+            $this->toggle['umpire_4'] = true;
+        } else if ($this->toggle['umpire_3'] == true) {
+            $this->toggle['umpire_4'] = true;
         }
 
         $toggle = $this->toggle;
