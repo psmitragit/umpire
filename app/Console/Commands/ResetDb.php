@@ -57,7 +57,7 @@ class ResetDb extends Command
     public function addDaysInGame()
     {
         try {
-            $games = GameModel::get();
+            $games = GameModel::where('leagueid', 1)->get();
             foreach ($games as $game) {
                 $game->gamedate = Carbon::parse($game->gamedate)->addDay();
                 $game->gamedate_toDisplay = Carbon::parse($game->gamedate_toDisplay)->addDay();
