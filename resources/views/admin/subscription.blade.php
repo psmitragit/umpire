@@ -76,7 +76,7 @@
                             items: [
                                 'heading', '|',
                                 'bold', 'italic', 'link', '|',
-                                'bulletedList', 'numberedList', 'blockQuote', '|',
+                                'bulletedList', 'numberedList', '|',
                                 'undo', 'redo'
                             ]
                         },
