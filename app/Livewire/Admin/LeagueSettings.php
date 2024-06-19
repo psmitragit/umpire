@@ -17,9 +17,9 @@ class LeagueSettings extends Component
             'divisions' => false,
             'auto_scheduler' => false,
             'teams' => false,
-            'umpire_two' => false,
-            'umpire_three' => false,
             'umpire_four' => false,
+            'umpire_three' => false,
+            'umpire_two' => false,
         ];
     }
     public function render()
