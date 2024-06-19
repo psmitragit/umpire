@@ -107,23 +107,24 @@
                             <span class="kabes">Add Blacklist</span>
                         </div>
                         <div class="d-flex flex-wrap">
-                        <div class="by-temas-texts">
-                            <span class="inpoysascolor nessc" id="colors1"> </span>
-                            <input type="radio" name="as" class="d-none" id="radio1s">
-                            <span class="acctives" id="color-text1">By team</span>
-                        </div>
-                        <div class="bylocatons-tetx">
-                            <span class="inpoysascolor nessc" id="colors2"> </span>
-                            <input type="radio" name="as" class="d-none" id="radio2s">
-                            <span class="acctives" id="color-text2">By Location</span>
+                            <div class="by-temas-texts {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
+                                <span class="inpoysascolor nessc" id="colors1"> </span>
+                                <input type="radio" name="as" class="d-none" id="radio1s">
+                                <span class="acctives" id="color-text1">By team</span>
+                            </div>
+                            <div class="bylocatons-tetx">
+                                <span class="inpoysascolor nessc" id="colors2"> </span>
+                                <input type="radio" name="as" class="d-none" id="radio2s">
+                                <span class="acctives" id="color-text2">By Location</span>
 
+                            </div>
+                            <div
+                                class="by-temas-texts {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
+                                <span class="inpoysascolor nessc" id="colors3"> </span>
+                                <input type="radio" name="as" class="d-none" id="radio3s">
+                                <span class="acctives" id="color-text3">By division</span>
+                            </div>
                         </div>
-                        <div class="by-temas-texts">
-                            <span class="inpoysascolor nessc" id="colors3"> </span>
-                            <input type="radio" name="as" class="d-none" id="radio3s">
-                            <span class="acctives" id="color-text3">By division</span>
-                        </div>
-                    </div>
                     </div>
                     <form class="select-teams teamselect"
                         action="{{ url('league/block-unblock-team/' . $page_data->umpid) }}" method="post">
@@ -193,7 +194,7 @@
         <div class="overfow-tables">
             <h2 class="blocks-liost-texts">Blocklisted</h2>
             <div class="mionas-tabsle-csjas">
-                <table class="oevs-fles">
+                <table class="oevs-fles  {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'disabled' : '' }}">
                     <thead>
                         <tr>
                             <th>Team</th>
@@ -260,7 +261,7 @@
                         @endif
                     </tbody>
                 </table>
-                <table class="oevs-fles">
+                <table class="oevs-fles {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
                     <thead>
                         <tr>
                             <th>Division</th>
@@ -422,7 +423,7 @@
         });
 
         $(document).ready(function() {
-            $('#colors1').click();
+            $('#colors2').click();
         });
     </script>
     <script>

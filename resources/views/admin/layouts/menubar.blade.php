@@ -24,7 +24,7 @@
                     @php
                         $feedBackStatus = (int)getMetaValue('SHOW_FEEDBACK_OPTION');
                     @endphp
-                    <input onchange="window.location.replace('{{ url('admin/toggle-feedback-option') }}')" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $feedBackStatus == 1 ? 'checked' : '' }}>
+                    <input onchange="window.location.replace('{{ url('admin/toggle-feedback-option') }}')" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{ $feedBackStatus == 1 ? 'checked' : '' }} name="fd">
                     <label style="font-size: 20px; margin-left: 10px;" class="form-check-label" for="flexSwitchCheckChecked">Feedback option</label>
                   </div>
 			</li>

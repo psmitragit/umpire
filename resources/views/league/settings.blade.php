@@ -1,80 +1,86 @@
 @extends('league.layouts.main')
 @section('main-container')
     <div class="body-content">
-<style>
-    .slider.round {
-  width: 60px;
-}
-input:checked + .slider::before {
-  -webkit-transform: translateX(29px);
+        <style>
+            .slider.round {
+                width: 60px;
+            }
 
-  -ms-transform: translateX(29px);
+            input:checked+.slider::before {
+                -webkit-transform: translateX(29px);
 
-  transform: translateX(29px);
+                -ms-transform: translateX(29px);
 
-}
-.custom-hr {
-  width: 80%;
-  margin: auto;
-    margin-top: auto;
-  margin-top: 30px;
-}
-.buttonforsubmit.custom-cls {
-  position: fixed;
-  left: 67%;
-  z-index: 5;
-  margin-top: 6px;
-}
-.retricts {
-  padding-bottom: 50px;
-}
-@media screen and (max-width: 1600px) {
-    .buttonforsubmit.custom-cls {
-  position: fixed;
-  right: 26%;
-  left: unset;
-  z-index: 5;
-  margin-top: 6px;
-}
-}
-@media screen and (max-width: 1139px) {
-    .buttonforsubmit.custom-cls {
-  position: fixed;
-  left: 60%;
-  z-index: 5;
-  margin-top: 6px;
-}
-.buttonforsubmit.custom-cls .submit.redbtn.mx-auto {
-  padding: 10px 20px;
-}
-}
-@media screen and (max-width: 991px) {
-    .buttonforsubmit.custom-cls {
-  position: fixed;
-  right: 2%;
-  z-index: 5;
-  margin-top: 6px;
-}
-}
+                transform: translateX(29px);
 
-@media screen and (max-width: 760px) {
+            }
 
-    .buttonforsubmit.custom-cls {
-    position: relative;
-    right: 0;
-    z-index: 0;
-    margin-top: 0;
-    left: 0;
-  }
-}
+            .custom-hr {
+                width: 80%;
+                margin: auto;
+                margin-top: auto;
+                margin-top: 30px;
+            }
 
+            .buttonforsubmit.custom-cls {
+                position: fixed;
+                left: 67%;
+                z-index: 5;
+                margin-top: 6px;
+            }
 
-</style>
+            .retricts {
+                padding-bottom: 50px;
+            }
+
+            @media screen and (max-width: 1600px) {
+                .buttonforsubmit.custom-cls {
+                    position: fixed;
+                    right: 26%;
+                    left: unset;
+                    z-index: 5;
+                    margin-top: 6px;
+                }
+            }
+
+            @media screen and (max-width: 1139px) {
+                .buttonforsubmit.custom-cls {
+                    position: fixed;
+                    left: 60%;
+                    z-index: 5;
+                    margin-top: 6px;
+                }
+
+                .buttonforsubmit.custom-cls .submit.redbtn.mx-auto {
+                    padding: 10px 20px;
+                }
+            }
+
+            @media screen and (max-width: 991px) {
+                .buttonforsubmit.custom-cls {
+                    position: fixed;
+                    right: 2%;
+                    z-index: 5;
+                    margin-top: 6px;
+                }
+            }
+
+            @media screen and (max-width: 760px) {
+
+                .buttonforsubmit.custom-cls {
+                    position: relative;
+                    right: 0;
+                    z-index: 0;
+                    margin-top: 0;
+                    left: 0;
+                }
+            }
+        </style>
 
         <div class="namphomediv">
             <h1 class="pageTitle">League Settings</h1>
             <div class="mapbtns-div">
-
+                @livewire('LeagueSettings', ['leagueRow' => $league_data])
             </div>
         </div>
 
@@ -95,19 +101,21 @@ input:checked + .slider::before {
                 @csrf
                 <div class="displayflesx justify-content-center">
                     <span class="game-lables">Open to applications</span>
-                        <label class="switch">
-                            <input value="1" name="umpire_joining_status" class="form-check-input report" type="checkbox"
-                                id="flexSwitchCheckChecked" {{ $league_data->umpire_joining_status !== 0 ? 'checked' : '' }}>
-                            <span class="slider round"></span>
-                        </label>
-                        <div class="buttonforsubmit custom-cls">
-                            <button class="submit redbtn mx-auto">Update</button>
-                        </div>
+                    <label class="switch">
+                        <input value="1" name="umpire_joining_status" class="form-check-input report" type="checkbox"
+                            id="flexSwitchCheckChecked" {{ $league_data->umpire_joining_status !== 0 ? 'checked' : '' }}>
+                        <span class="slider round"></span>
+                    </label>
+                    <div class="buttonforsubmit custom-cls">
+                        <button class="submit redbtn mx-auto">Update</button>
+                    </div>
                 </div>
                 <hr class="custom-hr">
                 <div class="displayflesx ">
                     <span class="text1s col-md-5">Umpire starts with</span>
-                    <span class="pists col-md-auto"><input name="joiningpoint" type="text" class="name-inpostya"
+                    <span class="pists col-md-auto"><input
+                            {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'readonly' : '' }}
+                            name="joiningpoint" type="text" class="name-inpostya"
                             value="{{ $league_data->joiningpoint }}"></span>
                     <span class="text2s mr-0 col-md-5">Points when joining league</span>
                 </div>
@@ -115,8 +123,10 @@ input:checked + .slider::before {
 
                 <div class="displayflesx">
                     <span class="text1s col-md-5">auto assign umpires</span>
-                    <span class="pists col-md-auto"><input name="assignbefore" value="{{ $league_data->assignbefore }}"
-                            type="text" class="name-inpostya"></span>
+                    <span class="pists col-md-auto"><input
+                            {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'readonly' : '' }}
+                            name="assignbefore" value="{{ $league_data->assignbefore }}" type="text"
+                            class="name-inpostya"></span>
                     <span class="text2s mr-0 col-md-5">days before game</span>
                 </div>
 
@@ -142,8 +152,9 @@ input:checked + .slider::before {
 
                     <div class="displayflesx">
                         <span class="text1s col-md-5">By default Primary umpire must be</span>
-                        <span class="pists col-md-auto"><input name="mainumpage" value="{{ $league_data->mainumpage }}"
-                                type="text" class="name-inpostya"></span>
+                        <span class="pists col-md-auto"><input
+                                {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }} name="mainumpage"
+                                value="{{ $league_data->mainumpage }}" type="text" class="name-inpostya"></span>
                         <span class="text2s mr-0 col-md-5">years older</span>
                     </div>
 
@@ -152,8 +163,9 @@ input:checked + .slider::before {
 
                     <div class="displayflesx">
                         <span class="text1s col-md-5">and 2nd,3rd,4th umpire must be</span>
-                        <span class="pists col-md-auto"><input name="otherumpage" value="{{ $league_data->otherumpage }}"
-                                type="text" class="name-inpostya"></span>
+                        <span class="pists col-md-auto"><input
+                                {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }} name="otherumpage"
+                                value="{{ $league_data->otherumpage }}" type="text" class="name-inpostya"></span>
                         <span class="text2s mr-0 col-md-5">years older</span>
                     </div>
                 </div>

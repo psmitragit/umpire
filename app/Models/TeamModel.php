@@ -17,7 +17,7 @@ class TeamModel extends Model
         return $this->belongsTo(LeagueModel::class, 'leagueid');
     }
     public function division(){
-        return $this->belongsTo(TeamDivisionModel::class, 'divid');
+        return $this->belongsTo(TeamDivisionModel::class, 'divid')->withTrashed();
     }
     public function blocked_umpire_teams(){
         return $this->hasMany(BlockTeamModel::class,'teamid');

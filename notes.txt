@@ -1,3 +1,4 @@
 UPDATE users
 SET email = CONCAT('demoemail', uid, '@yopmail.com') WHERE uid != 1 AND uid != 2;
 
+remember to migrate and add two demo teams

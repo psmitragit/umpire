@@ -253,6 +253,9 @@ class GeneralController extends Controller
 
         if ($leagues->count() > 0) {
             foreach ($leagues as $league_row) {
+                if (checkToggleStatus($league_row->leagueid, 'auto_scheduler')) {
+                    continue;
+                }
                 if (!$givenTargetDate) {
                     //getting games from today + {n} days from today based on league settings
                     $targetDate = Carbon::now()->addDays($league_row->assignbefore);

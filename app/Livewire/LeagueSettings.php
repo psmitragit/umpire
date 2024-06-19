@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire;
 
 use App\Models\ToggleSettings;
 use Livewire\Component;
@@ -26,7 +26,7 @@ class LeagueSettings extends Component
     {
         $page_data = LeagueModel::get();
         $data = compact('page_data');
-        return view('livewire.admin.league-settings', $data);
+        return view('livewire.league-settings', $data);
     }
     public function manageSettings($leagueId)
     {
@@ -53,7 +53,7 @@ class LeagueSettings extends Component
 
         if (!empty($toggle)) {
             foreach ($toggle as $key => $val) {
-                toggleSettings($leagueRow->leagueid, $key, $val);
+                toggleSettings($leagueRow->leagueid, $key, $val, $leagueRow->leagueid);
             }
         }
         $this->dispatch('success', msg: 'Success');

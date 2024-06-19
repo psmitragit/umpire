@@ -14,7 +14,7 @@
             <a href="{{ url('league') }}" class="navlogos {{ $nav == 'home' ? 'active' : '' }}"> <span><i
                         class="fa-solid fa-calendar-days"></i></span> Home</a>
         </div>
-        <div class="buttons-disd">
+        <div class="buttons-disd {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'disabled' : '' }}">
             <a href="{{ url('league/game-manual-schedule') }}"
                 class="navlogos {{ $nav == 'auto_algo' ? 'active' : '' }}">
                 <span><i class="fas fa-code-branch"></i></span> Run Schedule</a>

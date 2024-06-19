@@ -16,6 +16,7 @@ use App\Models\LeagueUmpireModel;
 use App\Models\NotificationModel;
 use App\Models\RefundPointsModel;
 use App\Models\SiteMetaData;
+use App\Models\TeamModel;
 use App\Models\ToggleSettings;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -153,17 +154,59 @@ function checkToggleStatus($league, $type)
 function toggleSettings($league, $type, $status, $toggled_by = 0)
 {
     $row = checkToggleStatus($league, $type);
+    $leagueRow = LeagueModel::find($league);
+
     if ($row) {
         if (!$status) {
-            $row->delete();
+            if ($toggled_by !== 0) {
+                if ($row->toggled_by == $toggled_by) {
+                    $row->delete();
+                }else{
+                    return false;
+                }
+            } else {
+                $row->delete();
+            }
             return true;
         }
     } else {
         if ($status) {
             ToggleSettings::create(['toggled_by' => $toggled_by, 'setting' => $type, 'toggled_for' => $league]);
+            if ($type == 'age') {
+                $leagueRow->mainumpage = 0;
+                $leagueRow->otherumpage = 0;
+
+                $leagueRow->save();
+                $leagueRow->age_of_players()->delete();
+            } elseif ($type == 'divisions') {
+                foreach ($leagueRow->divisions as $division) {
+                    $division->blockedDivisions()->delete();
+                }
+            } elseif ($type == 'auto_scheduler') {
+                $leagueRow->age_of_players()->delete();
+                $leagueRow->locations()->delete();
+                $leagueRow->pay()->delete();
+                $leagueRow->time()->delete();
+                $leagueRow->day_of_week()->delete();
+                $leagueRow->umpire_position()->delete();
+                $leagueRow->umpire_duration()->delete();
+                $leagueRow->total_game()->delete();
+            } elseif ($type == 'teams') {
+                $leagueRow->blocked_umpire_teams()->delete();
+            }
             return true;
         }
     }
+}
+
+function getFirstBlankTeam()
+{
+    return TeamModel::where('leagueid', 0)->orderBy('teamid', 'ASC')->first();
+}
+
+function getSecondBlankTeam()
+{
+    return TeamModel::where('leagueid', 0)->orderBy('teamid', 'DESC')->first();
 }
 
 function count_avg_league_games_pay_per_week($league_id, $details = false)

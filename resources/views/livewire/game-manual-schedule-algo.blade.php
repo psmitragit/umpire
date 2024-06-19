@@ -40,13 +40,33 @@
                         <thead>
                             <tr>
                                 <th>Date & Time</th>
-                                <th>Game</th>
+                                @if (checkToggleStatus($league_data->leagueid, 'teams'))
+                                    {{-- leave blank --}}
+                                @else
+                                    <th>Game</th>
+                                @endif
                                 <th>Location</th>
                                 <th>1st UMP</th>
-                                <th>2nd UMP</th>
-                                <th>3rd UMP</th>
-                                <th>4th UMP</th>
-                                <th>Player Age</th>
+                                @if (checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                                    {{-- leave blank --}}
+                                @else
+                                    <th>2nd UMP</th>
+                                @endif
+                                @if (checkToggleStatus($league_data->leagueid, 'umpire_3'))
+                                    {{-- leave blank --}}
+                                @else
+                                    <th>3rd UMP</th>
+                                @endif
+                                @if (checkToggleStatus($league_data->leagueid, 'umpire_4'))
+                                    {{-- leave blank --}}
+                                @else
+                                    <th>4th UMP</th>
+                                @endif
+                                @if (checkToggleStatus($league_data->leagueid, 'age'))
+                                    {{-- leave blank --}}
+                                @else
+                                    <th>Player Age</th>
+                                @endif
                                 <th>Umpire</th>
                                 <th>Report</th>
                                 <th>Payout</th>
@@ -69,9 +89,13 @@
                                     @endphp
                                     <tr>
                                         <td class="date-leag">{{ $gamedate }}</td>
-                                        <td class="team-a">{{ $data->hometeam->teamname }} vs
-                                            {{ $data->awayteam->teamname }}
-                                        </td>
+                                        @if (checkToggleStatus($league_data->leagueid, 'teams'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="team-a">{{ $data->hometeam->teamname }} vs
+                                                {{ $data->awayteam->teamname }}
+                                            </td>
+                                        @endif
                                         <td class="location-game"> <span class="aspans">
                                                 {{ $data->location->ground }}</span>
                                         </td>
@@ -89,62 +113,78 @@
                                                     wire:key='assignedUmp-{{ $data->gameid }}-1'>Empty</a>
                                             @endif
                                         </td>
-                                        <td class="color-prmths hovername" data-pos="2">
-                                            @if ($data->ump2 !== null)
-                                                <span class="halfname"
-                                                    wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump2")'
-                                                    wire:key='assignedUmp-{{ $data->gameid }}-2'>{{ Illuminate\Support\Str::limit($data->umpire2->name, 8, '...') }}</span>
-                                                <div class="fullnamediv">
-                                                    {{ $data->umpire2->name }}
-                                                </div>
-                                            @else
-                                                @if ($data->umpreqd >= 2)
-                                                    <a data-gameid="{{ $data->gameid }}" href='javascript:void(0)'
-                                                        class="blutns-table"
+                                        @if (checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="color-prmths hovername" data-pos="2">
+                                                @if ($data->ump2 !== null)
+                                                    <span class="halfname"
                                                         wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump2")'
-                                                        wire:key='assignedUmp-{{ $data->gameid }}-2'>Empty</a>
+                                                        wire:key='assignedUmp-{{ $data->gameid }}-2'>{{ Illuminate\Support\Str::limit($data->umpire2->name, 8, '...') }}</span>
+                                                    <div class="fullnamediv">
+                                                        {{ $data->umpire2->name }}
+                                                    </div>
                                                 @else
-                                                    _ _
+                                                    @if ($data->umpreqd >= 2)
+                                                        <a data-gameid="{{ $data->gameid }}" href='javascript:void(0)'
+                                                            class="blutns-table"
+                                                            wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump2")'
+                                                            wire:key='assignedUmp-{{ $data->gameid }}-2'>Empty</a>
+                                                    @else
+                                                        _ _
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </td>
-                                        <td class="color-prmths hovername" data-pos="3">
-                                            @if ($data->ump3 !== null)
-                                                <span class="halfname"
-                                                    wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump3")'
-                                                    wire:key='assignedUmp-{{ $data->gameid }}-3'>{{ Illuminate\Support\Str::limit($data->umpire3->name, 8, '...') }}</span>
-                                                <div class="fullnamediv">
-                                                    {{ $data->umpire3->name }}
-                                                </div>
-                                            @else
-                                                @if ($data->umpreqd >= 3)
-                                                    <a href='javascript:void(0)' class="blutns-table"
+                                            </td>
+                                        @endif
+                                        @if (checkToggleStatus($league_data->leagueid, 'umpire_3'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="color-prmths hovername" data-pos="3">
+                                                @if ($data->ump3 !== null)
+                                                    <span class="halfname"
                                                         wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump3")'
-                                                        wire:key='assignedUmp-{{ $data->gameid }}-3'>Empty</a>
+                                                        wire:key='assignedUmp-{{ $data->gameid }}-3'>{{ Illuminate\Support\Str::limit($data->umpire3->name, 8, '...') }}</span>
+                                                    <div class="fullnamediv">
+                                                        {{ $data->umpire3->name }}
+                                                    </div>
                                                 @else
-                                                    _ _
+                                                    @if ($data->umpreqd >= 3)
+                                                        <a href='javascript:void(0)' class="blutns-table"
+                                                            wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump3")'
+                                                            wire:key='assignedUmp-{{ $data->gameid }}-3'>Empty</a>
+                                                    @else
+                                                        _ _
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </td>
-                                        <td class="color-prmths hovername" data-pos="4">
-                                            @if ($data->ump4 !== null)
-                                                <span class="halfname"
-                                                    wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump4")'
-                                                    wire:key='assignedUmp-{{ $data->gameid }}-4'>{{ Illuminate\Support\Str::limit($data->umpire4->name, 8, '...') }}</span>
-                                                <div class="fullnamediv">
-                                                    {{ $data->umpire4->name }}
-                                                </div>
-                                            @else
-                                                @if ($data->umpreqd >= 4)
-                                                    <a href='javascript:void(0)' class="blutns-table"
+                                            </td>
+                                        @endif
+                                        @if (checkToggleStatus($league_data->leagueid, 'umpire_4'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td class="color-prmths hovername" data-pos="4">
+                                                @if ($data->ump4 !== null)
+                                                    <span class="halfname"
                                                         wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump4")'
-                                                        wire:key='assignedUmp-{{ $data->gameid }}-4'>Empty</a>
+                                                        wire:key='assignedUmp-{{ $data->gameid }}-4'>{{ Illuminate\Support\Str::limit($data->umpire4->name, 8, '...') }}</span>
+                                                    <div class="fullnamediv">
+                                                        {{ $data->umpire4->name }}
+                                                    </div>
                                                 @else
-                                                    _ _
+                                                    @if ($data->umpreqd >= 4)
+                                                        <a href='javascript:void(0)' class="blutns-table"
+                                                            wire:click='assignRemoveUmpire({{ $data->gameid }}, "ump4")'
+                                                            wire:key='assignedUmp-{{ $data->gameid }}-4'>Empty</a>
+                                                    @else
+                                                        _ _
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </td>
-                                        <td>{{ $data->playersage }}</td>
+                                            </td>
+                                        @endif
+                                        @if (checkToggleStatus($league_data->leagueid, 'age'))
+                                            {{-- leave blank --}}
+                                        @else
+                                            <td>{{ $data->playersage }}</td>
+                                        @endif
                                         <td>{{ $data->umpreqd }}</td>
                                         <td>{!! $data->report == 1
                                             ? '<i class="fa-solid fa-check text-success"></i>'
