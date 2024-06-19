@@ -2,4 +2,5 @@
 /vendor
 /public/storage
 /storage/logs
+/storage/app/demodb/*
 
