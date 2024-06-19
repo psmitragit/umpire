@@ -54,9 +54,9 @@
                         <div class="form-check form-switch">
                             <input wire:model.live='toggle.{{ $key }}'
                                 class="form-check-input position-relative m-0 me-2" type="checkbox" role="switch"
-                                id="flexSwitchCheckChecked">
+                                id="{{ $key }}">
                             <label class="form-check-label"
-                                for="flexSwitchCheckChecked">{{ ucwords(str_replace('_', ' ', $key)) }}</label>
+                                for="{{ $key }}">{{ ucwords(str_replace('_', ' ', $key)) }}</label>
                         </div>
                     @endforeach
                 </div>

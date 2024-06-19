@@ -161,6 +161,8 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
             if ($toggled_by !== 0) {
                 if ($row->toggled_by == $toggled_by) {
                     $row->delete();
+                }else{
+                    return false;
                 }
             } else {
                 $row->delete();
