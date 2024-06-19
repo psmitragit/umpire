@@ -187,5 +187,11 @@
                     </a>
                 @endif
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/admin/subscription') }}">
+                    <i class="fa-solid fa-users-rectangle menu-icon"></i>
+                    <span class="menu-title">Manage Subscription</span>
+                </a>
+            </li>
         </ul>
     </nav>

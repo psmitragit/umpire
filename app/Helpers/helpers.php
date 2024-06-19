@@ -1,25 +1,26 @@
 <?php
 
-use App\Http\Controllers\LeagueController;
+use App\Models\CMS;
 use App\Mail\Payment;
-use App\Models\AbsentReportModel;
-use App\Models\ApplyToLeague;
 use App\Models\GameModel;
-use App\Models\HighlightedReportModel;
+use App\Models\TeamModel;
 use App\Models\UserModel;
 use App\Models\LeagueModel;
 use App\Models\PayoutModel;
 use App\Models\UmpireModel;
+use App\Models\SiteMetaData;
+use App\Models\ApplyToLeague;
 use App\Models\LocationModel;
+use App\Models\ToggleSettings;
 use Illuminate\Support\Carbon;
+use App\Models\AbsentReportModel;
 use App\Models\LeagueUmpireModel;
 use App\Models\NotificationModel;
 use App\Models\RefundPointsModel;
-use App\Models\SiteMetaData;
-use App\Models\TeamModel;
-use App\Models\ToggleSettings;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use App\Models\HighlightedReportModel;
+use App\Http\Controllers\LeagueController;
 
 function stagingMark()
 {
@@ -149,6 +150,10 @@ function count_avg_league_games_per_week($league_id)
 function checkToggleStatus($league, $type)
 {
     return ToggleSettings::where('toggled_for', $league)->where('setting', $type)->first();
+}
+function getCMSContent($page, $section)
+{
+    return @CMS::where('page', $page)->where('section', $section)->first()->value;
 }
 
 function toggleSettings($league, $type, $status, $toggled_by = 0)

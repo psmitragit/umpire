@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\FeedbackMail;
 use Exception;
+use App\Models\CMS;
 use App\Mail\OTPMail;
 use App\Models\GameModel;
 use App\Models\UserModel;
+use App\Mail\FeedbackMail;
 use App\Mail\ScheduleGame;
 use App\Mail\ResetPassword;
 use App\Models\LeagueModel;
@@ -45,6 +46,29 @@ class GeneralController extends Controller
         $title = 'Terms of Use';
         $data = compact('title');
         return view('general.terms_of_use')->with($data);
+    }
+    public function manage_subscription()
+    {
+        $title = 'Subscription';
+        $admin_data = session('admin_data');
+        $data = compact('title', 'admin_data');
+        return view('admin.subscription')->with($data);
+    }
+    public function save_subscription(Request $request)
+    {
+        $cmsContents = $request->input();
+        foreach ($cmsContents as $section => $value) {
+            $row = CMS::where('page', 'subscription')->where('section', $section)->first();
+            $value ??= '';
+            if ($row) {
+                $row->value = $value;
+                $row->save();
+            } else {
+                $row = CMS::create(['page' => 'subscription', 'section' => $section, 'value' => $value]);
+            }
+        }
+        Session::flash('message', 'Success');
+        return redirect()->back();
     }
     public function forget_password(Request $request)
     {
