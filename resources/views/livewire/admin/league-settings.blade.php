@@ -16,8 +16,7 @@
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->phone }}</td>
                         <td class="text-end">
-                            <a href="javascript:;" wire:click='manageSettings({{ $data->leagueid }})'
-                                wire:key='manageSettings-{{ $data->leagueid }}' class="btn btn-dark">Manage settings</a>
+                            <a onclick="@this.call('manageSettings', {{ $data->leagueid }})" href="javascript:;" class="btn btn-dark">Manage settings</a>
                             <a href="{{ url('admin/edit_league/' . $data->leagueid) }}" class="btn btn-warning">Edit</a>
                             @if ($data->status == 0)
                                 <a href="{{ url('admin/league_status/' . $data->leagueid . '/1') }}"

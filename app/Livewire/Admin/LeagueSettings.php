@@ -12,6 +12,10 @@ class LeagueSettings extends Component
     public $toggle = [];
     public function mount()
     {
+        $this->resetToggle();
+    }
+    public function resetToggle()
+    {
         $this->toggle = [
             'age' => false,
             'divisions' => false,
@@ -30,6 +34,8 @@ class LeagueSettings extends Component
     }
     public function manageSettings($leagueId)
     {
+        $this->resetToggle();
+        
         $this->leagueRow = LeagueModel::find($leagueId);
         if ($toggles = ToggleSettings::where('toggled_for', $leagueId)->get()) {
             foreach ($toggles as $toggleRow) {
