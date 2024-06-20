@@ -226,4 +226,11 @@ Route::middleware(['adminLoginCheck'])->group(function () {
     Route::post('/admin/save_total_game/{id}', [SettingsController::class, 'save_total_game']);
     Route::post('/admin/save_umpire_position/{id}', [SettingsController::class, 'save_umpire_position']);
     Route::post('/admin/save_day_of_week/{id}', [SettingsController::class, 'save_day_of_week']);
+    //cms
+    Route::get('/admin/subscription', [GeneralController::class, 'manage_subscription']);
+    Route::post('/admin/subscription', [GeneralController::class, 'save_subscription']);
+    Route::get('/admin/faq', [GeneralController::class, 'manage_faq']);
+    Route::get('/admin/delete-faq/{id}', [GeneralController::class, 'delete_faq']);
+    Route::post('/admin/faq', [GeneralController::class, 'save_faq']);
+    Route::post('/admin/order-faq', [GeneralController::class, 'dragDrop']);
 });
