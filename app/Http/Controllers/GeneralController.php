@@ -57,6 +57,7 @@ class GeneralController extends Controller
     public function save_subscription(Request $request)
     {
         $cmsContents = $request->input();
+        unset($cmsContents['_token']);
         foreach ($cmsContents as $section => $value) {
             $row = CMS::where('page', 'subscription')->where('section', $section)->first();
             $value ??= '';
@@ -73,23 +74,55 @@ class GeneralController extends Controller
     {
         $title = 'FAQ';
         $admin_data = session('admin_data');
-        $data = compact('title', 'admin_data');
+        $page_data = CMS::where('page', 'faq')->orderBy('section', 'ASC')->get();
+        $data = compact('title', 'admin_data', 'page_data');
         return view('admin.faq')->with($data);
     }
     public function save_faq(Request $request)
     {
-        $cmsContents = $request->input();
-        foreach ($cmsContents as $section => $value) {
+        $request->validate([
+            'question' => 'required',
+            'answer' => 'required',
+        ]);
+
+        $section = @$_GET['section'];
+        $faqContents = $request->input();
+        unset($faqContents['_token']);
+
+        $faqContents = json_encode($faqContents);
+        if ($section) {
             $row = CMS::where('page', 'faq')->where('section', $section)->first();
-            $value ??= '';
             if ($row) {
-                $row->value = $value;
+                $row->value = $faqContents;
                 $row->save();
-            } else {
-                $row = CMS::create(['page' => 'subscription', 'section' => $section, 'value' => $value]);
             }
+        } else {
+            $section = 1;
+            $row = CMS::where('page', 'faq')->orderBy('section', 'DESC')->first();
+            if ($row) {
+                $section = $row->section + 1;
+            }
+            CMS::create(['page' => 'faq', 'section' => $section, 'value' => $faqContents]);
         }
+        Session::flash('message', 'Success');
         return response()->json(['status' => 1]);
+    }
+    public function dragDrop(Request $request)
+    {
+        $orders = $request->order;
+        foreach ($orders as $order) {
+            $data = [
+                'section' => $order['position'],
+            ];
+            CMS::where('id', $order['id'])
+                ->update($data);
+        }
+    }
+    public function delete_faq($id)
+    {
+        CMS::find($id)->delete();
+        Session::flash('message', 'Success');
+        return redirect()->back();
     }
     public function forget_password(Request $request)
     {
