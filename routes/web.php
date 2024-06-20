@@ -224,4 +224,6 @@ Route::middleware(['adminLoginCheck'])->group(function () {
     //cms
     Route::get('/admin/subscription', [GeneralController::class, 'manage_subscription']);
     Route::post('/admin/subscription', [GeneralController::class, 'save_subscription']);
+    Route::get('/admin/faq', [GeneralController::class, 'manage_faq']);
+    Route::post('/admin/faq', [GeneralController::class, 'save_faq']);
 });

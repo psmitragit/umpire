@@ -155,6 +155,14 @@ function getCMSContent($page, $section)
 {
     return @CMS::where('page', $page)->where('section', $section)->first()->value;
 }
+function getFAQ($section, $type)
+{
+    $row = CMS::where('page', 'faq')->where('section', $section)->first();
+    if ($row) {
+        $value = json_decode($row->value, true);
+        return $value[$type];
+    }
+}
 
 function toggleSettings($league, $type, $status, $toggled_by = 0)
 {
@@ -166,7 +174,7 @@ function toggleSettings($league, $type, $status, $toggled_by = 0)
             if ($toggled_by !== 0) {
                 if ($row->toggled_by == $toggled_by) {
                     $row->delete();
-                }else{
+                } else {
                     return false;
                 }
             } else {

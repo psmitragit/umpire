@@ -193,5 +193,11 @@
                     <span class="menu-title">Manage Subscription</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('/admin/faq') }}">
+                    <i class="fa-solid fa-users-rectangle menu-icon"></i>
+                    <span class="menu-title">Manage FAQ</span>
+                </a>
+            </li>
         </ul>
     </nav>

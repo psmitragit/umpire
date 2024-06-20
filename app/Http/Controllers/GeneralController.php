@@ -69,6 +69,28 @@ class GeneralController extends Controller
         }
         return response()->json(['status' => 1]);
     }
+    public function manage_faq()
+    {
+        $title = 'FAQ';
+        $admin_data = session('admin_data');
+        $data = compact('title', 'admin_data');
+        return view('admin.faq')->with($data);
+    }
+    public function save_faq(Request $request)
+    {
+        $cmsContents = $request->input();
+        foreach ($cmsContents as $section => $value) {
+            $row = CMS::where('page', 'faq')->where('section', $section)->first();
+            $value ??= '';
+            if ($row) {
+                $row->value = $value;
+                $row->save();
+            } else {
+                $row = CMS::create(['page' => 'subscription', 'section' => $section, 'value' => $value]);
+            }
+        }
+        return response()->json(['status' => 1]);
+    }
     public function forget_password(Request $request)
     {
         $email = $request->email;
