@@ -20,35 +20,28 @@
         <div class="container">
             <div class="twobuttondiv">
                 <div class="button1">
-                    <a href=""class="buton-signup">Demo Admin</a>
+                    <a href="https://demo.umpirecentral.com/demo-league"class="buton-signup">Demo Admin</a>
                 </div>
                 <div class="button1">
-                    <a href=""class="buton-signup">Demo Umpire</a>
+                    <a href="https://demo.umpirecentral.com/demo-umpire"class="buton-signup">Demo Umpire</a>
                 </div>
             </div>
 
 
             <div class="accordioan-divs">
+
+                @foreach ($faqs as $faq)
                 <div class="accordion-section">
                     <div class="accordion-title">
-                        Lorem ipsum dolor sit <i class="fa-solid fa-caret-down"></i>
+                        {{ getFAQ($faq->section, 'question') }} <i class="fa-solid fa-caret-down"></i>
                     </div>
                     <div class="accordion-content" style="display: none">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus quas dolore consequuntur
-                            aspernatur labore sint aliquid, soluta expedita eaque earum beatae unde iure quo reprehenderit
-                            numquam non doloremque officiis omnis.</p>
+                        {!! getFAQ($faq->section, 'answer') !!}
                     </div>
                 </div>
-                <div class="accordion-section">
-                    <div class="accordion-title">
-                        dolor sit <i class="fa-solid fa-caret-down"></i>
-                    </div>
-                    <div class="accordion-content" style="display: none">
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus quas dolore consequuntur
-                            aspernatur labore sint aliquid, soluta expedita eaque earum beatae unde iure quo reprehenderit
-                            numquam non doloremque officiis omnis.</p>
-                    </div>
-                </div>
+                @endforeach
+
+
 
             </div>
 
@@ -133,26 +126,26 @@
                                 <label for="" class="inputlabel">League Name <span>*</span></label>
                                 <input type="text" class="cutominput" name="zipcode" >
                             </div>
-                        </div>  
+                        </div>
 
                         <div class="col-md-6">
                             <div class="foms-input">
                                 <label for="" class="inputlabel">Email <span>*</span></label>
                                 <input type="email" class="cutominput" name="zipcode" >
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-md-6">
                             <div class="foms-input">
                                 <label for="" class="inputlabel">Phone <span class="option ">(Optional)</span></label>
                                 <input type="tel" class="cutominput" name="zipcode" >
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-md-12">
                             <div class="foms-input">
                                 <label for="" class="inputlabel">Message/Notes</label>
                                <textarea name="" class="cutominput text-a4rea" id="" ></textarea>
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-md-12">
                             <div class="conas-recap">
                                 <img src="{{ asset('storage/frontend/image/recapcha.png') }}" class="recaptwecg" alt="">
