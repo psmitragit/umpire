@@ -20,10 +20,10 @@
         <div class="container">
             <div class="twobuttondiv">
                 <div class="button1">
-                    <a href="https://demo.umpirecentral.com/demo-league"class="buton-signup">Demo Admin</a>
+                    <a target="_blank" href="https://demo.umpirecentral.com/demo-league"class="buton-signup">Demo Admin</a>
                 </div>
                 <div class="button1">
-                    <a href="https://demo.umpirecentral.com/demo-umpire"class="buton-signup">Demo Umpire</a>
+                    <a target="_blank" href="https://demo.umpirecentral.com/demo-umpire"class="buton-signup">Demo Umpire</a>
                 </div>
             </div>
 
