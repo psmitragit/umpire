@@ -662,7 +662,10 @@ button[disabled]{
   border: none;
   padding: 11px;
 }
-
+.home-banner.addpage {
+  height: 79vh;
+  background-position: bottom  center;
+}
 @media screen and (max-width: 1600px) {
   .matginsyp {
     margin-right: 43px;
