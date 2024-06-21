@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\CMS;
 use App\Mail\OTPMail;
+use App\Rules\ReCaptcha;
 use App\Models\GameModel;
 use App\Models\UserModel;
 use App\Mail\FeedbackMail;
 use App\Mail\ScheduleGame;
+use App\Mail\ContactUsMail;
 use App\Mail\ResetPassword;
 use App\Models\LeagueModel;
 use App\Models\UmpireModel;
@@ -40,6 +42,28 @@ class GeneralController extends Controller
         $title = 'Privacy of Policy';
         $data = compact('title');
         return view('general.privacy_policy')->with($data);
+    }
+    public function viewAdvertisement()
+    {
+        $title = 'Advertisement';
+        $faqs = CMS::where('page', 'faq')->orderBy('section', 'ASC')->get();
+        $data = compact('title', 'faqs');
+        return view('general.advertisement')->with($data);
+    }
+    public function submitContact(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'league_name' => 'required',
+            'email' => 'required|email',
+            'g-recaptcha-response' => ['required', new ReCaptcha],
+        ]);
+
+        $data = $request->input();
+        unset($data['_token']);
+        Mail::to(env('ADMIN_EMAIL'))->send(new ContactUsMail($data));
+        Session::flash('message', 'We will be in touch soon.');
+        return redirect()->back();
     }
     public function terms_of_use()
     {

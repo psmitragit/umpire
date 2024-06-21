@@ -161,8 +161,12 @@ input:focus {
     border-color: black;
     outline: none;
 }
-
-
+.text-asb {
+    white-space: break-spaces;
+  }
+  .forms-sample.customwiths.awb {
+    width: 100%;
+  }
 @media screen and (max-width: 992px) {
     .loginfields {
         width: 60%;

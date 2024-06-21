@@ -30,6 +30,8 @@ Route::get('/demo-league', [DemoController::class, 'demoLeague']);
 
 //general
 Route::get('/', [GeneralController::class, 'index']);
+Route::get('/advertisement', [GeneralController::class, 'viewAdvertisement']);
+Route::post('/contact', [GeneralController::class, 'submitContact']);
 Route::post('/forget-password', [GeneralController::class, 'forget_password']);
 Route::post('/send-feedback', [GeneralController::class, 'send_feedback']);
 Route::get('/reset-password/{encid}', [GeneralController::class, 'reset_password']);
