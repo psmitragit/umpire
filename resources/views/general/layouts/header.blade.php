@@ -17,9 +17,12 @@
     <script src="{{ asset('storage/frontend/js/app.js') }}"></script>
     <script>
         $(document).ready(function() {
-            $(":input[type='text']:first, :input[type='number']:first, textarea:first").focus();
+            if (window.location.href.indexOf('advertisement') === -1) {
+                $(":input[type='text']:first, :input[type='number']:first, textarea:first").focus();
+            }
         });
     </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body>
