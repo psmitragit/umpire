@@ -161,7 +161,9 @@ input:focus {
     border-color: black;
     outline: none;
 }
-
+.text-asb {
+    white-space: break-spaces;
+  }
 
 @media screen and (max-width: 992px) {
     .loginfields {

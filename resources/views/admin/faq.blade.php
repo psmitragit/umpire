@@ -61,7 +61,12 @@
                                                         onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
                                                 </td>
                                                 <td>{{ $qstn }}</td>
-                                                <td>{!! $ans !!}</td>
+                                                <td class="text-sgehh">
+                                                <div class="text-asb">    
+                                                    {!! $ans !!}
+                                                
+                                                </div>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @else
