@@ -10,71 +10,76 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ $title }}</h4>
                         <hr>
-                        <form class="forms-sample customwiths" method="post" action="{{ url('admin/subscription') }}">
+                        <form class="forms-sample customwiths awb" method="post" action="{{ url('admin/subscription') }}">
                             @csrf
-                            <div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Tire One Title<span class="text-danger">
-                                            *</span></label>
-                                    <input type="text" name="title_1" class="form-control custom-input"
-                                        value="{{ getCMSContent('subscription', 'title_1') }}">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tire One Title<span class="text-danger">
+                                                *</span></label>
+                                        <input type="text" name="title_1" class="form-control custom-input"
+                                            value="{{ getCMSContent('subscription', 'title_1') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"> Tire One Sub Title<span class="text-danger">
+                                            </span></label>
+                                        <input type="text" name="sub_title_1" class="form-control custom-input"
+                                            value="{{ getCMSContent('subscription', 'sub_title_1') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tire One Content<span class="text-danger">
+                                                *</span></label>
+                                        <div class="editor">{!! getCMSContent('subscription', 'editor_1') !!}</div>
+                                        <input type="hidden" name="editor_1" id="editor_1">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1"> Tire One Sub Title<span class="text-danger">
-                                        </span></label>
-                                    <input type="text" name="sub_title_1" class="form-control custom-input"
-                                        value="{{ getCMSContent('subscription', 'sub_title_1') }}">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tire Two Title<span class="text-danger">
+                                                *</span></label>
+                                        <input type="text" name="title_2" class="form-control custom-input"
+                                            value="{{ getCMSContent('subscription', 'title_2') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"> Tire Two Sub Title<span class="text-danger">
+                                            </span></label>
+                                        <input type="text" name="sub_title_2" class="form-control custom-input"
+                                            value="{{ getCMSContent('subscription', 'sub_title_2') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tire Two Content<span class="text-danger">
+                                                *</span></label>
+                                        <div class="editor">{!! getCMSContent('subscription', 'editor_2') !!}</div>
+                                        <input type="hidden" name="editor_2" id="editor_2">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Tire One Content<span class="text-danger">
-                                            *</span></label>
-                                    <div class="editor">{!! getCMSContent('subscription', 'editor_1') !!}</div>
-                                    <input type="hidden" name="editor_1" id="editor_1">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tire Three Title<span class="text-danger">
+                                                *</span></label>
+                                        <input type="text" name="title_3" class="form-control custom-input"
+                                            value="{{ getCMSContent('subscription', 'title_3') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1"> Tire Three Sub Title<span class="text-danger">
+                                            </span></label>
+                                        <input type="text" name="sub_title_3" class="form-control custom-input"
+                                            value="{{ getCMSContent('subscription', 'sub_title_3') }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tire Three Content<span class="text-danger">
+                                                *</span></label>
+                                        <div class="editor">{!! getCMSContent('subscription', 'editor_3') !!}</div>
+                                        <input type="hidden" name="editor_3" id="editor_3">
+                                    </div>
                                 </div>
+
                             </div>
-                            <hr>
-                            <div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Tire Two Title<span class="text-danger">
-                                            *</span></label>
-                                    <input type="text" name="title_2" class="form-control custom-input"
-                                        value="{{ getCMSContent('subscription', 'title_2') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1"> Tire Two Sub Title<span class="text-danger">
-                                        </span></label>
-                                    <input type="text" name="sub_title_2" class="form-control custom-input"
-                                        value="{{ getCMSContent('subscription', 'sub_title_2') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Tire Two Content<span class="text-danger">
-                                            *</span></label>
-                                    <div class="editor">{!! getCMSContent('subscription', 'editor_2') !!}</div>
-                                    <input type="hidden" name="editor_2" id="editor_2">
-                                </div>
-                            </div>
-                            <hr>
-                            <div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Tire Three Title<span class="text-danger">
-                                            *</span></label>
-                                    <input type="text" name="title_3" class="form-control custom-input"
-                                        value="{{ getCMSContent('subscription', 'title_3') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1"> Tire Three Sub Title<span class="text-danger">
-                                        </span></label>
-                                    <input type="text" name="sub_title_3" class="form-control custom-input"
-                                        value="{{ getCMSContent('subscription', 'sub_title_3') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Tire Three Content<span class="text-danger">
-                                            *</span></label>
-                                    <div class="editor">{!! getCMSContent('subscription', 'editor_3') !!}</div>
-                                    <input type="hidden" name="editor_3" id="editor_3">
-                                </div>
-                            </div>
+                            <div class="text-center">
                             <button type="submit" class="btn btn-success">Save</button>
+                        </div>
                         </form>
                     </div>
                 </div>
