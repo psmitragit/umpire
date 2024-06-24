@@ -3186,6 +3186,30 @@ input:checked+.slider:before {
     padding: 4px 15px;
 }
 
+.settingsnav {
+    margin-right: 14px;
+
+}
+
+.nav-settings {
+    margin-right: 14px;
+}
+
+.thest-eyh {
+    width: fit-content;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 65px;
+    margin-bottom: 40px;
+}
+.masb {
+    margin-bottom: 20px;
+    align-items: center;
+}
+.masb .form-check-label {
+    margin-left: 16px;
+  }
 /* <======================================================= Responsive =======================================================> */
 
 
@@ -4526,7 +4550,9 @@ input:checked+.slider:before {
     cursor: no-drop;
 }
 
-.settingsnav.disabled, .buttons-disd.disabled, .by-temas-texts.disabled {
+.settingsnav.disabled,
+.buttons-disd.disabled,
+.by-temas-texts.disabled {
     cursor: no-drop;
 }
 
@@ -4535,17 +4561,20 @@ input:checked+.slider:before {
     opacity: 0.3;
 }
 
-.by-temas-texts.disabled .nessc, .by-temas-texts.disabled .acctives {
+.by-temas-texts.disabled .nessc,
+.by-temas-texts.disabled .acctives {
     pointer-events: none;
     opacity: 0.3;
 }
 
-.oevs-fles.disabled thead th, .oevs-fles.disabled tbody td {
+.oevs-fles.disabled thead th,
+.oevs-fles.disabled tbody td {
     color: #00000017;
     cursor: no-drop;
 }
 
-.oevs-fles.disabled button, .oevs-fles.disabled button {
+.oevs-fles.disabled button,
+.oevs-fles.disabled button {
     opacity: 0.4;
     pointer-events: none;
     cursor: no-drop;

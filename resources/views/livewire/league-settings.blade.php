@@ -1,5 +1,5 @@
 <div>
-    <div class="modal-body">
+    <div class="thest-eyh">
         @foreach ($toggle as $key => $value)
             @php
                 $disabled = '';
@@ -9,7 +9,7 @@
                     }
                 }
             @endphp
-            <div class="form-check form-switch d-flex">
+            <div class="form-check form-switch d-flex masb">
                 <input {{ $disabled }} wire:model.live='toggle.{{ $key }}'
                     class="form-check-input position-relative m-0 me-2" type="checkbox" role="switch"
                     id="{{ $key }}">
@@ -22,7 +22,7 @@
                 @endif
             </div>
         @endforeach
-        <button type="button" wire:click='applySettings'>Apply</button>
     </div>
+    <button type="button" wire:click='applySettings' class="redbtn submit mx-auto">Apply</button>
 </div>
 @include('livewire.includes.event')
