@@ -176,12 +176,12 @@
             </li>
             <li class="nav-item">
                 @if (env('APP_ENV') !== 'production')
-                    <a class="nav-link" href="https://umpirecentral.com/admin/direct-login" target="_blank">
+                    <a class="nav-link" href="{{ env('LIVE_SITE') }}admin/direct-login" target="_blank">
                         <i class="fa fa-globe menu-icon"></i>
                         <span class="menu-title">Live Site</span>
                     </a>
                 @else
-                    <a class="nav-link" href="https://stg.umpirecentral.com/admin/direct-login" target="_blank">
+                    <a class="nav-link" href="{{ env('STAGING_SITE') }}admin/direct-login" target="_blank">
                         <i class="fa fa-globe menu-icon"></i>
                         <span class="menu-title">Staging Site</span>
                     </a>
