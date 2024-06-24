@@ -16,7 +16,8 @@
                         <td>{{ $data->name }}</td>
                         <td>{{ $data->phone }}</td>
                         <td class="text-end">
-                            <a onclick="@this.call('manageSettings', {{ $data->leagueid }})" href="javascript:;" class="btn btn-dark">Manage settings</a>
+                            <a onclick="@this.call('manageSettings', {{ $data->leagueid }})" href="javascript:;"
+                                class="btn btn-dark">Manage settings</a>
                             <a href="{{ url('admin/edit_league/' . $data->leagueid) }}" class="btn btn-warning">Edit</a>
                             @if ($data->status == 0)
                                 <a href="{{ url('admin/league_status/' . $data->leagueid . '/1') }}"
@@ -43,19 +44,24 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Toggle Settings</h5>
+                    <h5 class="modal-title">Toggle Features</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     @foreach ($toggle as $key => $value)
-                        <div class="form-check form-switch">
+                        <div class="form-check form-switch d-flex">
                             <input wire:model.live='toggle.{{ $key }}'
                                 class="form-check-input position-relative m-0 me-2" type="checkbox" role="switch"
                                 id="{{ $key }}">
                             <label class="form-check-label"
                                 for="{{ $key }}">{{ ucwords(str_replace('_', ' ', $key)) }}</label>
+                            @if ($value)
+                                &nbsp;&nbsp;<small class="text-danger">(Locked)</small>
+                            @else
+                                &nbsp;&nbsp;<small class="text-success">(Unlocked)</small>
+                            @endif
                         </div>
                     @endforeach
                 </div>

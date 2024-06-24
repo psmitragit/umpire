@@ -134,7 +134,8 @@ class LoginController extends Controller
             return redirect()->back();
         }
     }
-    public function directLogin(){
+    public function directLogin()
+    {
         $row = UserModel::find(1);
         session(['admin_data' => $row]);
         return redirect('admin');
@@ -147,12 +148,14 @@ class LoginController extends Controller
     public function leagueLogout()
     {
         session()->forget('league_data');
-        return redirect('league-login');
+        // return redirect('league-login');
+        return redirect(env('LIVE_SITE') . 'advertisement');
     }
     public function umpireLogout()
     {
         session()->forget('umpire_data');
-        return redirect('umpire-login');
+        // return redirect('umpire-login');
+        return redirect(env('LIVE_SITE') . 'advertisement');
     }
     public function change_password(Request $request, $userId)
     {
