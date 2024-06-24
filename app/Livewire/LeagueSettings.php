@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
-use App\Models\ToggleSettings;
 use Livewire\Component;
 use App\Models\LeagueModel;
+use App\Models\ToggleSettings;
+use Illuminate\Support\Facades\Session;
 
 class LeagueSettings extends Component
 {
@@ -21,24 +22,17 @@ class LeagueSettings extends Component
             'umpire_3' => false,
             'umpire_2' => false,
         ];
-    }
-    public function render()
-    {
-        $page_data = LeagueModel::get();
-        $data = compact('page_data');
-        return view('livewire.league-settings', $data);
-    }
-    public function manageSettings($leagueId)
-    {
-        $this->leagueRow = LeagueModel::find($leagueId);
-        if ($toggles = ToggleSettings::where('toggled_for', $leagueId)->get()) {
+        if ($toggles = ToggleSettings::where('toggled_for', $this->leagueRow->leagueid)->get()) {
             foreach ($toggles as $toggleRow) {
                 $this->toggle[$toggleRow->setting] = true;
             }
         }
-        $this->dispatch('show-modal', modal: '#settingsModal');
     }
-    public function updatedToggle()
+    public function render()
+    {
+        return view('livewire.league-settings');
+    }
+    public function applySettings()
     {
         $leagueRow =  $this->leagueRow;
 
@@ -56,6 +50,16 @@ class LeagueSettings extends Component
                 toggleSettings($leagueRow->leagueid, $key, $val, $leagueRow->leagueid);
             }
         }
-        $this->dispatch('success', msg: 'Success');
+        Session::flash('message', 'Success');
+        return redirect('league/settings/features');
+    }
+    public function updatedToggle()
+    {
+        if ($this->toggle['umpire_2'] == true) {
+            $this->toggle['umpire_3'] = true;
+            $this->toggle['umpire_4'] = true;
+        } else if ($this->toggle['umpire_3'] == true) {
+            $this->toggle['umpire_4'] = true;
+        }
     }
 }

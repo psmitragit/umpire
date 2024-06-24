@@ -32,4 +32,8 @@
         <a href="{{ url('league/settings/location') }}"
             class="nav-settings {{ $active_sub_nav_bar == 'location' ? 'actively' : '' }}">Add Location</a>
     </div>
+    <div class="settingsnav">
+        <a href="{{ url('league/settings/features') }}"
+            class="nav-settings {{ $active_sub_nav_bar == 'features' ? 'actively' : '' }}">Toggle Features</a>
+    </div>
 </div>

@@ -88,6 +88,8 @@ Route::middleware(['leagueLoginCheck'])->group(function () {
     Route::get('/league/delete_location/{id}', [LeagueController::class, 'delete_location']);
     Route::post('/league/save_location', [LeagueController::class, 'save_location']);
     Route::post('/league/update_location/{id}', [LeagueController::class, 'update_location']);
+    //features
+    Route::get('/league/settings/features', [LeagueController::class, 'view_feature']);
     //point
     Route::redirect('/league/settings/points', url('/league/settings/point/schedule-on-any-game'));
     Route::get('/league/settings/point/{type}', [LeagueController::class, 'view_point']);
