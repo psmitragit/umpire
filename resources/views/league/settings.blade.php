@@ -80,7 +80,7 @@
         <div class="namphomediv">
             <h1 class="pageTitle">League Settings</h1>
             <div class="mapbtns-div">
-                @livewire('LeagueSettings', ['leagueRow' => $league_data])
+               
             </div>
         </div>
 

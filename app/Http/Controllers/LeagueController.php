@@ -420,6 +420,16 @@ class LeagueController extends Controller
         $data = compact('title', 'page_data', 'league_data', 'right_bar', 'nav', 'active_sub_nav_bar');
         return view('league.location')->with($data);
     }
+    public function view_feature()
+    {
+        $title = 'League Features';
+        $nav = 'settings';
+        $active_sub_nav_bar = 'features';
+        $league_data = logged_in_league_data();
+        $right_bar = 1;
+        $data = compact('title', 'league_data', 'right_bar', 'nav', 'active_sub_nav_bar');
+        return view('league.feature')->with($data);
+    }
     public function save_general_settings(Request $request)
     {
         $league_data = logged_in_league_data();
