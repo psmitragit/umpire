@@ -107,7 +107,8 @@
                             <span class="kabes">Add Blacklist</span>
                         </div>
                         <div class="d-flex flex-wrap">
-                            <div class="by-temas-texts {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
+                            <div
+                                class="by-temas-texts {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
                                 <span class="inpoysascolor nessc" id="colors1"> </span>
                                 <input type="radio" name="as" class="d-none" id="radio1s">
                                 <span class="acctives" id="color-text1">By team</span>
@@ -194,41 +195,44 @@
         <div class="overfow-tables">
             <h2 class="blocks-liost-texts">Blocklisted</h2>
             <div class="mionas-tabsle-csjas">
-                <table class="oevs-fles  {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'disabled' : '' }}">
-                    <thead>
-                        <tr>
-                            <th>Team</th>
-                            <th></th>
+                @php
+                    $blockedteamIDs = [];
+                    $blockedgroundIDs = [];
+                    $blockeddivisionIDs = [];
+                @endphp
+                @if (!checkToggleStatus($league_data->leagueid, 'teams'))
+                    <table class="oevs-fles  {{ checkToggleStatus($league_data->leagueid, 'teams') ? 'disabled' : '' }}">
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th></th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $blockedteamIDs = [];
-                            $blockedgroundIDs = [];
-                            $blockeddivisionIDs = [];
-                        @endphp
-                        @if ($blocked_teams->count() > 0)
-                            @foreach ($blocked_teams as $blocked_team)
-                                @php
-                                    $blockedteamIDs[] = $blocked_team->teamid;
-                                @endphp
-                                <tr>
-                                    <td class="name-blu widthe-fsac">{{ $blocked_team->team->teamname }}</td>
-                                    <td class="widvb-2s minase">
-                                        <form action="{{ url('league/block-unblock-team/' . $page_data->umpid) }}"
-                                            method="post">
-                                            @csrf
-                                            <input type="hidden" name="team_id" value="{{ $blocked_team->teamid }}">
-                                            <button class="deletebrns" type="submit"><i
-                                                    class="fa-regular fa-trash-can"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($blocked_teams->count() > 0)
+                                @foreach ($blocked_teams as $blocked_team)
+                                    @php
+                                        $blockedteamIDs[] = $blocked_team->teamid;
+                                    @endphp
+                                    <tr>
+                                        <td class="name-blu widthe-fsac">{{ $blocked_team->team->teamname }}</td>
+                                        <td class="widvb-2s minase">
+                                            <form action="{{ url('league/block-unblock-team/' . $page_data->umpid) }}"
+                                                method="post">
+                                                @csrf
+                                                <input type="hidden" name="team_id"
+                                                    value="{{ $blocked_team->teamid }}">
+                                                <button class="deletebrns" type="submit"><i
+                                                        class="fa-regular fa-trash-can"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                @endif
                 <table class="oevs-fles">
                     <thead>
                         <tr>
@@ -261,36 +265,40 @@
                         @endif
                     </tbody>
                 </table>
-                <table class="oevs-fles {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
-                    <thead>
-                        <tr>
-                            <th>Division</th>
-                            <th></th>
+                @if (!checkToggleStatus($league_data->leagueid, 'divisions'))
+                    <table
+                        class="oevs-fles {{ checkToggleStatus($league_data->leagueid, 'divisions') ? 'disabled' : '' }}">
+                        <thead>
+                            <tr>
+                                <th>Division</th>
+                                <th></th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if ($blocked_divisions->count() > 0)
-                            @foreach ($blocked_divisions as $blocked_division)
-                                @php
-                                    $blockeddivisionIDs[] = $blocked_division->divid;
-                                @endphp
-                                <tr>
-                                    <td class="name-blu widthe-fsac">{{ $blocked_division->division->name }}</td>
-                                    <td class="widvb-2s minase">
-                                        <form action="{{ url('league/block-unblock-division/' . $page_data->umpid) }}"
-                                            method="post">
-                                            @csrf
-                                            <input type="hidden" name="divid" value="{{ $blocked_division->divid }}">
-                                            <button class="deletebrns" type="submit"><i
-                                                    class="fa-regular fa-trash-can"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($blocked_divisions->count() > 0)
+                                @foreach ($blocked_divisions as $blocked_division)
+                                    @php
+                                        $blockeddivisionIDs[] = $blocked_division->divid;
+                                    @endphp
+                                    <tr>
+                                        <td class="name-blu widthe-fsac">{{ $blocked_division->division->name }}</td>
+                                        <td class="widvb-2s minase">
+                                            <form action="{{ url('league/block-unblock-division/' . $page_data->umpid) }}"
+                                                method="post">
+                                                @csrf
+                                                <input type="hidden" name="divid"
+                                                    value="{{ $blocked_division->divid }}">
+                                                <button class="deletebrns" type="submit"><i
+                                                        class="fa-regular fa-trash-can"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                @endif
                 @php
                     $blockedteamIDsjson = json_encode($blockedteamIDs);
                     $blockedgroundIDsjson = json_encode($blockedgroundIDs);

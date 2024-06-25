@@ -1330,7 +1330,7 @@ class LeagueController extends Controller
             'hometeam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'awayteam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'gamelocation' => 'required',
-            'playersage' => 'required',
+            'playersage' => 'nullable',
             'umpreqd' => 'required',
             'report' => 'required',
             'ump1pay' => [
@@ -1385,7 +1385,7 @@ class LeagueController extends Controller
                 'leagueid' => $league_data->leagueid,
                 'gamedate' => $gamedatetime,
                 'gamedate_toDisplay' => $gamedate_toDisplay,
-                'playersage' => $request->playersage,
+                'playersage' => $request->playersage ?? 0,
                 'hometeamid' => checkToggleStatus($league_data->leagueid, 'teams') ? getFirstBlankTeam()->teamid : $request->hometeam,
                 'awayteamid' => checkToggleStatus($league_data->leagueid, 'teams') ? getSecondBlankTeam()->teamid : $request->awayteam,
                 'locid' => $request->gamelocation,
@@ -1436,7 +1436,7 @@ class LeagueController extends Controller
             'hometeam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'awayteam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'gamelocation' => 'required',
-            'playersage' => 'required',
+            'playersage' => 'nullable',
             'umpreqd' => 'required',
             'report' => 'required',
             'ump1pay' => [
