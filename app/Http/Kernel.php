@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'adminLoginCheck' => \App\Http\Middleware\AdminLoginCheck::class,
         'leagueLoginCheck' => \App\Http\Middleware\LeagueLoginCheck::class,
         'umpireLoginCheck' => \App\Http\Middleware\UmpireLoginCheck::class,
+        'demoCheck' => \App\Http\Middleware\DemoSiteMiddlewire::class,
     ];
 }
