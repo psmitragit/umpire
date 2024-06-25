@@ -75,7 +75,7 @@ class ResetDb extends Command
                         'blockdate' => $date,
                         'blocktime' => '',
                     ];
-                    UmpireBlockedDatesModel::create($data);
+                    UmpireBlockedDatesModel::firstOrCreate($data);
                 }
             }
 
