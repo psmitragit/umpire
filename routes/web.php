@@ -28,7 +28,7 @@ use App\Http\Controllers\SettingsController;
 // Route::get('/after-game', [GeneralController::class, 'afterGame']);
 // Route::get('/test', [GeneralController::class, 'test']);
 
-Route::middleware(['demoCheck'])->group(function () {
+// Route::middleware(['demoCheck'])->group(function () {
     //general
     Route::get('/', [GeneralController::class, 'index']);
     Route::get('/advertisement', [GeneralController::class, 'viewAdvertisement']);
@@ -239,4 +239,4 @@ Route::middleware(['demoCheck'])->group(function () {
         Route::post('/admin/faq', [GeneralController::class, 'save_faq']);
         Route::post('/admin/order-faq', [GeneralController::class, 'dragDrop']);
     });
-});
+// });
