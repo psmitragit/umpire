@@ -116,20 +116,25 @@
                         @endif
                     </select>
                 </div>
-                <div class="col-md-3 margin-bottom-custom">
-                    <div class="textforthe-add">Players age</div>
-                </div>
-                <div class="col-md-3 margin-bottom-custom">
 
-                    <div class="selects">
 
-                        <input {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }}
-                            value="{{ !empty($page_data) ? $page_data->playersage : 0 }}" type="number" min="1"
-                            class="selector-names" name="playersage" required>
+                @if (!checkToggleStatus($league_data->leagueid, 'age'))
+                    <div class="col-md-3 margin-bottom-custom">
+                        <div class="textforthe-add">Players age</div>
                     </div>
-                </div>
+                    <div class="col-md-3 margin-bottom-custom">
 
+                        <div class="selects">
 
+                            <input {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }}
+                                value="{{ !empty($page_data) ? $page_data->playersage : 0 }}" type="number" min="1"
+                                class="selector-names" name="playersage" required>
+                        </div>
+                    </div>
+                @else
+                    <div class="col-md-6 margin-bottom-custom">
+                    </div>
+                @endif
 
 
                 <div class="col-md-3 margin-bottom-custom">
@@ -200,18 +205,19 @@
                     <input value="{{ !empty($page_data) ? $page_data->ump1pay : $league_data->defaultpay }}"
                         type="text" class="selector-names" name="ump1pay" required>
                 </div>
-                <div class="col-md-3 margin-bottom-custom">
-                    <div class="textforthe-add">2nd/3rd/4th Umpire $</div>
-                </div>
-                <div class="col-md-3 margin-bottom-custom">
-
-                    <div class="selects">
-
-                        <input value="{{ !empty($page_data) ? $page_data->ump234pay : '' }}" type="text"
-                            class="selector-names" name="ump234pay" disabled>
+                @if (!checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                    <div class="col-md-3 margin-bottom-custom">
+                        <div class="textforthe-add">2nd/3rd/4th Umpire $</div>
                     </div>
-                </div>
+                    <div class="col-md-3 margin-bottom-custom">
 
+                        <div class="selects">
+
+                            <input value="{{ !empty($page_data) ? $page_data->ump234pay : '' }}" type="text"
+                                class="selector-names" name="ump234pay" disabled>
+                        </div>
+                    </div>
+                @endif
 
 
 
@@ -224,18 +230,19 @@
                     <input value="{{ !empty($page_data) ? $page_data->ump1bonus : '' }}" type="text"
                         class="selector-names" name="ump1bonus">
                 </div>
-                <div class="col-md-3 margin-bottom-custom">
-                    <div class="textforthe-add">2nd/3rd/4th Umpire Bonus $</div>
-                </div>
-                <div class="col-md-3 margin-bottom-custom">
-
-                    <div class="selects">
-
-                        <input value="{{ !empty($page_data) ? $page_data->ump234bonus : '' }}" disabled type="text"
-                            class="selector-names" name="ump234bonus">
+                @if (!checkToggleStatus($league_data->leagueid, 'umpire_2'))
+                    <div class="col-md-3 margin-bottom-custom">
+                        <div class="textforthe-add">2nd/3rd/4th Umpire Bonus $</div>
                     </div>
-                </div>
+                    <div class="col-md-3 margin-bottom-custom">
 
+                        <div class="selects">
+
+                            <input value="{{ !empty($page_data) ? $page_data->ump234bonus : '' }}" disabled
+                                type="text" class="selector-names" name="ump234bonus">
+                        </div>
+                    </div>
+                @endif
 
 
 

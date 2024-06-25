@@ -434,24 +434,24 @@ class LeagueController extends Controller
     {
         $league_data = logged_in_league_data();
         $validator = Validator::make($request->all(), [
-            'joiningpoint' => 'required|numeric',
-            'assignbefore' => 'required|numeric',
-            'leavebefore' => 'required|numeric',
-            'defaultpay' => 'required|numeric',
-            'mainumpage' => 'required|numeric',
-            'otherumpage' => 'required|numeric',
+            'joiningpoint' => 'nullable|numeric',
+            'assignbefore' => 'nullable|numeric',
+            'leavebefore' => 'nullable|numeric',
+            'defaultpay' => 'nullable|numeric',
+            'mainumpage' => 'nullable|numeric',
+            'otherumpage' => 'nullable|numeric',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
         try {
             $data = [
-                'joiningpoint' => $request->joiningpoint,
-                'assignbefore' => $request->assignbefore,
-                'leavebefore' => $request->leavebefore,
-                'defaultpay' => $request->defaultpay,
-                'mainumpage' => $request->mainumpage,
-                'otherumpage' => $request->otherumpage,
+                'joiningpoint' => $request->joiningpoint ?? $league_data->joiningpoint,
+                'assignbefore' => $request->assignbefore ?? $league_data->assignbefore,
+                'leavebefore' => $request->leavebefore ?? $league_data->leavebefore,
+                'defaultpay' => $request->defaultpay ?? $league_data->defaultpay,
+                'mainumpage' => $request->mainumpage ?? $league_data->mainumpage,
+                'otherumpage' => $request->otherumpage ?? $league_data->otherumpage,
                 'umpire_joining_status' => $request->umpire_joining_status ?? 0,
             ];
 
@@ -1330,7 +1330,7 @@ class LeagueController extends Controller
             'hometeam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'awayteam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'gamelocation' => 'required',
-            'playersage' => 'required',
+            'playersage' => 'nullable',
             'umpreqd' => 'required',
             'report' => 'required',
             'ump1pay' => [
@@ -1385,7 +1385,7 @@ class LeagueController extends Controller
                 'leagueid' => $league_data->leagueid,
                 'gamedate' => $gamedatetime,
                 'gamedate_toDisplay' => $gamedate_toDisplay,
-                'playersage' => $request->playersage,
+                'playersage' => $request->playersage ?? 0,
                 'hometeamid' => checkToggleStatus($league_data->leagueid, 'teams') ? getFirstBlankTeam()->teamid : $request->hometeam,
                 'awayteamid' => checkToggleStatus($league_data->leagueid, 'teams') ? getSecondBlankTeam()->teamid : $request->awayteam,
                 'locid' => $request->gamelocation,
@@ -1436,7 +1436,7 @@ class LeagueController extends Controller
             'hometeam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'awayteam' => checkToggleStatus($league_data->leagueid, 'teams') ? '' : 'required',
             'gamelocation' => 'required',
-            'playersage' => 'required',
+            'playersage' => 'nullable',
             'umpreqd' => 'required',
             'report' => 'required',
             'ump1pay' => [

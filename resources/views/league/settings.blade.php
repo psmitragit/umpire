@@ -80,7 +80,7 @@
         <div class="namphomediv">
             <h1 class="pageTitle">League Settings</h1>
             <div class="mapbtns-div">
-               
+
             </div>
         </div>
 
@@ -111,25 +111,28 @@
                     </div>
                 </div>
                 <hr class="custom-hr">
-                <div class="displayflesx ">
-                    <span class="text1s col-md-5">Umpire starts with</span>
-                    <span class="pists col-md-auto"><input
-                            {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'readonly' : '' }}
-                            name="joiningpoint" type="text" class="name-inpostya"
-                            value="{{ $league_data->joiningpoint }}"></span>
-                    <span class="text2s mr-0 col-md-5">Points when joining league</span>
-                </div>
+                @if (!checkToggleStatus($league_data->leagueid, 'auto_scheduler'))
+                    <div class="displayflesx ">
+                        <span class="text1s col-md-5">Umpire starts with</span>
+                        <span class="pists col-md-auto"><input
+                                {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'readonly' : '' }}
+                                name="joiningpoint" type="text" class="name-inpostya"
+                                value="{{ $league_data->joiningpoint }}"></span>
+                        <span class="text2s mr-0 col-md-5">Points when joining league</span>
+                    </div>
+                @endif
 
 
-                <div class="displayflesx">
-                    <span class="text1s col-md-5">auto assign umpires</span>
-                    <span class="pists col-md-auto"><input
-                            {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'readonly' : '' }}
-                            name="assignbefore" value="{{ $league_data->assignbefore }}" type="text"
-                            class="name-inpostya"></span>
-                    <span class="text2s mr-0 col-md-5">days before game</span>
-                </div>
-
+                @if (!checkToggleStatus($league_data->leagueid, 'auto_scheduler'))
+                    <div class="displayflesx">
+                        <span class="text1s col-md-5">auto assign umpires</span>
+                        <span class="pists col-md-auto"><input
+                                {{ checkToggleStatus($league_data->leagueid, 'auto_scheduler') ? 'readonly' : '' }}
+                                name="assignbefore" value="{{ $league_data->assignbefore }}" type="text"
+                                class="name-inpostya"></span>
+                        <span class="text2s mr-0 col-md-5">days before game</span>
+                    </div>
+                @endif
 
 
                 <div class="displayflesx">
@@ -144,32 +147,36 @@
                             type="text" class="name-inpostya"></span>
                     <!-- <div class="text2s mr-0">days before game</div> -->
                 </div>
-                <hr class="custom-hr-setting">
-                <div class="retricts">
-                    <div class="text-resti">Restrict games based on age</div>
+                
+                @if (!checkToggleStatus($league_data->leagueid, 'age'))
+                    <hr class="custom-hr-setting">
+                    <div class="retricts">
+                        <div class="text-resti">Restrict games based on age</div>
 
 
 
-                    <div class="displayflesx">
-                        <span class="text1s col-md-5">By default Primary umpire must be</span>
-                        <span class="pists col-md-auto"><input
-                                {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }} name="mainumpage"
-                                value="{{ $league_data->mainumpage }}" type="text" class="name-inpostya"></span>
-                        <span class="text2s mr-0 col-md-5">years older</span>
+                        <div class="displayflesx">
+                            <span class="text1s col-md-5">By default Primary umpire must be</span>
+                            <span class="pists col-md-auto"><input
+                                    {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }}
+                                    name="mainumpage" value="{{ $league_data->mainumpage }}" type="text"
+                                    class="name-inpostya"></span>
+                            <span class="text2s mr-0 col-md-5">years older</span>
+                        </div>
+
+
+
+
+                        <div class="displayflesx">
+                            <span class="text1s col-md-5">and 2nd,3rd,4th umpire must be</span>
+                            <span class="pists col-md-auto"><input
+                                    {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }}
+                                    name="otherumpage" value="{{ $league_data->otherumpage }}" type="text"
+                                    class="name-inpostya"></span>
+                            <span class="text2s mr-0 col-md-5">years older</span>
+                        </div>
                     </div>
-
-
-
-
-                    <div class="displayflesx">
-                        <span class="text1s col-md-5">and 2nd,3rd,4th umpire must be</span>
-                        <span class="pists col-md-auto"><input
-                                {{ checkToggleStatus($league_data->leagueid, 'age') ? 'readonly' : '' }} name="otherumpage"
-                                value="{{ $league_data->otherumpage }}" type="text" class="name-inpostya"></span>
-                        <span class="text2s mr-0 col-md-5">years older</span>
-                    </div>
-                </div>
-
+                @endif
 
             </form>
 

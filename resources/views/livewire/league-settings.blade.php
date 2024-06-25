@@ -18,7 +18,7 @@
                 @if ($value)
                     &nbsp;&nbsp;<small class="text-danger">(Locked)</small>
                 @else
-                    &nbsp;&nbsp;<small class="text-success">(Unlocked)</small>
+                   
                 @endif
             </div>
         @endforeach
