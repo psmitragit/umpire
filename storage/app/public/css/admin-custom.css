@@ -102,7 +102,7 @@ select {
 .mans-brtn.unread {
     font-weight: bold;
     display: flex;
-   
+
   }
   .msgcount {
     background: red;
@@ -153,7 +153,7 @@ select {
     width: 100%;
     border: 1px solid #e1e1e1;
     height: 42px;
- 
+
     padding-left: 10px;
 }
 
@@ -166,6 +166,19 @@ input:focus {
   }
   .forms-sample.customwiths.awb {
     width: 100%;
+  }
+
+  .toggkle-jevbo  .form-check-input {
+    background-color: #0d6efd !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e") !important;
+}
+
+.toggkle-jevbo .form-check-input:checked {
+    background-color: #fff !important;
+    border-color: #888 !important;
+  }
+ .toggkle-jevbo .form-switch .form-check-input:checked {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e") !important;
   }
 @media screen and (max-width: 992px) {
     .loginfields {

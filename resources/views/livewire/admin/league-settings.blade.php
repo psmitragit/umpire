@@ -50,20 +50,22 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @foreach ($toggle as $key => $value)
-                        <div class="form-check form-switch d-flex">
-                            <input wire:model.live='toggle.{{ $key }}'
-                                class="form-check-input position-relative m-0 me-2" type="checkbox" role="switch"
-                                id="{{ $key }}">
-                            <label class="form-check-label"
-                                for="{{ $key }}">{{ ucwords(str_replace('_', ' ', $key)) }}</label>
-                            @if ($value)
-                                &nbsp;&nbsp;<small class="text-danger">(Locked)</small>
-                            @else
-                                &nbsp;&nbsp;<small class="text-success">(Unlocked)</small>
-                            @endif
-                        </div>
-                    @endforeach
+                    <div class="toggkle-jevbo">
+                        @foreach ($toggle as $key => $value)
+                            <div class="form-check form-switch d-flex">
+                                <input wire:model.live='toggle.{{ $key }}'
+                                    class="form-check-input position-relative m-0 me-2" type="checkbox" role="switch"
+                                    id="{{ $key }}">
+                                <label class="form-check-label"
+                                    for="{{ $key }}">{{ ucwords(str_replace('_', ' ', $key)) }}</label>
+                                @if ($value)
+                                    &nbsp;&nbsp;<small class="text-danger">(Locked)</small>
+                                @else
+                                    &nbsp;&nbsp;<small class="text-success">(Unlocked)</small>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary m-auto" data-bs-dismiss="modal">Close</button>
