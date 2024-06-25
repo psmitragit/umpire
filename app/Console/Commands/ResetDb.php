@@ -30,16 +30,12 @@ class ResetDb extends Command
      */
     public function handle()
     {
-        // Dropping all tables in the current database
         $this->dropAllTables();
 
-        // Importing the SQL file
         $this->importSqlFile();
 
-        // Adding one day to the game dates
         $this->addDaysInGame();
 
-        // Export the updated database and replace the old db file
         $this->exportDatabase();
     }
     private function dropAllTables()
