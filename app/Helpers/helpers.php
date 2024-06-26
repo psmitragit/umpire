@@ -378,7 +378,7 @@ function displayCalendar($month, $year, $cal_data = array())
                     $daysDifference = $today->diffInDays($modifiedDate);
 
                     if ($modifiedDate->isSameDay($today) || $modifiedDate->greaterThan($today)) {
-                        $cancel_text .= '<div><a data-text="Are you sure you want to leave the game?" class="confirmCancel" href="' . url('umpire/cancel-game/' . $cdata['gameid']) . '">';
+                        $cancel_text .= '<div><a onclick="demoWarning();" href="javascript:;">';
 
                         if ($daysDifference == 0) {
                             $cancel_text .= "Cancel within today";

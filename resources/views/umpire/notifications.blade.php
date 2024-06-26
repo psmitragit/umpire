@@ -21,8 +21,8 @@
                         </div>
                         @if ($data->type == 0)
                             <div class="delete-notifi col-md-1 text-end">
-                                <a href="{{ url('delete/notification/' . $data->id) }}"
-                                    class="delete-notifixctasc confirmCancel"><i class="fa-regular fa-trash-can"></i></a>
+                                <a onclick="demoWarning();" href="javascript:;"
+                                    class="delete-notifixctasc"><i class="fa-regular fa-trash-can"></i></a>
                             </div>
                         @endif
                     </div>
