@@ -148,14 +148,12 @@ class LoginController extends Controller
     public function leagueLogout()
     {
         session()->forget('league_data');
-        // return redirect('league-login');
-        return redirect(env('LIVE_SITE') . 'advertisement');
+        return redirect('league-login');
     }
     public function umpireLogout()
     {
         session()->forget('umpire_data');
-        // return redirect('umpire-login');
-        return redirect(env('LIVE_SITE') . 'advertisement');
+        return redirect('umpire-login');
     }
     public function change_password(Request $request, $userId)
     {
