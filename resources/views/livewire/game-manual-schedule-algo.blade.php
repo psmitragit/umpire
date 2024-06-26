@@ -189,8 +189,9 @@
                                         <td>{!! $data->report == 1
                                             ? '<i class="fa-solid fa-check text-success"></i>'
                                             : '<i class="fa-solid fa-x text-danger"></i>' !!}</td>
-                                        <td class="text-success">${{ $data->ump1pay + $data->ump234pay }} +
-                                            ${{ $data->ump1bonus + $data->ump234bonus }}</td>
+                                        <td class="text-success">
+                                            ${{ $data->ump1pay + $data->ump234pay + $data->ump1bonus + $data->ump234bonus }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
