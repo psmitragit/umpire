@@ -2195,7 +2195,7 @@ class LeagueController extends Controller
         $output = '';
         if (!$payouts->isEmpty()) {
             foreach ($payouts as $payout) {
-                if ($payout->payamt !== 0) {
+                if ((int)$payout->payamt !== 0) {
                     if ($payout->pmttype == 'adjusted') {
                         $type = '<span class="text-success">Adjusted</span>';
                     } elseif ($payout->pmttype == 'payout') {
@@ -2275,7 +2275,7 @@ class LeagueController extends Controller
             if ($amount > 0) {
                 add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $amount, 'payout');
             }
-            if ($bonus_amount !== 0) {
+            if ((int)$bonus_amount !== 0) {
             add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $bonus_amount, 'adjusted');
             }
             return response()->json(['message' => 'Success', 'new_owe' => $new_owe, 'new_received' => $received], 200);
