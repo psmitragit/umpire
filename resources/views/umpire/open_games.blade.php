@@ -124,35 +124,6 @@
                     @endif
                 </tbody>
             </table>
-            @if ($row_count > 7)
-                <button id="toggleButton"><i class="fa-solid fa-angle-down"></i></button>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const table = document.getElementById('myTable');
-                        const button = document.getElementById('toggleButton');
-                        let showAllRows = false;
-                        let rowsToShow = 7;
-
-                        function toggleRows() {
-                            const rows = table.querySelectorAll('tbody tr');
-                            for (let i = 0; i < rows.length; i++) {
-                                if (showAllRows || i < rowsToShow) {
-                                    rows[i].style.display = '';
-                                } else {
-                                    rows[i].style.display = 'none';
-                                }
-                            }
-                            button.innerHTML = showAllRows ?
-                                '<i class="fa-solid fa-angle-up"></i>' :
-                                '<i class="fa-solid fa-angle-down"></i>';
-
-                            showAllRows = !showAllRows;
-                        }
-                        toggleRows();
-                        button.addEventListener('click', toggleRows);
-                    });
-                </script>
-            @endif
         </div>
     </div>
     <script>
