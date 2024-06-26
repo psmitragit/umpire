@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\GeneralController;
 use DateTime;
 use Carbon\Carbon;
 use App\Models\GameModel;
@@ -30,13 +31,16 @@ class ResetDb extends Command
      */
     public function handle()
     {
-        $this->dropAllTables();
+        // $this->dropAllTables();
 
-        $this->importSqlFile();
+        // $this->importSqlFile();
 
-        $this->addDaysInGame();
+        // $this->addDaysInGame();
 
-        $this->exportDatabase();
+        // $this->exportDatabase();
+
+        // $generalController = new GeneralController();
+        // $generalController->afterGame();
     }
     private function dropAllTables()
     {
