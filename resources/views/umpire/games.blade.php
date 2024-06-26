@@ -97,10 +97,9 @@
                                                 <td>{{ $game->location->ground }}</td>
                                                 <td class="text-success">{!! $empty_ump['pay'] !!}</td>
                                                 <td>
-                                                    <button data-text="Are you sure you want to be assigned to this game?"
-                                                        href="{{ url('umpire/assign-to-game/' . $game->gameid . '/' . $empty_ump['col']) }}"
+                                                    <button onclick="demoWarning();"
                                                         class="view-btn primart-yehs"
-                                                        onclick="return opnemodals(this,true)">{{ $empty_ump['pos'] }}</button>
+                                                        >{{ $empty_ump['pos'] }}</button>
                                                 </td>
                                             </tr>
                                             @php

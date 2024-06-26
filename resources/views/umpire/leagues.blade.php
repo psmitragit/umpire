@@ -44,7 +44,7 @@
                                 </td>
                                 <td><a href="{{ url('umpire/league-games/' . $joined_leagues->leagueid) }}"
                                         class="view-btn">View</a></td>
-                                <td><a onclick="return confirm('Are you sure you want to leave the league ?')" href="{{ url('umpire/leave-league/' . $joined_leagues->leagueid) }}"
+                                <td><a onclick="demoWarning();" href="javascript:;"
                                         class="view-btn">Leave</a></td>
                             </tr>
                         @endforeach
@@ -162,7 +162,7 @@
                             </div>
 
                             <div class="text-center submit-bten-modal">
-                                <button class="submitbtns normalLinkLoader" type="submit">Submit</button>
+                                <button class="submitbtns" type="button" onclick="demoWarning();">Submit</button>
                             </div>
                         </form>
                     </div>

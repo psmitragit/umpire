@@ -74,9 +74,7 @@
                                         $daysDifference = $today->diffInDays($modifiedDate);
                                         if ($modifiedDate->isSameDay($today) || $modifiedDate->greaterThan($today)) {
                                             $cancel_text =
-                                                '<a data-text="Are you sure you want to leave the game?" class="confirmCancel view-btn redbtn" href="' .
-                                                url('umpire/cancel-game/' . $upcoming_game->gameid) .
-                                                '">Leave</a>';
+                                                '<a class="view-btn redbtn" onclick="demoWarning();" href="javascript:;">Leave</a>';
                                         } else {
                                             $cancel_text = '';
                                         }
@@ -159,7 +157,7 @@
                                                     $report_btn =
                                                         '
                                                 <div>
-                                            <a href="javascript:void(0)" class="view-btn primart-yehs " onclick="submitReport(' .
+                                            <a href="javascript:void(0)" class="view-btn primart-yehs" onclick="submitReport(' .
                                                         $past_game->gameid .
                                                         ', \'' .
                                                         $reportcol .
@@ -207,7 +205,8 @@
                 <div class="modal-hesn">
                     <h5 class="modalicons-title">Submit Report</h5>
 
-                    <div class="sdy"> <a href="" id="reportAbsentBtn" class="submitbtns confirmCancel">Report
+                    <div class="sdy"> <a href="javascript:;" onclick="demoWarning();" id="reportAbsentBtn"
+                            class="submitbtns">Report
                             Absent</a></div>
                     <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-x"></i></button>
@@ -229,7 +228,7 @@
                         </div>
 
                         <div class="text-center submit-bten-modal">
-                            <button id="reportSubmitBtn" class="submitbtns" type="submit">Submit</button>
+                            <button id="reportSubmitBtn" class="submitbtns" type="button" onclick="demoWarning();">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -319,7 +318,7 @@
                     $('#subtext').html(subTextHtml);
                     $('#reportquestions').html(res);
                     let url = "{{ url('umpire/report-absent') }}" + '/' + gameid + '/' + report_column;
-                    $('#reportAbsentBtn').attr('href', url);
+                    // $('#reportAbsentBtn').attr('href', url);
                     $('#reportModal').modal('show');
                 },
                 error: function(res) {

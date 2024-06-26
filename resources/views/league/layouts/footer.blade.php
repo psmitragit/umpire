@@ -196,6 +196,12 @@
 @if ($right_bar == 1)
     @include('league.layouts.rightbar')
 @endif
+<script>
+    function demoWarning(){
+        toastr.error("This feature is not available at Demo site");
+        return;
+    }
+</script>
 </body>
 
 </html>
