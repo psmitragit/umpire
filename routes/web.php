@@ -20,8 +20,8 @@ use App\Http\Controllers\SettingsController;
 */
 
 //DEMO SITE
-// Route::get('/demo-umpire', [DemoController::class, 'demoUmpire']);
-// Route::get('/demo-league', [DemoController::class, 'demoLeague']);
+Route::get('/demo-umpire', [DemoController::class, 'demoUmpire']);
+Route::get('/demo-league', [DemoController::class, 'demoLeague']);
 
 //test
 // Route::get('/game-auto-schedule', [GeneralController::class, 'game_auto_schedule']);
