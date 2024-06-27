@@ -9,13 +9,13 @@
         </div>
 
         <div class="white-background-crad-div">
-            <form action="{{ url('change-password/' . $umpire_data->umpid) }}" class="width-customed form" method="POST">
+            <form action="" class="width-customed form" method="POST">
                 @csrf
                 <div class="form-grp">
                     <label for="">Current Password <span class="text-danger">*</span></label>
                     <input type="password" class="textname" id="passwordInput" name="old_password" required>
                     <span class="seepws toggle-span"><i class="fa-solid fa-lock" id="showPasswordIcon"></i></span>
-                    <a href="javascript:void(0)" onclick="$('#forgetPasswordModel').modal('show')" class="forget-pw">Forget Password</a>
+                    <a href="javascript:void(0)" onclick="demoWarning();" class="forget-pw">Forget Password</a>
 
                 </div>
 
@@ -38,7 +38,7 @@
                         <i id="toggleSpan2" class="fas fa-eye"></i>
                     </span>
                 </div>
-                <div class="ascwvs"><button class="redbtn submit mx-auto" type="submit">Submit</button></div>
+                <div class="ascwvs"><button class="redbtn submit mx-auto" type="button" onclick="demoWarning();">Submit</button></div>
             </form>
 
         </div>

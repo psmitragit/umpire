@@ -15,8 +15,7 @@
                 <div class="d-flex">
                     <div class="chnagepw mr-rit"> <a href="{{ url('umpire/change-password') }}" class="white-btn">Change
                             Password</a></div>
-                    <div class="chnagepw"> <a href="javascript:void(0)" onclick="$('form').submit();"
-                            class="redbtn">Update</a></div>
+                    <div class="chnagepw"> <a href="javascript:void(0)" onclick="demoWarning();" class="redbtn">Update</a></div>
                 </div>
             </div>
         </div>
@@ -121,7 +120,7 @@
                                 }
                             @endphp
                             <div class="buton-div-tiggler-class">
-                                <button onclick="blockUnblockGround(this);" class="tiggle-btns redbtn {{ $class }}"
+                                <button onclick="demoWarning();" class="tiggle-btns redbtn {{ $class }}"
                                     type="button"
                                     data-location_id="{{ $location->locid }}">{{ $location->ground }}</button>
                             </div>
