@@ -17,13 +17,13 @@ class LeagueSettings extends Component
     public function resetToggle()
     {
         $this->toggle = [
-            'age' => false,
-            'divisions' => false,
-            'auto_scheduler' => false,
-            'teams' => false,
-            'umpire_4' => false,
-            'umpire_3' => false,
-            'umpire_2' => false,
+            'age' => true,
+            'divisions' => true,
+            'auto_scheduler' => true,
+            'teams' => true,
+            'umpire_2' => true,
+            'umpire_3' => true,
+            'umpire_4' => true,
         ];
     }
     public function render()
@@ -35,11 +35,11 @@ class LeagueSettings extends Component
     public function manageSettings($leagueId)
     {
         $this->resetToggle();
-        
+
         $this->leagueRow = LeagueModel::find($leagueId);
         if ($toggles = ToggleSettings::where('toggled_for', $leagueId)->get()) {
             foreach ($toggles as $toggleRow) {
-                $this->toggle[$toggleRow->setting] = true;
+                $this->toggle[$toggleRow->setting] = false;
             }
         }
         $this->dispatch('show-modal', modal: '#settingsModal');
@@ -48,18 +48,18 @@ class LeagueSettings extends Component
     {
         $leagueRow =  $this->leagueRow;
 
-        if ($this->toggle['umpire_2'] == true) {
-            $this->toggle['umpire_3'] = true;
-            $this->toggle['umpire_4'] = true;
-        } else if ($this->toggle['umpire_3'] == true) {
-            $this->toggle['umpire_4'] = true;
+        if ($this->toggle['umpire_2'] == false) {
+            $this->toggle['umpire_3'] = false;
+            $this->toggle['umpire_4'] = false;
+        } else if ($this->toggle['umpire_3'] == false) {
+            $this->toggle['umpire_4'] = false;
         }
 
         $toggle = $this->toggle;
 
         if (!empty($toggle)) {
             foreach ($toggle as $key => $val) {
-                toggleSettings($leagueRow->leagueid, $key, $val);
+                toggleSettings($leagueRow->leagueid, $key, !$val);
             }
         }
         $this->dispatch('success', msg: 'Success');

@@ -15,14 +15,9 @@
                     id="{{ $key }}">
                 <label class="form-check-label"
                     for="{{ $key }}">{{ ucwords(str_replace('_', ' ', $key)) }}</label>
-                @if ($value)
-                    &nbsp;&nbsp;<small class="text-danger">(Locked)</small>
-                @else
-                   
-                @endif
             </div>
         @endforeach
     </div>
-    <button type="button" wire:click='applySettings' class="redbtn submit mx-auto">Apply</button>
+    <button type="button" wire:loading.attr='disabled' wire:click='applySettings' class="redbtn submit mx-auto">Apply</button>
 </div>
 @include('livewire.includes.event')

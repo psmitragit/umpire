@@ -14,17 +14,17 @@ class LeagueSettings extends Component
     public function mount()
     {
         $this->toggle = [
-            'age' => false,
-            'divisions' => false,
-            'auto_scheduler' => false,
-            'teams' => false,
-            'umpire_4' => false,
-            'umpire_3' => false,
-            'umpire_2' => false,
+            'age' => true,
+            'divisions' => true,
+            'auto_scheduler' => true,
+            'teams' => true,
+            'umpire_2' => true,
+            'umpire_3' => true,
+            'umpire_4' => true,
         ];
         if ($toggles = ToggleSettings::where('toggled_for', $this->leagueRow->leagueid)->get()) {
             foreach ($toggles as $toggleRow) {
-                $this->toggle[$toggleRow->setting] = true;
+                $this->toggle[$toggleRow->setting] = false;
             }
         }
     }
@@ -35,19 +35,11 @@ class LeagueSettings extends Component
     public function applySettings()
     {
         $leagueRow =  $this->leagueRow;
-
-        if ($this->toggle['umpire_2'] == true) {
-            $this->toggle['umpire_3'] = true;
-            $this->toggle['umpire_4'] = true;
-        } else if ($this->toggle['umpire_3'] == true) {
-            $this->toggle['umpire_4'] = true;
-        }
-
         $toggle = $this->toggle;
 
         if (!empty($toggle)) {
             foreach ($toggle as $key => $val) {
-                toggleSettings($leagueRow->leagueid, $key, $val, $leagueRow->leagueid);
+                toggleSettings($leagueRow->leagueid, $key, !$val, $leagueRow->leagueid);
             }
         }
         Session::flash('message', 'Success');
@@ -55,11 +47,11 @@ class LeagueSettings extends Component
     }
     public function updatedToggle()
     {
-        if ($this->toggle['umpire_2'] == true) {
-            $this->toggle['umpire_3'] = true;
-            $this->toggle['umpire_4'] = true;
-        } else if ($this->toggle['umpire_3'] == true) {
-            $this->toggle['umpire_4'] = true;
+        if ($this->toggle['umpire_2'] == false) {
+            $this->toggle['umpire_3'] = false;
+            $this->toggle['umpire_4'] = false;
+        } else if ($this->toggle['umpire_3'] == false) {
+            $this->toggle['umpire_4'] = false;
         }
     }
 }
