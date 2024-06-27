@@ -1653,6 +1653,11 @@ class LeagueController extends Controller
                     if (checkToggleStatus($league_data->leagueid, 'teams')) {
                         $data[1] = getFirstBlankTeam()->teamid;
                         $data[2] = getSecondBlankTeam()->teamid;
+                    } else {
+                        if (!$league_data->teams()->where('teamid', $data[1])->first() || !$league_data->teams()->where('teamid', $data[2])->first()) {
+                            $flag++;
+                            continue;
+                        }
                     }
 
                     if (checkToggleStatus($league_data->leagueid, 'age')) {
@@ -2276,7 +2281,7 @@ class LeagueController extends Controller
                 add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $amount, 'payout');
             }
             if ((int)$bonus_amount !== 0) {
-            add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $bonus_amount, 'adjusted');
+                add_payRecord($leagueumpire->leagueid, $leagueumpire->umpid, $paydate, $bonus_amount, 'adjusted');
             }
             return response()->json(['message' => 'Success', 'new_owe' => $new_owe, 'new_received' => $received], 200);
         } else {
