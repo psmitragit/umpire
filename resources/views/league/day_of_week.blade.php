@@ -80,7 +80,7 @@
                             @endforeach
                             <div class="buttonsubmit age weeks">
 
-                                <button class="submit redbtn" type="submit">Save</button>
+                                <button class="submit redbtn" type="button" onclick="demoWarning();">Save</button>
                             </div>
                         </div>
                     </form>

@@ -72,7 +72,7 @@
                                 id="count"></span></p>
                         </div>
                         <div class="text-center submit-bten-modal">
-                            <button class="submitbtns">Submit</button>
+                            <button class="submitbtns" type="button" onclick="demoWarning();">Submit</button>
                         </div>
                     </form>
                 </div>

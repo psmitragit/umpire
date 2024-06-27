@@ -68,7 +68,7 @@
                         </div>
 
                         <div class="buttons-flex">
-                            <div class="button1div"><button class="redbtn submit">Submit</button></div>
+                            <div class="button1div"><button class="redbtn submit" type="button" onclick="demoWarning();">Submit</button></div>
                             <div class="buttondiv-trans"><button type="button" class="cnclbtn" data-bs-dismiss="modal">
                                     Cancel</button></div>
                         </div>

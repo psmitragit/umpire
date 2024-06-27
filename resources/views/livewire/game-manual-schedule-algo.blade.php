@@ -20,7 +20,7 @@
                     <h1 class="pageTitle pagesmall">SCHEDULED GAMES</h1>
                     <div class="d-flex">
                         <a class="blutns" href="{{ url('league/game-manual-schedule') }}">Reset</a>
-                        <button wire:click='saveSchedule' type="button" class="upcomne active">Save schedule</button>
+                        <button onclick="demoWarning();" type="button" class="upcomne active">Save schedule</button>
                     </div>
                     <div class="mapbtns-div moasbflexs">
                         <div class="Admins">

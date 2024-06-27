@@ -64,7 +64,7 @@
                 <div class="modal-loout-container">
                     <h3 class="textfot-logout">Are you sure you want to send the message?</h3>
                     <div class="buttons-flex hyscs">
-                        <div class="button1div"><button class="redbtn submit" onclick="$('form').submit();">Confirm</button>
+                        <div class="button1div"><button class="redbtn submit" onclick="demoWarning();">Confirm</button>
                         </div>
                         <div class="buttondiv-trans"><button class="cnclbtn buycnm" data-bs-dismiss="modal">Cancel</button>
                         </div>

@@ -31,13 +31,13 @@ class ResetDb extends Command
      */
     public function handle()
     {
-        // $this->dropAllTables();
+        $this->dropAllTables();
 
-        // $this->importSqlFile();
+        $this->importSqlFile();
 
         $this->addDaysInGame();
 
-        // $this->exportDatabase();
+        $this->exportDatabase();
 
     }
     private function dropAllTables()

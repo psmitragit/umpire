@@ -310,7 +310,7 @@
                 <div class="modal-hesn">
                     <h5 class="modalicons-title">Game Report</h5>
                     <div class="tej">
-                        <a href="" id="reportAbsentBtn" class="submitbtns confirmCancel">Report Absent</a>
+                        <a href="javascript:;" onclick="demoWarning();" id="reportAbsentBtn" class="submitbtns">Report Absent</a>
                     </div>
                     <button type="button" class="btn-closes" data-bs-dismiss="modal" aria-label="Close"><i
                             class="fa-solid fa-x"></i></button>
@@ -395,7 +395,7 @@
                     $('#reportquestions').html(res);
                     let url = "{{ url('league/report-absent') }}" + '/' + gameid + '/' + report_column + '/' +
                         umpid;
-                    $('#reportAbsentBtn').attr('href', url);
+                    // $('#reportAbsentBtn').attr('href', url);
                     $('#reportModal').modal('show');
                 },
                 error: function(res) {

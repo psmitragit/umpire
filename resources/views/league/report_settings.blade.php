@@ -31,8 +31,8 @@
                 <div class="col-6">
                     <div class="texbh">
                         <span class="game-lables">GAME REPORT REQUIRED</span>
-                        <label class="switch">
-                            <input type="checkbox" class="form-check-input report" type="checkbox"
+                        <label class="switch" onclick="demoWarning();">
+                            <input disabled type="checkbox" class="form-check-input report" type="checkbox"
                                 id="flexSwitchCheckChecked" {{ $league_data->report !== 0 ? 'checked' : '' }}>
                             <span class="slider round"></span>
                         </label>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="row col-6 csue-end">
                     <div class="form-check col-auto">
-                        <input onclick="save_report_settings(1);" class="form-check-input report" type="radio"
+                        <input onclick="demoWarning();" class="form-check-input report" type="radio"
                             name="flexRadioDefault" id="flexRadioDefault1" {{ $league_data->report == 1 ? 'checked' : '' }}
                             value='1'>
                         <label class="form-check-label" id="labels-22s" for="flexRadioDefault1">
@@ -48,7 +48,7 @@
                         </label>
                     </div>
                     <div class="form-check col-auto">
-                        <input onclick="save_report_settings(2);" class="form-check-input report" type="radio"
+                        <input onclick="demoWarning();" class="form-check-input report" type="radio"
                             name="flexRadioDefault" id="flexRadioDefault2" {{ $league_data->report == 2 ? 'checked' : '' }}
                             value='2'>
                         <label class="form-check-label" id="labels-21s" for="flexRadioDefault2">
@@ -108,7 +108,7 @@
                                 id="count"></span></p>
                         </div>
                         <div class="text-center submit-bten-modal">
-                            <button class="submitbtns">Submit</button>
+                            <button class="submitbtns" type="button" onclick="demoWarning();">Submit</button>
                         </div>
                     </form>
                 </div>

@@ -101,13 +101,13 @@
                 @csrf
                 <div class="displayflesx justify-content-center">
                     <span class="game-lables">Open to applications</span>
-                    <label class="switch">
-                        <input value="1" name="umpire_joining_status" class="form-check-input report" type="checkbox"
+                    <label class="switch" onclick="demoWarning();">
+                        <input disabled value="1" name="umpire_joining_status" class="form-check-input report" type="checkbox"
                             id="flexSwitchCheckChecked" {{ $league_data->umpire_joining_status !== 0 ? 'checked' : '' }}>
                         <span class="slider round"></span>
                     </label>
                     <div class="buttonforsubmit custom-cls">
-                        <button class="submit redbtn mx-auto">Update</button>
+                        <button class="submit redbtn mx-auto" type="button" onclick="demoWarning();">Update</button>
                     </div>
                 </div>
                 <hr class="custom-hr">
@@ -147,7 +147,7 @@
                             type="text" class="name-inpostya"></span>
                     <!-- <div class="text2s mr-0">days before game</div> -->
                 </div>
-                
+
                 @if (!checkToggleStatus($league_data->leagueid, 'age'))
                     <hr class="custom-hr-setting">
                     <div class="retricts">

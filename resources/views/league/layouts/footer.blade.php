@@ -4,7 +4,7 @@
             <div class="modal-loout-container">
                 <h3 class="textfot-logout" id="cctext"></h3>
                 <div class="buttons-flex hyscs">
-                    <div class="button1div"><a id="confirmLink" class="redbtn submit" type="button">Confirm</a>
+                    <div class="button1div"><a href="javascript:;" onclick="demoWarning();" id="" class="redbtn submit" type="button">Confirm</a>
                     </div>
                     <div class="buttondiv-trans"><button class="cnclbtn buycnm" data-bs-dismiss="modal">Cancel</button>
                     </div>

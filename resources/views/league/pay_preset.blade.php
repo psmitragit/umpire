@@ -74,7 +74,7 @@
                         </div>
                         <div class="buttonsubmit age">
                             <button class="bluebtn" id="add" type="button">+Add Row </button>
-                            <button class="submit redbtn" type="submit">Save</button>
+                            <button class="submit redbtn" type="button" onclick="demoWarning();">Save</button>
                         </div>
                     </form>
                 </div>

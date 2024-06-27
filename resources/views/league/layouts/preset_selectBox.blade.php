@@ -24,7 +24,7 @@
                     proceed?</h3>
                 <div class="buttons-flex hyscs">
                     <div class="button1div"><button class="redbtn submit"
-                            onclick="$('#apply_preset_form').submit();">Apply</button>
+                        onclick="demoWarning();">Apply</button>
                     </div>
                     <div class="buttondiv-trans"><button class="cnclbtn buycnm" data-bs-dismiss="modal">Cancel</button>
                     </div>

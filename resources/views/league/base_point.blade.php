@@ -49,7 +49,7 @@
                                     value="{{ !empty($page_data) ? $page_data->point : '0' }}"></span>
                         </div>
                         <div class="buttonsubmit">
-                            <button class="submit redbtn" type="submit">Save</button>
+                            <button class="submit redbtn" type="button" onclick="demoWarning();">Save</button>
                         </div>
                     </form>
                 </div>

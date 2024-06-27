@@ -66,7 +66,7 @@
                             <textarea name="question" id="" placeholder="Write your division name here..." required></textarea>
                         </div>
                         <div class="text-center submit-bten-modal">
-                            <button class="submitbtns">Submit</button>
+                            <button class="submitbtns" type="button" onclick="demoWarning();">Submit</button>
                         </div>
                     </form>
                 </div>
