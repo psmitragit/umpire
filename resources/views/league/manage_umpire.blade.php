@@ -138,7 +138,7 @@
                                 @endforeach
                             @endif
                         </select>
-                        <button class="addnew redbtn submit ters" type="submit">+ Add</button>
+                        <button class="addnew redbtn submit ters" type="button" onclick="demoWarning();">+ Add</button>
                     </form>
 
                     <form class="select-teams groundselect"
@@ -153,7 +153,7 @@
                                 @endforeach
                             @endif
                         </select>
-                        <button class="addnew redbtn submit nsaecz" type="submit">+ Add</button>
+                        <button class="addnew redbtn submit nsaecz" type="button" onclick="demoWarning();">+ Add</button>
                     </form>
                     <form class="select-teams divisionselect"
                         action="{{ url('league/block-unblock-division/' . $page_data->umpid) }}" method="post">
@@ -166,7 +166,7 @@
                                 @endforeach
                             @endif
                         </select>
-                        <button class="addnew redbtn submit ters" type="submit">+ Add</button>
+                        <button class="addnew redbtn submit ters" type="button" onclick="demoWarning();">+ Add</button>
                     </form>
 
                 </div>
@@ -184,7 +184,7 @@
                             <textarea placeholder="Notes about umpire" name="notes" id="" class="netsb">{{ $league_umpire->notes }}</textarea>
                         </div>
                         <div class="dibcs">
-                            <button class="addnew redbtn submit" type="submit">Save</button>
+                            <button class="addnew redbtn submit" type="button" onclick="demoWarning();">Save</button>
                         </div>
                     </form>
                 </div>
@@ -337,7 +337,7 @@
                         </div>
 
                         <div class="buttons-flex hyscs sc">
-                            <div class="button1div"><button class="redbtn submit" type="submit"
+                            <div class="button1div"><button class="redbtn submit" type="button" onclick="demoWarning();"
                                     id="bonusUpdate">Update</button></div>
                             <div class="buttondiv-trans"><button type="button" class="cnclbtn buycnm"
                                     data-bs-dismiss="modal">Cancel</button></div>
@@ -368,7 +368,7 @@
                         </div>
 
                         <div class="buttons-flex hyscs sc">
-                            <div class="button1div"><button class="redbtn submit" type="submit">Save</button></div>
+                            <div class="button1div"><button class="redbtn submit" type="button" onclick="demoWarning();">Save</button></div>
                             <div class="buttondiv-trans"><button type="button" class="cnclbtn buycnm"
                                     data-bs-dismiss="modal">Cancel</button></div>
                         </div>

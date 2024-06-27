@@ -28,7 +28,7 @@
                             action="{{ url('league/import-format') }}">
                             @csrf
                             <input name="file" type="file" id="fileInput" accept=".csv" style="display: none;">
-                            <button class="upcomne active" id="hist" type="button">
+                            <button class="upcomne active" id="" type="button" onclick="demoWarning();">
                                 <i class="fa-regular fa-file-excel"></i> Upload
                             </button>
                         </form>
@@ -255,7 +255,7 @@
                         <div class="buttons-flex hyscs">
                             @if (!$league_data->umpires->isempty())
                                 <div class="button1div">
-                                    <button class="redbtn submit" type="submit" id="savebtn">Save</button>
+                                    <button class="redbtn submit" type="button" onclick="demoWarning();" id="savebtn">Save</button>
                                 </div>
                             @endif
                             <div class="buttondiv-trans">

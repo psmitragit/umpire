@@ -50,7 +50,7 @@
                                             id="bonus_amount{{ $data->id }}"> </td>
                                     <td> <input value="{{ date('Y-m-d') }}" type="date" class="datescs tsbns"
                                             id="paydate{{ $data->id }}"></td>
-                                    <td><button data-id="{{ $data->id }}" class="redbtn  ass submit pay"
+                                    <td><button data-id="{{ $data->id }}" class="redbtn  ass submit" onclick="demoWarning();"
                                             class="application butnts" type="button">Update</button></td>
                                     <td><button data-received="{{ $data->received ?? 0 }}"
                                             data-owed="{{ $data->owed ?? 0 }}" data-leagueid="{{ $data->leagueid }}"

@@ -255,7 +255,7 @@
 
             <div class="buttons-flex hyscs">
                 <div class="buttondiv-trans"><a href="{{ url('league/games') }}" class="cnclbtn buycnm">Cancel</a></div>
-                <div class="button1div ms-5"><button class="redbtn submit" type="submit">Save</button></div>
+                <div class="button1div ms-5"><button class="redbtn submit" type="button" onclick="demoWarning();">Save</button></div>
             </div>
 
 

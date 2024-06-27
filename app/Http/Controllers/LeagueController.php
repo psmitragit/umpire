@@ -1787,10 +1787,10 @@ class LeagueController extends Controller
             }
             $output .= '
             <div class="text-center submit-bten-modal">
-            <a href="' . url('league/approve-umpire/' . $umpire_id) . '" class="application greenbtn withsd normalLinkLoader">Approve</a>
+            <a href="javascript:;" onclick="demoWarning();" class="application greenbtn withsd normalLinkLoader">Approve</a>
 
-            <a href="' . url('league/decline-umpire/' . $umpire_id) . '" class="application redsbtn withsd normalLinkLoader">Decline</a>
-            <a href="' . url('league/interview-umpire/' . $umpire_id) . '" class="application ylwsbtn withsd normalLinkLoader">Interview</a>
+            <a href="javascript:;" onclick="demoWarning();" class="application redsbtn withsd normalLinkLoader">Decline</a>
+            <a href="javascript:;" onclick="demoWarning();" class="application ylwsbtn withsd normalLinkLoader">Interview</a>
         </div>
             ';
         } else {
