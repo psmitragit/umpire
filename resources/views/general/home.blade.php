@@ -5,6 +5,7 @@
             <div class="banner-tecxts">
                 <h1 class="banner-title"><span>Umpire</span> Central</h1>
                 <div class="texr-banne">Your All-in-One Hub for Umpire Scheduling to bring your baseball league to the next level</div>
+           
             </div>
 
             <div class="overkaycolor"></div>
@@ -17,7 +18,11 @@
         </div>
 
 
-
+<div class="container text-center">
+    <div class="banner-bottombent">
+        <a href="{{url('advertisement')}}" class="buton-signup">Explore Products</a>
+    </div>
+</div>
 
 
         <div class="container">

@@ -995,7 +995,13 @@ button[disabled] {
   margin-bottom: 40px;
 }
 
-
+.bannerr-buttion.mt-30px {
+  position: relative;
+  top: 14vh;
+}
+.banner-bottombent {
+  margin-top: 138px;
+}
 @media screen and (max-width: 1600px) {
   .matginsyp {
     margin-right: 43px;
@@ -1233,6 +1239,9 @@ button[disabled] {
 }
 
 @media screen and (max-width: 992px) {
+  .banner-bottombent {
+    margin-top: 33px;
+  }
   .banner-tecxts {
     width: 95%;
   }
@@ -1461,5 +1470,8 @@ button[disabled] {
   .conas-recap {
     text-align: center;
     margin-bottom: 25px;
+  }
+  .banner-bottombent {
+    margin-top: 63px;
   }
 }
