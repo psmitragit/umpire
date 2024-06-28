@@ -87,7 +87,7 @@
                             @else
                                 <th>Player Age</th>
                             @endif
-                            <th>Umpire</th>
+                            {{-- <th>Umpire</th> --}}
                             <th>Report</th>
                             <th>Payout</th>
                             <th></th>
@@ -142,15 +142,19 @@
                                             {{-- leave blank --}}
                                         @else
                                             <td class="color-prmths hovername" data-pos="2">
-                                                @if ($data->ump2 !== null)
-                                                    <span class="halfname"
-                                                        onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire2->name, 8, '...') }}</span>
-                                                    <div class="fullnamediv">
-                                                        {{ $data->umpire2->name }}
-                                                    </div>
+                                                @if ($data->umpreqd >= 2)
+                                                    @if ($data->ump2 !== null)
+                                                        <span class="halfname"
+                                                            onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire2->name, 8, '...') }}</span>
+                                                        <div class="fullnamediv">
+                                                            {{ $data->umpire2->name }}
+                                                        </div>
+                                                    @else
+                                                        <a data-gameid="{{ $data->gameid }}" href='javascript:void(0)'
+                                                            class="blutns-table" onclick="assignUmpire(this)">Empty</a>
+                                                    @endif
                                                 @else
-                                                    <a data-gameid="{{ $data->gameid }}" href='javascript:void(0)'
-                                                        class="blutns-table" onclick="assignUmpire(this)">Empty</a>
+                                                    _ _
                                                 @endif
                                             </td>
                                         @endif
@@ -158,15 +162,19 @@
                                             {{-- leave blank --}}
                                         @else
                                             <td class="color-prmths hovername" data-pos="3">
-                                                @if ($data->ump3 !== null)
-                                                    <span class="halfname"
-                                                        onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire3->name, 8, '...') }}</span>
-                                                    <div class="fullnamediv">
-                                                        {{ $data->umpire3->name }}
-                                                    </div>
+                                                @if ($data->umpreqd >= 3)
+                                                    @if ($data->ump3 !== null)
+                                                        <span class="halfname"
+                                                            onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire3->name, 8, '...') }}</span>
+                                                        <div class="fullnamediv">
+                                                            {{ $data->umpire3->name }}
+                                                        </div>
+                                                    @else
+                                                        <a href='javascript:void(0)' class="blutns-table"
+                                                            onclick="assignUmpire(this)">Empty</a>
+                                                    @endif
                                                 @else
-                                                    <a href='javascript:void(0)' class="blutns-table"
-                                                        onclick="assignUmpire(this)">Empty</a>
+                                                    _ _
                                                 @endif
                                             </td>
                                         @endif
@@ -174,15 +182,19 @@
                                             {{-- leave blank --}}
                                         @else
                                             <td class="color-prmths hovername" data-pos="4">
-                                                @if ($data->ump4 !== null)
-                                                    <span class="halfname"
-                                                        onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire4->name, 8, '...') }}</span>
-                                                    <div class="fullnamediv">
-                                                        {{ $data->umpire4->name }}
-                                                    </div>
+                                                @if ($data->umpreqd >= 4)
+                                                    @if ($data->ump4 !== null)
+                                                        <span class="halfname"
+                                                            onclick='removeUmpire(this)'>{{ Illuminate\Support\Str::limit($data->umpire4->name, 8, '...') }}</span>
+                                                        <div class="fullnamediv">
+                                                            {{ $data->umpire4->name }}
+                                                        </div>
+                                                    @else
+                                                        <a href='javascript:void(0)' class="blutns-table"
+                                                            onclick="assignUmpire(this)">Empty</a>
+                                                    @endif
                                                 @else
-                                                    <a href='javascript:void(0)' class="blutns-table"
-                                                        onclick="assignUmpire(this)">Empty</a>
+                                                    _ _
                                                 @endif
                                             </td>
                                         @endif
@@ -191,7 +203,7 @@
                                         @else
                                             <td>{{ $data->playersage }}</td>
                                         @endif
-                                        <td>{{ $data->umpreqd }}</td>
+                                        {{-- <td>{{ $data->umpreqd }}</td> --}}
                                         <td>{!! $data->report == 1
                                             ? '<i class="fa-solid fa-check text-success"></i>'
                                             : '<i class="fa-solid fa-x text-danger"></i>' !!}</td>
