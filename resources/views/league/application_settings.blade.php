@@ -40,8 +40,8 @@
                                         <td class="fix-widyj" ><a  data-id="{{ $data->lqid }}" href="javascript:void(0)"
                                                 class="edit_question"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                         </td>
-                                        <td class="fix-widyj"><a  class="msyeb" href="{{ url('league/delete_application/' . $data->lqid) }}"
-                                                onclick="return confirm('Are you sure you want to delete this question?')"><i class="fa-regular fa-trash-can"></i></a></td>
+                                        <td class="fix-widyj"><a  class="msyeb" href="javascript:;"
+                                            onclick="demoWarning();"><i class="fa-regular fa-trash-can"></i></a></td>
                                     </tr>
                                 @endforeach
                             @else

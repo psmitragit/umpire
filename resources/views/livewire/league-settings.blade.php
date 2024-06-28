@@ -18,6 +18,6 @@
             </div>
         @endforeach
     </div>
-    <button type="button" wire:click='applySettings' class="redbtn submit mx-auto">Apply</button>
+    <button type="button" onclick="demoWarning();" class="redbtn submit mx-auto">Apply</button>
 </div>
 @include('livewire.includes.event')
