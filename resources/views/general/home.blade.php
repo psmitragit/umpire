@@ -20,7 +20,7 @@
 
 <div class="container text-center">
     <div class="banner-bottombent">
-        <a href="{{url('advertisement')}}" class="buton-signup">Explore Products</a>
+        <a href="{{url('advertisement')}}" target="_blank" class="buton-signup">Explore Products</a>
     </div>
 </div>
 
