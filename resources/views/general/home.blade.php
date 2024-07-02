@@ -5,6 +5,7 @@
             <div class="banner-tecxts">
                 <h1 class="banner-title"><span>Umpire</span> Central</h1>
                 <div class="texr-banne">Your All-in-One Hub for Umpire Scheduling to bring your baseball league to the next level</div>
+           
             </div>
 
             <div class="overkaycolor"></div>
@@ -17,11 +18,15 @@
         </div>
 
 
-
+<div class="container text-center">
+    <div class="banner-bottombent">
+        <a href="{{url('advertisement')}}" target="_blank" class="buton-signup">Explore Products</a>
+    </div>
+</div>
 
 
         <div class="container">
-            <div class="px-100 sc-2 pb-0">
+            <div class="px-100 sc-2 pb-0 new-spaces">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="imism" style="background-image: url({{ asset('storage/frontend/image/sectionImg2jpg.jpg') }});">
