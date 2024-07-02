@@ -5,7 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Umpire Central{{ $title }}</title>
+    <title>
+        @php
+            $segment = request()->segment(1);
+            if ($segment == 'advertisement') {
+                echo 'Products Central';
+            } else {
+                echo "Umpire Central $title";
+            }
+        @endphp
+    </title>
     <link rel="icon" type="image/x-icon" href="{{ asset('storage/images/fabicon.png') }}">
     <link rel="stylesheet" href="{{ asset('storage/font-awesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('storage/frontend/css/bootstrap.min.css') }}">

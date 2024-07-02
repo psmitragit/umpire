@@ -7,34 +7,37 @@
         </div>
 
         @if ($luc_games = league_upcoming_games(3))
-        @foreach ($luc_games as $luc_game)
-            @php
-                $luc_game_inputDate = Illuminate\Support\Carbon::parse($luc_game->gamedate_toDisplay);
-                $luc_game_dateFormatted = $luc_game_inputDate->format('D n/j');
-                $luc_game_timeFormatted = $luc_game_inputDate->format('g:ia');
-            @endphp
-            <div class="datesd">
-                <span class="texts-with-icon"><i
-                        class="fa-solid fa-calendar-days"></i> {{ $luc_game_dateFormatted }}</span>
-                <span class="texts-with-icon"><i class="fa-solid fa-clock"></i> {{ $luc_game_timeFormatted }}</span>
-                <span class="texts-with-icon"><i class="fa-solid fa-users"></i> {{ $luc_game->playersage }} Yrs</span>
-            </div>
+            @foreach ($luc_games as $luc_game)
+                @php
+                    $luc_game_inputDate = Illuminate\Support\Carbon::parse($luc_game->gamedate_toDisplay);
+                    $luc_game_dateFormatted = $luc_game_inputDate->format('D n/j');
+                    $luc_game_timeFormatted = $luc_game_inputDate->format('g:ia');
+                @endphp
+                <div class="datesd">
+                    <span class="texts-with-icon"><i class="fa-solid fa-calendar-days"></i>
+                        {{ $luc_game_dateFormatted }}</span>
+                    <span class="texts-with-icon"><i class="fa-solid fa-clock"></i> {{ $luc_game_timeFormatted }}</span>
+                    @if (!checkToggleStatus($league_data->leagueid, 'age'))
+                        <span class="texts-with-icon"><i class="fa-solid fa-users"></i> {{ $luc_game->playersage }}
+                            Yrs</span>
+                    @endif
+                </div>
 
 
-            <div class="heading">
-                <i class="fa-solid fa-location-dot"></i>
-                <span class="pointer-location">{{ $luc_game->location->ground }}</span>
+                <div class="heading">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span class="pointer-location">{{ $luc_game->location->ground }}</span>
 
-            </div>
-        @endforeach
-    @endif
+                </div>
+            @endforeach
+        @endif
 
 
     </div>
 
     <div class="notification">
         <div class="notificationdis">Notifications</div>
-        @if ($league_notis = get_notifications($league_data->leagueid,2, 4))
+        @if ($league_notis = get_notifications($league_data->leagueid, 2, 4))
             @foreach ($league_notis as $league_noti)
                 <a class="iconwithtext">
                     <div class="niti-icon">{!! $league_noti->icon->code !!}</div>
