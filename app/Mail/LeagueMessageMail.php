@@ -34,7 +34,7 @@ class LeagueMessageMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'League Message Notification',
+            subject: "Message from {$this->league->leaguename}",
         );
     }
 
