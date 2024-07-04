@@ -331,9 +331,23 @@
                 success: function(res) {
                     if (res.status == 2) {
                         var text =
-                            'Hey there! It looks like umpire is already committed to another game on this date. Are you sure you want to assign to this game as well?';
+                            'Hey there! It looks like umpire is already committed to another game on this date/time. Are you sure you want to assign to this game as well?';
 
                         var href = '{{ url('league/same-game-assign') }}' + '/' + res
+                            .gameid +
+                            '/' + res.pos +
+                            '/' + res.umpid;
+
+                        $('#cctext').html(text);
+                        $('#confirmLink').attr("href", href);
+                        $('#confirmCancelModel').modal('show');
+                        $('#savebtn').text('Save');
+                        $('#savebtn').attr('disabled', false);
+                    } else if (res.status == 0) {
+                        var text =
+                            'Hey there! It looks like umpire is already committed to another game on this date/time. Do you want to switch this umpire to this game?';
+
+                        var href = '{{ url('league/swap-game-umpire') }}' + '/' + res
                             .gameid +
                             '/' + res.pos +
                             '/' + res.umpid;
