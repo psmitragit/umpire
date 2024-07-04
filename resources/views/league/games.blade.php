@@ -347,10 +347,10 @@
                         var text =
                             'Hey there! It looks like umpire is already committed to another game on this date/time. Do you want to switch this umpire to this game?';
 
-                        var href = '{{ url('league/swap-game-umpire') }}' + '/' + res
-                            .gameid +
-                            '/' + res.pos +
-                            '/' + res.umpid;
+                        var href = '{{ url('league/swap-game-umpire') }}' + '?newgameId=' + res
+                            .gameid + '&removegameId=' + res.samegameid +
+                            '&newgamePos=' + res.pos + '&removegamePos=' + res.samepos +
+                            '&umpid=' + res.umpid;
 
                         $('#cctext').html(text);
                         $('#confirmLink').attr("href", href);

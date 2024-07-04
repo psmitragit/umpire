@@ -2504,7 +2504,14 @@ class LeagueController extends Controller
                 //check if have other games on the same datetime
                 $gapMorethnTwo = 0;
                 $gamedatetime = $game->gamedate;
-                $samedategames = GameModel::whereDate('gamedate', explode(' ', $gamedatetime)[0])
+                $samedategames = GameModel::selectRaw("*,
+                CASE
+                    WHEN ump1 = $umpid THEN 'ump1'
+                    WHEN ump2 = $umpid THEN 'ump2'
+                    WHEN ump3 = $umpid THEN 'ump3'
+                    WHEN ump4 = $umpid THEN 'ump4'
+                END AS ump")
+                    ->whereDate('gamedate', explode(' ', $gamedatetime)[0])
                     ->where(function ($query) use ($umpid) {
                         $query->orWhere('ump1', $umpid)
                             ->orWhere('ump2', $umpid)
@@ -2543,7 +2550,7 @@ class LeagueController extends Controller
                     if ($gapMorethnTwo == 1) {
                         $res = ['status' => 2, 'gameid' => $gameid, 'pos' => $pos, 'umpid' => $umpid]; //for same gamedate
                     } elseif ($gapMorethnTwo == 2) {
-                        $res = ['status' => 0, 'gameid' => $gameid, 'pos' => $pos, 'umpid' => $umpid];
+                        $res = ['status' => 0, 'gameid' => $gameid, 'pos' => $pos, 'umpid' => $umpid, 'samegameid' => $samedategame->gameid, 'samepos' => $samedategame->ump];
                     }
                 }
             } else {
@@ -2577,20 +2584,37 @@ class LeagueController extends Controller
                     }
                 }
             }
-            if ($returnType == 1) {
-                return true;
-            } else {
+            if ($returnType == 0) {
                 Session::flash('message', 'Success');
                 return redirect()->back();
+            } else {
+                return true;
             }
         } catch (Exception $e) {
             // dd($e);
         }
     }
-    public function swapGameUmpire($gameid, $pos, $umpid)
+    public function swapGameUmpire()
     {
+        $newgameId = request()->get('newgameId');
+        $removegameId = request()->get('removegameId');
+        $newgamePos = request()->get('newgamePos');
+        $removegamePos = request()->get('removegamePos');
+        $umpid = request()->get('umpid');
+
+        $game = GameModel::findOrFail($newgameId);
+
+        if ($this->remove_umpire($removegameId, $removegamePos, 1)) {
+            $this->assign_ump_toAgamePosition($newgameId, $newgamePos, $umpid, 1);
+            $msg = 'Reassigned to a new game on ' . date('D m/d/y', strtotime($game->gamedate));
+            add_notification($umpid, $msg, 4, 'ump');
+            Session::flash('message', 'Success');
+        } else {
+            Session::flash('error_message', 'Something went wrong..!!');
+        }
+        return redirect()->back();
     }
-    public function remove_umpire(int $gameid, $pos)
+    public function remove_umpire(int $gameid, $pos, $systemCall = 0)
     {
         try {
             $game = GameModel::findOrFail($gameid);
@@ -2610,14 +2634,23 @@ class LeagueController extends Controller
 
             if ($game->save()) {
                 refund_point_to_Aumpire($leagueumpire, $gameid);
-                $msg = 'League removed you from a game on ' . date('D m/d/y', strtotime($game->gamedate));
-                add_notification($umpid, $msg, 6, 'ump');
-                Session::flash('message', 'Success');
+                if ($systemCall == 0) {
+                    $msg = 'League removed you from a game on ' . date('D m/d/y', strtotime($game->gamedate));
+                    add_notification($umpid, $msg, 6, 'ump');
+                    Session::flash('message', 'Success');
+                    return redirect()->back();
+                } else {
+                    return true;
+                }
             }
         } catch (\Throwable $th) {
-            Session::flash('error_message', 'Something went wrong..!!');
+            if ($systemCall == 0) {
+                Session::flash('error_message', 'Something went wrong..!!');
+                return redirect()->back();
+            } else {
+                return false;
+            }
         }
-        return redirect()->back();
     }
     public function delete_league_admin($id)
     {

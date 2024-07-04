@@ -115,7 +115,7 @@ Route::middleware(['leagueLoginCheck'])->group(function () {
     Route::post('/league/import-format', [LeagueController::class, 'import_format']);
     Route::post('/league/manual-assign', [LeagueController::class, 'manual_assign']);
     Route::get('/league/same-game-assign/{id}/{pos}/{return?}', [LeagueController::class, 'assign_ump_toAgamePosition']);
-    Route::get('/league/swap-game-umpire/{id}/{pos}/{return?}', [LeagueController::class, 'swapGameUmpire']);
+    Route::get('/league/swap-game-umpire', [LeagueController::class, 'swapGameUmpire']);
     Route::get('/league/remove-umpire/{id}/{pos}', [LeagueController::class, 'remove_umpire']);
     //umpires
     Route::get('/league/umpires', [LeagueController::class, 'view_umpires']);
