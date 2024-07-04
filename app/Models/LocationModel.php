@@ -12,7 +12,7 @@ class LocationModel extends Model
     use SoftDeletes;
     protected $table = 'locations';
     protected $primaryKey = "locid";
-    protected $fillable = ['locid', 'ground', 'latitude', 'longitude', 'leagueid'];
+    protected $fillable = ['locid', 'ground', 'latitude', 'longitude', 'leagueid', 'address'];
     public function league()
     {
         return $this->belongsTo(LeagueModel::class, 'leagueid');

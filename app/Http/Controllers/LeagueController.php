@@ -783,7 +783,8 @@ class LeagueController extends Controller
                 'leagueid' => $league_data->leagueid,
                 'ground' => $request->ground,
                 'latitude' => $request->latitude,
-                'longitude' => $request->longitude
+                'longitude' => $request->longitude,
+                'address' => $request->address,
             ];
             LocationModel::create($data);
             Session::flash('message', 'Success');
@@ -810,7 +811,8 @@ class LeagueController extends Controller
                 'leagueid' => $league_data->leagueid,
                 'ground' => $request->ground,
                 'latitude' => $request->latitude,
-                'longitude' => $request->longitude
+                'longitude' => $request->longitude,
+                'address' => $request->address,
             ];
             LocationModel::find($id)->update($data);
             Session::flash('message', 'Success');

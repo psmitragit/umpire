@@ -26,7 +26,7 @@
                     <div class="heading">
                         <i class="fa-solid fa-location-dot"></i>
                         <span class="pointer-location">{{ $upc_game->location->ground }}</span>
-
+                        <span class="pointer-location">{{ $upc_game->location->address }}</span>
                     </div>
                 @endforeach
             @endif

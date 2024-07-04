@@ -97,17 +97,5 @@
                 });
             }));
         });
-
-
-
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const textarea = document.getElementById('expand-text-area');
-
-            textarea.addEventListener('input', function () {
-                textarea.style.height = 'auto';  // Reset the height to auto
-                textarea.style.height = textarea.scrollHeight + 'px';  // Set the height to match the scroll height
-            });
-        });
     </script>
 @endsection

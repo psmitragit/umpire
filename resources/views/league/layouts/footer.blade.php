@@ -78,7 +78,7 @@
             }
         } else {
             const items = container.getElementsByClassName(
-            'col-lg-3 col-md-4 col-6');
+                'col-lg-3 col-md-4 col-6');
 
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
@@ -147,7 +147,6 @@
         $('.sideholebar-lft').removeClass('toggle-class');
     });
 </script>
-
 <script>
     $(document).ready(function() {
         if (!$('table').hasClass('payout')) {
@@ -191,6 +190,20 @@
             }
         });
     });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.getElementById('expand-text-area');
+        adjusteHeight(textarea);
+        textarea.addEventListener('input', function() {
+            adjusteHeight(textarea);
+        });
+    });
+
+    function adjusteHeight(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
 </script>
 <script src="{{ asset('storage/js/jquery-ui.min.js') }}"></script>
 @if ($right_bar == 1)

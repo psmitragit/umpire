@@ -46,16 +46,19 @@
         @if ($page_data)
             @foreach ($page_data as $data)
                 <div class="row margusn">
-                    <div class="col-md-10 col-7 row justify-content-between sc" >
-
+                    <div class="col-md-10 col-7 row justify-content-between sc">
+                        <input type="hidden" id="address{{ $data->locid }}" value="{{ $data->address }}">
                         <div class="col-md-6">
-                            <div class="tetx-foredit" id="ground{{ $data->locid }}"><span class="oversacs">{{ $data->ground }}</span></div>
+                            <div class="tetx-foredit" id="ground{{ $data->locid }}"><span
+                                    class="oversacs">{{ $data->ground }}</span></div>
                         </div>
                         <div class="col-md-3">
-                            <div class="tetx-foredit" id="lat{{ $data->locid }}"><span class="overs">{{ $data->latitude }}</span></div>
+                            <div class="tetx-foredit" id="lat{{ $data->locid }}"><span
+                                    class="overs">{{ $data->latitude }}</span></div>
                         </div>
                         <div class="col-md-3">
-                            <div class="tetx-foredit" id="lon{{ $data->locid }}"><span class="overs">{{ $data->longitude }}</span></div>
+                            <div class="tetx-foredit" id="lon{{ $data->locid }}"><span
+                                    class="overs">{{ $data->longitude }}</span></div>
                         </div>
                     </div>
                     <div class="col-md-1 col-2"><button data-id="{{ $data->locid }}"
@@ -88,7 +91,9 @@
                         <div class="modalqstnbalbe">
                             <input type="text" name="ground" id="locationInput" placeholder="Enter location" required>
                             <input type="text" name="latitude" id="latitudeInput" placeholder="Enter Latitude" required>
-                            <input type="text" name="longitude" id="longitudeInput" placeholder="Enter Longitude" required>
+                            <input type="text" name="longitude" id="longitudeInput" placeholder="Enter Longitude"
+                                required>
+                            <textarea name="address" placeholder="Address" class="text-are-noti-admin bignot" id="expand-text-area"></textarea>
                         </div>
                         <div class="text-center submit-bten-modal">
                             <button class="submitbtns">Submit</button>
@@ -105,6 +110,7 @@
             $('[name="ground"]').val('');
             $('[name="latitude"]').val('');
             $('[name="longitude"]').val('');
+            $('[name="address"]').val('');
             $('#exampleModal').modal('show');
         }
         $('.edit_question').click(function() {
@@ -112,10 +118,12 @@
             var ground = $('#ground' + id).text();
             var lat = $('#lat' + id).text();
             var lon = $('#lon' + id).text();
+            var address = $('#address' + id).val();
             $('#location_form').attr('action', '{{ url('league/update_location') }}/' + id);
             $('[name="ground"]').val(ground);
             $('[name="latitude"]').val(lat);
             $('[name="longitude"]').val(lon);
+            $('[name="address"]').val(address);
             $('#exampleModal').modal('show');
 
         });
