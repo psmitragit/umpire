@@ -29,7 +29,7 @@
                     </div>
                     <div class="address-text">
                         <span class="pointer-location">{{ $upc_game->location->ground }}</span>
-                        <div class="pointer-location donw-adrs">{{ $upc_game->location->address }}</d>
+                        <div class="pointer-location donw-adrs">{{ $upc_game->location->address }}</div>
                     </div>
                     </div>
                 @endforeach

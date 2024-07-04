@@ -436,7 +436,7 @@ body {
     margin-bottom: 2%;
 
 
- 
+
 }
 .games-upcomings {
     height: 100%;
@@ -3010,9 +3010,9 @@ sapem input[type="radio"]:checked+span {
   }
   .location-icon {
     padding-top: 5px;
-  } 
+  }
   .pointer-location.donw-adrs {
-    font-size: 10px;
+    font-size: 12px;
   }
   @keyframes color-change {
 
