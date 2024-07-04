@@ -2404,6 +2404,7 @@ class LeagueController extends Controller
             $league_umpire = $umpire->leagues()->where('leagueid', $game->leagueid)->first();
             if ($league_umpire->status !== 1) {
                 $condition_met = false;
+                $flag = 0;
                 $umpire_age = (int)get_age($umpire->dob);
                 $mainumpage = (int)$league->mainumpage;
                 $otherumpage = (int)$league->otherumpage;
@@ -2426,7 +2427,6 @@ class LeagueController extends Controller
                                     break; // Exit this loop
                                 } else {
                                     $condition_met = true; // Set the flag to true if time is blocked
-                                    Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on the game time.');
                                 }
                             } else {
                                 $condition_met = false; // Set the flag to true if date is blocked
@@ -2434,12 +2434,15 @@ class LeagueController extends Controller
                             }
                         } else {
                             $condition_met = true; // Set the flag to true if time is blocked
-                            Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on the game time');
                         }
                     }
                 } else {
                     $condition_met = true; // Set the flag to true if time is blocked
+                }
+
+                if ($condition_met == true) {
                     Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on the game time.');
+                    $flag++;
                 }
 
                 // Checking umpire's blocked grounds
@@ -2447,6 +2450,7 @@ class LeagueController extends Controller
                 foreach ($blocked_grounds as $blocked_ground) {
                     if ($blocked_ground->locid == $game->locid) {
                         $condition_met = true; // Set the flag to true if ground is blocked
+                        $flag++;
                         Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' not available on : ' . htmlspecialchars($blocked_ground->ground->ground));
                         break; // Exit this loop
                     }
@@ -2464,6 +2468,7 @@ class LeagueController extends Controller
                     foreach ($blocked_divisions as $blocked_division) {
                         if (in_array($blocked_division->divid, $game_divisions)) {
                             $condition_met = true; // Set the flag to true if team is blocked
+                            $flag++;
                             Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' blocked from games which includes Division: ' . htmlspecialchars($blocked_division->division->name));
                             break; // Exit this loop
                         }
@@ -2475,6 +2480,7 @@ class LeagueController extends Controller
                 foreach ($blocked_teams as $blocked_team) {
                     if (in_array($blocked_team->teamid, $game_teams)) {
                         $condition_met = true; // Set the flag to true if team is blocked
+                        $flag++;
                         Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' blocked from games which includes Team: ' . htmlspecialchars($blocked_team->team->teamname));
                         break; // Exit this loop
                     }
@@ -2485,11 +2491,13 @@ class LeagueController extends Controller
                 if ($pos == 'ump1') {
                     if ($age_diff < $mainumpage) {
                         $condition_met = true; // Set the flag to true if age diff is lower
+                        $flag++;
                         Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' don\'t meet the game\'s age requirement.');
                     }
                 } else {
                     if ($age_diff < $otherumpage) {
                         $condition_met = true; // Set the flag to true if age diff is lower
+                        $flag++;
                         Session::flash('error_message', 'Umpire: ' . htmlspecialchars($umpire->name) . ' don\'t meet the game\'s age requirement.');
                     }
                 }
@@ -2518,9 +2526,10 @@ class LeagueController extends Controller
                     }
 
                     $condition_met = true; // Set the flag to true if found another game on the same datetime
+                    $flag++;
                 }
 
-                if (!$condition_met) {
+                if (!$condition_met && $flag == 0) {
                     if ($this->assign_ump_toAgamePosition($gameid, $pos, $umpid, 1)) {
                         Session::flash('message', 'Success');
                         $msg = 'New game assigned on ' . date('D m/d/y', strtotime($game->gamedate));
@@ -2534,8 +2543,7 @@ class LeagueController extends Controller
                     if ($gapMorethnTwo == 1) {
                         $res = ['status' => 2, 'gameid' => $gameid, 'pos' => $pos, 'umpid' => $umpid]; //for same gamedate
                     } elseif ($gapMorethnTwo == 2) {
-                        $res = ['status' => 0];
-                        Session::flash('error_message', 'Difference between umpire\'s assigned games are less than 2 hours.');
+                        $res = ['status' => 0, 'gameid' => $gameid, 'pos' => $pos, 'umpid' => $umpid];
                     }
                 }
             } else {
@@ -2578,6 +2586,9 @@ class LeagueController extends Controller
         } catch (Exception $e) {
             // dd($e);
         }
+    }
+    public function swapGameUmpire($gameid, $pos, $umpid)
+    {
     }
     public function remove_umpire(int $gameid, $pos)
     {
