@@ -3005,7 +3005,15 @@ sapem input[type="radio"]:checked+span {
     transform: translateX(-50%);
     right: unset;
   }
-
+  .heading.location-cons {
+    display: flex;
+  }
+  .location-icon {
+    padding-top: 5px;
+  } 
+  .pointer-location.donw-adrs {
+    font-size: 10px;
+  }
   @keyframes color-change {
 
     0%{

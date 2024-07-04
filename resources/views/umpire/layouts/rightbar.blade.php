@@ -23,10 +23,14 @@
                     </div>
 
 
-                    <div class="heading">
+                    <div class="heading location-cons">
+                        <div class="location-icon">
                         <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="address-text">
                         <span class="pointer-location">{{ $upc_game->location->ground }}</span>
-                        <span class="pointer-location">{{ $upc_game->location->address }}</span>
+                        <div class="pointer-location donw-adrs">{{ $upc_game->location->address }}</d>
+                    </div>
                     </div>
                 @endforeach
             @endif

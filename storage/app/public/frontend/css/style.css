@@ -1005,6 +1005,8 @@ button[disabled] {
 .px-100.sc-2.pb-0.new-spaces {
   padding-top: 110px;
 }
+
+
 @media screen and (max-width: 1600px) {
   .matginsyp {
     margin-right: 43px;
