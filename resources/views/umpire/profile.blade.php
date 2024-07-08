@@ -206,7 +206,7 @@
                         if (res.status == 1) {
                             toastr.success('Success');
                             setTimeout(() => {
-                                window.location.reload();
+                                window.location.reload(true);
                             }, 1000);
                         } else {
                             toastr.error(res.message);
