@@ -4,5 +4,6 @@
 /storage/logs
 /storage/app/demodb/*
 !/storage/app/demodb/.gitignore
+*_profileImage.*
 
 
