@@ -656,7 +656,8 @@ class UmpireController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['status' => 0, 'message' => 'Validation failed.'], 200);
+            $messages = implode(' ', $validator->errors()->all());
+            return response()->json(['status' => 0, 'message' => $messages], 200);
         }
         if ($request->file('file')) {
             try {
@@ -680,7 +681,7 @@ class UmpireController extends Controller
             $pic_url = asset('storage/images/' . $profilepic);
             return response()->json(['status' => 1, 'pic_url' => $pic_url], 200);
         } catch (\Throwable $th) {
-            dd($th);
+            // dd($th);
             return response()->json(['status' => 0, 'message' => 'Something went wrong..!!'], 200);
         }
     }
